@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIBEUNA · Sistema de Becas Estudiantiles</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:100%}
+:root{
+  --brand:#C8102E;--brand-dark:#A00C24;--secondary:#2E3440;--accent:#E6E9EE;--bg:#F7F8FA;--text:#1F2937;
+  --success:#22C55E;--error:#EF4444;--warning:#F59E0B;--info:#005DAA;
+  --radius:8px;--radius-lg:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);font-size:.875rem;min-height:100vh;line-height:1.5}
+img,svg{max-width:100%}
+input,select,textarea,button{font:inherit}
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
+input:focus-visible:not(.form-control),select:focus-visible:not(.form-control),textarea:focus-visible:not(.form-control){outline:3px solid var(--brand);outline-offset:2px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ICONS — baseline */
+i.ti{font-size:20px;vertical-align:middle;line-height:1}
+.btn i.ti{font-size:18px}
+.btn-sm i.ti{font-size:16px}
+.breadcrumb i.ti{font-size:14px}
+.badge i.ti{font-size:13px}
+.form-label i.ti{font-size:16px}
+.card-title + i,.card-header > i.ti{font-size:20px}
+
+/* LAYOUT */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:white;border-bottom:1px solid var(--accent);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-brand{display:flex;align-items:center;gap:12px}
+.topbar-brand img{height:32px}
+.brand-text{display:flex;flex-direction:column;line-height:1.2}
+.brand-name{font-size:20px;font-weight:700;color:var(--brand);letter-spacing:.5px}
+.brand-sub{font-size:9px;font-weight:400;color:var(--secondary);text-transform:uppercase;letter-spacing:.8px;max-width:200px}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.topbar-search{position:relative;display:flex;align-items:center;gap:6px;border:1px solid var(--accent);border-radius:8px;padding:6px 10px;background:white;transition:.15s;min-width:240px}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:white;border:1px solid var(--accent);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:340px;overflow-y:auto;z-index:200;display:none;padding:6px 0}
+.search-results.open{display:block}
+.search-result-item{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;transition:.12s;border-left:3px solid transparent;font-family:'Poppins',sans-serif}
+.search-result-item:hover,.search-result-item.focused{background:#FEF2F4;border-left-color:var(--brand)}
+.search-result-item i{font-size:20px;color:var(--brand);flex-shrink:0;width:22px;text-align:center}
+.search-result-text{display:flex;flex-direction:column;min-width:0;flex:1}
+.search-result-label{font-size:13px;font-weight:600;color:var(--secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-result-section{font-size:10px;color:#4B5563;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;font-weight:600}
+.search-result-empty{padding:14px 16px;font-size:12px;color:#4B5563;text-align:center}
+.search-result-hint{padding:6px 12px;font-size:10px;color:#4B5563;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--accent);margin-bottom:4px;font-weight:700}
+.topbar-search:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(200,16,46,.1)}
+.topbar-search i{font-size:20px;color:#4B5563}
+.topbar-search input{border:none;outline:none;background:transparent;font-family:'Poppins',sans-serif;font-size:12px;color:var(--text);flex:1;min-width:0}
+.topbar-search input::placeholder{color:#6B7280;opacity:1}
+.lang-toggle{display:flex;align-items:center;gap:5px;border:1.5px solid var(--accent);background:white;border-radius:8px;padding:6px 11px;font-size:12px;font-weight:700;color:var(--secondary);cursor:pointer;font-family:'Poppins',sans-serif;transition:.15s}
+.lang-toggle:hover{border-color:var(--brand);color:var(--brand)}
+.lang-toggle i{font-size:16px}
+.topbar-bell{position:relative;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#4B5563;display:flex;align-items:center;justify-content:center;transition:.15s}
+.topbar-bell:hover{background:var(--bg);color:var(--brand)}
+.topbar-bell i{font-size:22px}
+.topbar-bell-dot{position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:var(--brand);border:2px solid white}
+.topbar-avatar{width:36px;height:36px;border-radius:50%;background:var(--brand);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:.15s}
+.topbar-avatar:hover{background:var(--brand-dark);transform:scale(1.05)}
+.topbar-lang{display:flex;gap:4px}
+.lang-btn{background:none;border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'Poppins',sans-serif;cursor:pointer;color:var(--secondary);transition:.2s}
+.lang-btn.active{background:var(--brand);color:white;border-color:var(--brand)}
+.topbar-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--secondary)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--brand);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--secondary)}
+
+.main-layout{display:flex;flex:1}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:white;border-right:1px solid var(--accent);display:flex;flex-direction:column;flex-shrink:0;transition:.3s;overflow-y:auto;max-height:calc(100vh - 64px);position:sticky;top:64px}
+.sidebar.collapsed{display:none}
+.nav-section{padding:8px 0}
+.nav-section-title{font-size:11px;font-weight:700;color:#4B5563;text-transform:uppercase;letter-spacing:.8px;padding:12px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:.15s;font-size:13px;color:var(--secondary);border-left:3px solid transparent;text-decoration:none}
+.nav-item:hover{background:#FEF2F4;color:var(--brand)}
+.nav-item.active{background:#FEF2F4;color:var(--brand);border-left-color:var(--brand);font-weight:600}
+.nav-item i{font-size:20px;flex-shrink:0;width:22px;text-align:center}
+.nav-group{overflow:hidden}
+.nav-group-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;cursor:pointer;font-size:13px;font-weight:600;color:var(--secondary);transition:.15s;border-left:3px solid transparent}
+.nav-group-header:hover{background:#FEF2F4;color:var(--brand)}
+.nav-group-header.open i.ti-chevron-down{transform:rotate(180deg);transition:.2s}
+.nav-group-header.active{color:var(--brand);border-left-color:var(--brand);background:#FEF2F4}
+.nav-group-header i{font-size:20px}
+.nav-sub i{font-size:17px;flex-shrink:0}
+.nav-group-content{padding-left:8px;display:none}
+.nav-group-content.open{display:block}
+.nav-sub{font-size:12px;padding:7px 16px;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:8px;transition:.15s}
+.nav-sub:hover{color:var(--brand)}
+.nav-sub.active{color:var(--brand);font-weight:600}
+
+/* CONTENT */
+.content{flex:1;padding:24px;overflow:auto;min-width:0}
+.page-header{margin-bottom:24px}
+.page-title{font-size:22px;font-weight:700;color:var(--secondary)}
+.page-subtitle{font-size:13px;color:#6B7280;margin-top:2px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#4B5563;margin-bottom:8px}
+.breadcrumb span{color:var(--brand)}
+
+/* CARDS */
+.card{background:white;border-radius:var(--radius-lg);border:1px solid var(--accent);padding:20px;box-shadow:var(--shadow)}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--accent)}
+.card-title{font-size:15px;font-weight:600;color:var(--secondary)}
+
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--accent);margin-bottom:20px}
+.tab{padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;color:#4B5563;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab.active{color:var(--brand);border-bottom-color:var(--brand)}
+.tab:hover{color:var(--brand)}
+
+/* FORMS */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--secondary);margin-bottom:6px}
+.form-label .required{color:var(--brand)}
+.form-control{width:100%;padding:10px 12px;border:1.5px solid var(--accent);border-radius:var(--radius);font-family:'Poppins',sans-serif;font-size:13px;color:var(--text);background:white;transition:.2s;outline:none}
+.form-control:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(200,16,46,.1)}
+.form-control:disabled{background:var(--bg);color:#6B7280}
+.form-control::placeholder{color:#6B7280;opacity:1}
+.form-control.invalid{border-color:#991B1B;background:#FEF2F2;padding-right:36px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23991B1B' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='12' y1='8' x2='12' y2='12'/><line x1='12' y1='16' x2='12.01' y2='16'/></svg>");background-repeat:no-repeat;background-position:right 10px center}
+.form-control.invalid:focus{border-color:#991B1B;box-shadow:0 0 0 3px rgba(153,27,27,.18)}
+select.form-control.invalid{background-image:none;padding-right:12px}
+.form-label.invalid{color:#991B1B}
+.field-error{display:none;align-items:center;gap:6px;color:#991B1B;font-size:12px;font-weight:600;margin-top:6px;line-height:1.4}
+.field-error.show{display:flex}
+.field-error i{font-size:16px;flex-shrink:0}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;border:none;min-height:44px;text-decoration:none;line-height:1}
+.btn-primary{background:var(--brand);color:white;box-shadow:0 2px 6px rgba(200,16,46,.18)}
+.btn-primary:hover{background:var(--brand-dark);box-shadow:0 4px 12px rgba(200,16,46,.28)}
+.btn-secondary{background:var(--secondary);color:white}
+.btn-secondary:hover{background:#1F2937}
+.btn-outline{background:white;color:var(--brand);border:1.5px solid var(--brand)}
+.btn-outline:hover{background:#FEF2F4;color:var(--brand-dark);border-color:var(--brand-dark)}
+.btn-action{background:white;color:var(--info);border:1.5px solid var(--info)}
+.btn-action:hover{background:#EFF6FF;color:#003F73;border-color:#003F73}
+.btn-ghost{background:white;color:var(--secondary);border:1.5px solid var(--accent)}
+.btn-ghost:hover{background:var(--bg);border-color:#6B7280}
+.btn-sm{padding:8px 16px;font-size:12px;min-height:36px}
+.btn-success{background:#15803D;color:white;box-shadow:0 2px 6px rgba(21,128,61,.25)}
+.btn-success:hover{background:#166534}
+.btn-glow{box-shadow:0 0 24px rgba(200,16,46,.4),0 2px 6px rgba(200,16,46,.18)}
+.btn-glow:hover{box-shadow:0 0 32px rgba(200,16,46,.55),0 4px 12px rgba(200,16,46,.28)}
+.btn:disabled,.btn[disabled],.btn.disabled{background:#E5E7EB!important;color:#6B7280!important;border:1.5px solid #E5E7EB!important;cursor:not-allowed!important;box-shadow:none!important}
+.btn:disabled:hover,.btn[disabled]:hover,.btn.disabled:hover{background:#E5E7EB!important;color:#6B7280!important;border-color:#E5E7EB!important;box-shadow:none!important}
+
+/* ALERTS */
+.alert{border-radius:var(--radius);padding:12px 16px;display:flex;align-items:flex-start;gap:10px;font-size:13px;margin-bottom:16px}
+.alert-info{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.alert-warning{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+.alert-success{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+.alert-error{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.alert i{font-size:22px;flex-shrink:0;margin-top:1px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--brand)}
+thead th{padding:12px 16px;text-align:left;color:white;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+tbody tr{border-bottom:1px solid var(--accent);transition:.15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#FEF2F4}
+tbody td{padding:12px 16px;color:var(--text)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-success{background:#DCFCE7;color:#166534}
+.badge-error{background:#FEE2E2;color:#991B1B}
+.badge-warning{background:#FEF3C7;color:#92400E}
+.badge-info{background:#DBEAFE;color:#1D4ED8}
+.badge-gray{background:var(--accent);color:var(--secondary)}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--accent);padding:16px 20px}
+.stat-label{font-size:11px;font-weight:700;color:#4B5563;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.stat-value{font-size:24px;font-weight:700;color:var(--secondary)}
+.stat-sub{font-size:11px;color:#6B7280;margin-top:2px}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.stat-icon i.ti{font-size:24px}
+.stat-icon.red{background:#FEE2E2;color:var(--brand)}
+.stat-icon.blue{background:#DBEAFE;color:var(--info)}
+.stat-icon.green{background:#DCFCE7;color:#16A34A}
+.stat-icon.amber{background:#FEF3C7;color:#D97706}
+
+/* CONDITIONS */
+.conditions-box{background:var(--bg);border:1px solid var(--accent);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;font-size:13px;line-height:1.8;color:var(--secondary)}
+.conditions-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--brand);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.conditions-warning{background:#FEF3C7;border:1px solid #FDE68A;border-radius:var(--radius);padding:12px 16px;display:flex;gap:10px;margin-top:16px;font-size:12px;color:#92400E}
+
+/* CHECKBOX ACCEPT */
+.accept-row{display:flex;align-items:center;gap:12px;padding:16px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--radius);margin-top:20px;cursor:pointer}
+.accept-row input[type=checkbox]{width:20px;height:20px;accent-color:var(--brand);cursor:pointer}
+.accept-label{font-size:13px;font-weight:600;color:#166534}
+.accept-row.disabled{background:#F3F4F6;border-color:#E5E7EB;cursor:not-allowed;opacity:.75}
+.accept-row.disabled input[type=checkbox]{cursor:not-allowed}
+.accept-row.disabled .accept-label{color:#6B7280;cursor:not-allowed}
+
+/* FILE UPLOAD */
+.file-zone{border:2px dashed var(--accent);border-radius:var(--radius-lg);padding:32px;text-align:center;transition:.2s;cursor:pointer}
+.file-zone:hover{border-color:var(--brand);background:#FEF2F4}
+.file-zone i{font-size:48px;color:#6B7280;margin-bottom:8px;display:block}
+.file-zone p{font-size:13px;color:#6B7280}
+.file-zone strong{color:var(--brand)}
+
+/* PAGE SCREENS */
+.screen{display:none}
+.screen.active{display:block}
+
+/* LOGIN */
+.login-wrap{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:white;border-radius:16px;border:1px solid var(--accent);padding:40px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo .brand-name{font-size:28px;color:var(--brand);font-weight:700}
+.login-logo .brand-sub{font-size:10px;color:#6B7280;max-width:100%}
+.login-divider{height:3px;background:linear-gradient(90deg,var(--brand),var(--secondary));border-radius:2px;margin-bottom:24px}
+
+/* MOBILE overlay */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150}
+.sidebar-overlay.open{display:block}
+
+/* EVENT DISPONIBLE chip */
+.event-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:12px}
+.event-none{background:#FEE2E2;color:#991B1B}
+.event-active{background:#DCFCE7;color:#166534}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .dashboard-grid{grid-template-columns:1fr !important}
+}
+@media(max-width:768px){
+  .hamburger{display:block}
+  .topbar{padding:0 12px;height:56px}
+  .topbar-user span{display:none}
+  .topbar-user .btn{padding:6px 10px;min-height:36px}
+  .sidebar{position:fixed;left:-280px;top:0;height:100vh;max-height:100vh;width:280px;z-index:200;transition:left .3s ease}
+  .sidebar.mobile-open{left:0;display:flex}
+  .main-layout{display:block}
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .content{padding:16px}
+  .brand-sub{display:none}
+  .brand-name{font-size:22px}
+  .page-title{font-size:22px}
+  .login-card{padding:24px;border-radius:12px}
+  .login-wrap{padding:16px;min-height:calc(100vh - 56px)}
+  .card{padding:16px}
+  table{font-size:12px}
+  thead th,tbody td{padding:8px 10px}
+  .table-wrap{border-radius:8px}
+  .wizard-steps{gap:4px}
+  .wstep-label{display:none}
+  .wstep.active .wstep-label{display:inline}
+  .btn{padding:10px 14px;font-size:12px}
+  .btn-primary,.btn-secondary,.btn-outline,.btn-action{width:100%;justify-content:center}
+  .topbar-actions{gap:6px}
+  .lang-btn{padding:4px 8px}
+  .topbar-search{min-width:0;width:140px;padding:5px 8px}
+  .topbar-search input{font-size:11px}
+  .topbar-search i{font-size:18px}
+  .lang-toggle{padding:5px 8px;font-size:11px}
+  .lang-toggle i{font-size:15px}
+  .topbar-bell i{font-size:20px}
+  .topbar-avatar{width:32px;height:32px;font-size:11px}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr;gap:10px}
+  .tabs{overflow-x:auto;white-space:nowrap}
+  .tab{padding:10px 14px;font-size:12px;flex-shrink:0}
+  .login-card{padding:20px}
+  .login-logo .brand-name{font-size:24px}
+  .content{padding:12px}
+  .page-header{margin-bottom:16px}
+  .form-control{font-size:14px}
+  .stat-card{padding:14px 16px}
+  .stat-value{font-size:20px}
+  .topbar-search{display:none}
+  .topbar-bell{padding:4px}
+  .avatar{width:32px;height:32px;font-size:11px}
+}
+
+/* STEP WIZARD */
+.wizard-steps{display:flex;align-items:center;gap:0;margin-bottom:24px;overflow-x:auto;padding-bottom:4px}
+.wstep{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.wstep-num{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#6B7280;background:white}
+.wstep.active .wstep-num{background:var(--brand);border-color:var(--brand);color:white}
+.wstep.done .wstep-num{background:var(--success);border-color:var(--success);color:white}
+.wstep-label{font-size:12px;color:#6B7280}
+.wstep.active .wstep-label{color:var(--brand);font-weight:600}
+.wstep.done .wstep-label{color:#15803D;font-weight:600}
+.wstep.clickable{cursor:pointer;transition:.15s;border-radius:8px;padding:4px 6px;margin:-4px -6px}
+.wstep.clickable:hover{background:#F0FDF4}
+.wstep.clickable:hover .wstep-label{color:#166534;text-decoration:underline}
+.wstep.clickable:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.docs-table-section{border:1px solid var(--accent);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:8px}
+.docs-table-header{background:var(--brand);color:white;padding:12px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.docs-table-header i{font-size:18px}
+#doc-panel-personal,#doc-panel-adjuntos{margin-top:16px}
+#screen-beca-docs .tabs{margin-bottom:0}
+.file-zone.has-staged,.file-zone.drag-active{border-color:var(--brand);background:#FEF2F4}
+.file-stage{display:flex;align-items:center;gap:10px;padding:12px;background:white;border:1.5px solid var(--brand);border-radius:8px;margin-top:8px}
+.file-stage i.ti-file{font-size:28px;color:var(--brand);flex-shrink:0}
+.file-stage-info{flex:1;min-width:0;text-align:left}
+.file-stage-name{font-size:13px;font-weight:600;color:var(--secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-stage-meta{font-size:11px;color:#6B7280}
+.file-error{color:#991B1B;background:#FEE2E2;border:1px solid #FCA5A5;padding:8px 12px;border-radius:8px;font-size:12px;margin-top:8px;display:flex;align-items:center;gap:8px}
+.file-list{padding:8px 12px}
+.file-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:white;border:1px solid var(--accent);border-radius:8px;margin-bottom:8px;transition:.15s}
+.file-row:last-child{margin-bottom:0}
+.file-row:hover{border-color:var(--brand)}
+.file-row i.ti-file{font-size:26px;color:var(--brand);flex-shrink:0}
+.file-row-info{flex:1;min-width:0}
+.file-row-name{font-size:13px;font-weight:600;color:var(--secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-row-meta{font-size:11px;color:#6B7280;margin-top:1px}
+.file-row-badge{font-size:10px;background:#DCFCE7;color:#166534;padding:2px 8px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.file-row-delete{background:transparent;border:1px solid var(--accent);color:#991B1B;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;flex-shrink:0}
+.file-row-delete:hover{background:#FEE2E2;border-color:#FCA5A5}
+.file-row-delete i{font-size:18px}
+.wstep-line{flex:1;min-width:20px;height:2px;background:var(--accent);margin:0 8px}
+.wstep-line.done{background:var(--success)}
+
+/* TIME INPUTS */
+.time-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end}
+@media(max-width:480px){.time-grid{grid-template-columns:1fr}.time-grid .time-sep{display:none}}
+.time-sep{padding-bottom:10px;font-weight:700;color:#6B7280;text-align:center}
+
+/* ========== MODAL ========== */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:2000;padding:16px;animation:modalFade .2s ease}
+.modal-overlay.open{display:flex}
+.modal-card{background:white;border-radius:16px;padding:32px 28px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:modalPop .3s ease}
+.modal-icon{width:72px;height:72px;border-radius:50%;background:#DCFCE7;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:#16A34A}
+.modal-icon i.ti{font-size:44px}
+.modal-title{font-size:20px;font-weight:700;color:var(--secondary);margin-bottom:8px}
+.modal-text{font-size:13px;color:#4B5563;line-height:1.6;margin-bottom:14px}
+.modal-id{background:var(--bg);border:1px dashed var(--accent);border-radius:8px;padding:10px;font-family:monospace;font-size:13px;color:var(--secondary);margin-bottom:20px;letter-spacing:1px}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+@keyframes modalPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ========== ACCESSIBILITY AGENT ========== */
+.fab-agent{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#E8334A);color:white;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(200,16,46,.4);display:flex;align-items:center;justify-content:center;z-index:1000;transition:transform .2s}
+.fab-agent:hover{transform:scale(1.1)}
+.fab-agent:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.fab-agent i{font-size:30px}
+.chat-panel{position:fixed;bottom:20px;right:20px;width:360px;height:520px;border-radius:20px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3);display:none;flex-direction:column;z-index:1000;background:white}
+.chat-panel.open{display:flex}
+.chat-header{background:linear-gradient(135deg,var(--secondary),#3B4659);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.chat-header-info{display:flex;align-items:center;gap:10px}
+.chat-header-avatar{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:white;font-size:24px}
+.chat-title{color:white;font-weight:700;font-size:14px;line-height:1.2}
+.chat-subtitle{color:rgba(255,255,255,.85);font-size:11px;margin-top:2px}
+.chat-close{background:rgba(255,255,255,.1);border:none;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:16px}
+.chat-close:hover{background:rgba(255,255,255,.2)}
+.chat-messages{flex:1;overflow-y:auto;padding:14px 14px 8px;background:var(--bg)}
+.chat-welcome{background:white;border-radius:4px 14px 14px 14px;padding:10px 14px;margin-bottom:10px;border:1px solid var(--accent);font-size:13px;line-height:1.5;color:#374151}
+.chat-opts{display:flex;flex-direction:column;gap:6px}
+.chat-opt{background:white;border:1.5px solid var(--accent);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:600;color:#374151;cursor:pointer;text-align:left;transition:.15s;display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
+.chat-opt:hover{border-color:var(--brand);background:#FEF2F2;color:var(--brand)}
+.chat-opt i{font-size:20px;color:var(--brand)}
+.chat-row{margin-bottom:10px}
+.chat-bubble-wrap{display:flex}
+.chat-bubble-wrap.user{justify-content:flex-end}
+.chat-bubble{max-width:85%;padding:10px 14px;font-size:12.5px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.05);word-wrap:break-word}
+.chat-bubble.bot{background:white;color:#374151;border-radius:4px 14px 14px 14px;border:1px solid var(--accent)}
+.chat-bubble.user{background:var(--brand);color:white;border-radius:14px 14px 4px 14px}
+.chat-bubble b{font-weight:700}
+.chat-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;padding-left:4px}
+.chat-action-btn{background:white;border:1.5px solid var(--brand);border-radius:20px;padding:5px 12px;font-size:11.5px;font-weight:600;color:var(--brand);cursor:pointer;font-family:'Poppins',sans-serif;transition:.15s}
+.chat-action-btn:hover{background:var(--brand);color:white}
+.chat-typing{display:flex;gap:4px;padding:10px 14px;background:white;border-radius:4px 14px 14px 14px;border:1px solid var(--accent);width:fit-content;margin-bottom:10px}
+.chat-typing span{width:7px;height:7px;border-radius:50%;background:#D1D5DB;animation:chatBounce 1.2s infinite}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+@keyframes chatBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.chat-back{background:none;border:none;color:var(--brand);font-size:12px;font-weight:600;cursor:pointer;padding:6px 0;margin-top:4px;font-family:'Poppins',sans-serif}
+.chat-input-wrap{padding:10px 12px;border-top:1px solid var(--accent);background:white;display:flex;gap:8px;align-items:center}
+.chat-input{flex:1;border:1.5px solid var(--accent);border-radius:10px;padding:9px 12px;font-size:13px;outline:none;color:#374151;font-family:'Poppins',sans-serif}
+.chat-input:focus{border-color:var(--brand)}
+.chat-send{width:36px;height:36px;border-radius:10px;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:15px}
+.chat-send:hover{background:var(--brand-dark)}
+@media(max-width:480px){
+  .chat-panel{width:calc(100vw - 24px);height:calc(100vh - 100px);bottom:12px;right:12px;border-radius:16px}
+  .fab-agent{bottom:14px;right:14px;width:52px;height:52px}
+}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Prototipo interactivo de rediseño SIBEUNA — Sistema de Becas UNA</h2>
+
+<div class="app" id="app">
+
+  <!-- TOPBAR -->
+  <header class="topbar" role="banner">
+    <div class="topbar-brand">
+      <button class="hamburger" onclick="toggleMobile()" aria-label="Abrir menú" aria-expanded="false" id="ham-btn">
+        <i class="ti ti-menu-2" style="font-size:22px" aria-hidden="true"></i>
+      </button>
+      <div class="brand-text">
+        <span class="brand-name">SIBEUNA</span>
+        <span class="brand-sub" id="brand-sub-txt">Sistema de Becas Estudiantiles · UNA</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="topbar-search topbar-private" role="search">
+        <i class="ti ti-search" aria-hidden="true"></i>
+        <input type="search" id="topbar-search-input" placeholder="Buscar..." aria-label="Buscar" autocomplete="off" oninput="runSearch()" onfocus="runSearch()" onkeydown="searchKeyNav(event)">
+        <div class="search-results" id="search-results" role="listbox"></div>
+      </div>
+      <button class="lang-toggle" id="lang-toggle-btn" onclick="toggleLang()" aria-label="Cambiar idioma">
+        <i class="ti ti-world" aria-hidden="true"></i>
+        <span id="lang-toggle-label">EN</span>
+      </button>
+      <button class="topbar-bell topbar-private" aria-label="Notificaciones" title="Notificaciones">
+        <i class="ti ti-bell" aria-hidden="true"></i>
+        <span class="topbar-bell-dot" aria-hidden="true"></span>
+      </button>
+      <button class="topbar-avatar topbar-private" id="topbar-avatar-btn" onclick="showScreen('login')" aria-label="Cerrar sesión" title="Cerrar sesión">A</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="overlay" onclick="toggleMobile()" aria-hidden="true"></div>
+
+  <div class="main-layout">
+
+    <!-- SIDEBAR NAV -->
+    <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+      <div class="nav-section">
+        <div class="nav-section-title" id="nav-forms-title">Formularios</div>
+        <div class="nav-item" data-screen="dashboard" onclick="showScreen('dashboard')"><i class="ti ti-home" aria-hidden="true"></i><span id="nav-inicio">Inicio</span></div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-award" aria-hidden="true" style="margin-right:8px"></i><span id="nav-beca-social">Beca Socioeconómica</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub" data-screen="beca-paso1" onclick="showBecaPaso1('socio')"><i class="ti ti-file-plus" aria-hidden="true"></i><span id="nav-solic-beca">Solic. Beca Socioeconómica</span></div>
+            <div class="nav-sub" data-screen="beca-docs" onclick="showScreen('beca-docs')"><i class="ti ti-upload" aria-hidden="true"></i><span id="nav-docs">Consulta y Subida Docs</span></div>
+            <div class="nav-sub" data-screen="apelacion" onclick="showScreen('apelacion')"><i class="ti ti-message-report" aria-hidden="true"></i><span id="nav-apelacion">Solicitud de Apelación</span></div>
+          </div>
+        </div>
+        <div class="nav-item" onclick="showBecaPaso1('relev')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-relev">Solic. Beca Participación Relevante</span></div>
+        <div class="nav-item" onclick="showBecaPaso1('honor')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-honor">Solic. Beca Honor</span></div>
+        <div class="nav-item" onclick="showBecaPaso1('func')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-func">Solic. Beca Funcionario</span></div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-home-2" aria-hidden="true" style="margin-right:8px"></i><span id="nav-beca-omar">Beca Omar Dengo (Residencia estudiantil)</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub" onclick="showBecaPaso1('omar')"><i class="ti ti-file-plus" aria-hidden="true"></i><span id="nav-omar-solic">Solicitud de Residencia</span></div>
+            <div class="nav-sub"><i class="ti ti-upload" aria-hidden="true"></i><span id="nav-omar-docs">Documentos Residencia</span></div>
+          </div>
+        </div>
+        <div class="nav-item" onclick="showBecaPaso1('luis')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-luis">Solic. Beca Luis Felipe</span></div>
+        <div class="nav-item" onclick="showBecaPaso1('posg')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-posg">Solic. Beca Posgrado</span></div>
+        <div class="nav-item" onclick="showBecaPaso1('aporte')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-aporte">Solic. Aporte Económico</span></div>
+        <div class="nav-item" onclick="showBecaPaso1('iii')"><i class="ti ti-settings" aria-hidden="true"></i><span id="nav-beca-iii">Solic. Beca III Ciclo (verano)</span></div>
+        <div class="nav-item"><i class="ti ti-clipboard-list" aria-hidden="true"></i><span id="nav-consulta-solic">Consulta de solicitudes registradas y beneficios</span></div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title" id="nav-control-title">Control</div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-clock" aria-hidden="true" style="margin-right:8px"></i><span id="nav-horas">Registro de Horas</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub" data-screen="horas" onclick="showScreen('horas')"><i class="ti ti-pencil" aria-hidden="true"></i><span id="nav-dig-horas">Digitación de Horas</span></div>
+            <div class="nav-sub"><i class="ti ti-trash" aria-hidden="true"></i><span id="nav-del-horas">Borrar Horas</span></div>
+            <div class="nav-sub"><i class="ti ti-chart-bar" aria-hidden="true"></i><span id="nav-rep-horas">Reportes</span></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-calendar" aria-hidden="true" style="margin-right:8px"></i><span id="nav-agenda">Agenda de Citas</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub"><i class="ti ti-calendar-plus" aria-hidden="true"></i><span id="nav-sol-cita">Solicitud de Cita</span></div>
+            <div class="nav-sub"><i class="ti ti-search" aria-hidden="true"></i><span id="nav-con-cita">Consulta Citas</span></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-building-bank" aria-hidden="true" style="margin-right:8px"></i><span id="nav-banco">Cuentas Bancarias</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub" data-screen="cuenta" onclick="showScreen('cuenta')"><i class="ti ti-credit-card" aria-hidden="true"></i><span id="nav-reg-cuenta">Registro de Cuenta</span></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-plane" aria-hidden="true" style="margin-right:8px"></i><span id="nav-movilidad">Movilidad Estudiantil</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub"><i class="ti ti-file-text" aria-hidden="true"></i><span id="nav-sol-movilidad">Solicitar Ayuda</span></div>
+            <div class="nav-sub"><i class="ti ti-check" aria-hidden="true"></i><span id="nav-acep-movilidad">Aceptación Monto</span></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-header" onclick="toggleGroup(this)" tabindex="0" role="button" aria-expanded="false">
+            <span><i class="ti ti-users" aria-hidden="true" style="margin-right:8px"></i><span id="nav-grupales">Actividades Grupales</span></span>
+            <i class="ti ti-chevron-down" aria-hidden="true"></i>
+          </div>
+          <div class="nav-group-content">
+            <div class="nav-sub"><i class="ti ti-user-plus" aria-hidden="true"></i><span id="nav-ins-grup">Inscripción</span></div>
+            <div class="nav-sub"><i class="ti ti-search" aria-hidden="true"></i><span id="nav-con-grup">Consulta</span></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTENT AREA -->
+    <main class="content" id="main-content" role="main">
+
+      <!-- ========== LOGIN ========== -->
+      <div class="screen active" id="screen-login">
+        <div class="login-wrap">
+          <div class="login-card">
+            <div class="login-logo">
+              <div class="brand-name">SIBEUNA</div>
+              <div class="brand-sub" id="login-subtitle">Sistema de Información de Becas y Beneficios Estudiantiles · Universidad Nacional</div>
+              <div class="login-divider" style="margin-top:10px"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="login-id"><i class="ti ti-id-badge" aria-hidden="true"></i> <span id="lbl-cedula">Número de Cédula</span> <span class="required">*</span></label>
+              <input class="form-control" type="text" id="login-id" placeholder="Ej: 604040087" aria-required="true" autocomplete="username">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="login-pw"><i class="ti ti-lock" aria-hidden="true"></i> <span id="lbl-clave">Contraseña</span> <span class="required">*</span></label>
+              <input class="form-control" type="password" id="login-pw" placeholder="••••••••" aria-required="true" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary btn-glow" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()" id="btn-login">
+              <i class="ti ti-login" aria-hidden="true"></i> <span id="lbl-ingresar">Ingresar al Sistema</span>
+            </button>
+            <div style="text-align:center;margin-top:16px">
+              <a href="#" style="font-size:12px;color:var(--info)" id="lbl-cambio-pw" onclick="event.preventDefault();showScreen('password')">¿Cambio de contraseña?</a>
+            </div>
+            <div class="alert alert-info" style="margin-top:20px;font-size:12px">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <span id="login-hint">Use su número de cédula y contraseña universitaria para ingresar.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== CAMBIO DE CONTRASEÑA ========== -->
+      <div class="screen" id="screen-password">
+        <div class="login-wrap">
+          <div class="login-card">
+            <div class="login-logo">
+              <div class="brand-name">SIBEUNA</div>
+              <div class="brand-sub" id="pw-subtitle">Cambio de Contraseña</div>
+              <div class="login-divider" style="margin-top:10px"></div>
+            </div>
+            <div class="alert alert-info" style="margin-bottom:16px;font-size:12px" id="pw-hint-box">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <span id="pw-hint">Ingrese su cédula, contraseña actual y la nueva contraseña. Mínimo 8 caracteres.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pw-id"><i class="ti ti-id-badge" aria-hidden="true"></i> <span id="lbl-pw-cedula">Número de Cédula</span> <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="text" id="pw-id" placeholder="Ej: 604040087" aria-required="true" autocomplete="username" aria-describedby="err-pw-id">
+              <div class="field-error" id="err-pw-id" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pw-current"><i class="ti ti-lock" aria-hidden="true"></i> <span id="lbl-pw-actual">Contraseña Actual</span> <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="password" id="pw-current" placeholder="••••••••" aria-required="true" autocomplete="current-password" aria-describedby="err-pw-current">
+              <div class="field-error" id="err-pw-current" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pw-new"><i class="ti ti-lock-plus" aria-hidden="true"></i> <span id="lbl-pw-nueva">Nueva Contraseña</span> <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="password" id="pw-new" placeholder="••••••••" aria-required="true" autocomplete="new-password" minlength="8" oninput="checkPwStrength()" aria-describedby="err-pw-new pw-strength-lbl">
+              <div style="margin-top:6px;height:4px;background:#E5E7EB;border-radius:2px;overflow:hidden">
+                <div id="pw-strength-bar" style="height:100%;width:0;background:#EF4444;transition:.2s"></div>
+              </div>
+              <div style="font-size:11px;color:#6B7280;margin-top:4px" id="pw-strength-lbl">Seguridad: —</div>
+              <div class="field-error" id="err-pw-new" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pw-confirm"><i class="ti ti-lock-check" aria-hidden="true"></i> <span id="lbl-pw-confirm">Confirmar Nueva Contraseña</span> <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="password" id="pw-confirm" placeholder="••••••••" aria-required="true" autocomplete="new-password" aria-describedby="err-pw-confirm">
+              <div class="field-error" id="err-pw-confirm" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div id="pw-error" class="alert" style="display:none;background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;font-size:12px;margin-bottom:12px">
+              <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+              <span id="pw-error-msg"></span>
+            </div>
+            <div id="pw-success" class="alert" style="display:none;background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;font-size:12px;margin-bottom:12px">
+              <i class="ti ti-check" aria-hidden="true"></i>
+              <span id="pw-success-msg">Contraseña actualizada con éxito. Redirigiendo al inicio de sesión…</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doChangePassword()" id="btn-pw-save">
+              <i class="ti ti-device-floppy" aria-hidden="true"></i> <span id="lbl-pw-guardar">Actualizar Contraseña</span>
+            </button>
+            <div style="text-align:center;margin-top:16px">
+              <a href="#" style="font-size:12px;color:var(--info)" onclick="event.preventDefault();showScreen('login')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span id="lbl-volver-login">Volver al inicio de sesión</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== DASHBOARD ========== -->
+      <div class="screen" id="screen-dashboard">
+        <div class="breadcrumb"><i class="ti ti-home" aria-hidden="true"></i> <span id="dash-bc">Inicio</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="dash-title">Bienvenido/a, Aníbal</h1>
+          <p class="page-subtitle" id="dash-sub">Campus Liberia · Bach. Ing. Sistemas de Información · Ciclo 2026</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="ti ti-award" aria-hidden="true"></i></div>
+            <div class="stat-label" id="stat-beca-lbl">Beca Activa</div>
+            <div class="stat-value" style="font-size:16px;color:var(--brand)" id="stat-beca-val">Socioeconómica</div>
+            <div class="stat-sub" id="stat-beca-sub">Categoría B · 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="ti ti-clock" aria-hidden="true"></i></div>
+            <div class="stat-label" id="stat-horas-lbl">Horas Registradas</div>
+            <div class="stat-value">24</div>
+            <div class="stat-sub" id="stat-horas-sub">de 40 requeridas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="ti ti-calendar-check" aria-hidden="true"></i></div>
+            <div class="stat-label" id="stat-cita-lbl">Próxima Cita</div>
+            <div class="stat-value" style="font-size:15px" id="stat-cita-val">Sin citas</div>
+            <div class="stat-sub" id="stat-cita-sub">Agenda disponible</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber"><i class="ti ti-file-upload" aria-hidden="true"></i></div>
+            <div class="stat-label" id="stat-docs-lbl">Documentos</div>
+            <div class="stat-value">2</div>
+            <div class="stat-sub" id="stat-docs-sub">adjuntos subidos</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="card">
+            <div class="card-header">
+              <i class="ti ti-sparkles" style="color:var(--brand);font-size:22px" aria-hidden="true"></i>
+              <span class="card-title" id="dash-acciones">Acciones Rápidas</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn btn-action btn-sm" onclick="showBecaPaso1('socio')" style="justify-content:flex-start"><i class="ti ti-file-plus" aria-hidden="true"></i> <span id="dash-act1">Solicitar Beca Socioeconómica</span></button>
+              <button class="btn btn-action btn-sm" onclick="showScreen('horas')" style="justify-content:flex-start"><i class="ti ti-clock" aria-hidden="true"></i> <span id="dash-act2">Registrar Horas Asistente</span></button>
+              <button class="btn btn-action btn-sm" onclick="showScreen('beca-docs')" style="justify-content:flex-start"><i class="ti ti-upload" aria-hidden="true"></i> <span id="dash-act3">Subir Documentos Beca</span></button>
+              <button class="btn btn-action btn-sm" onclick="showScreen('cuenta')" style="justify-content:flex-start"><i class="ti ti-building-bank" aria-hidden="true"></i> <span id="dash-act4">Registrar Cuenta Bancaria</span></button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <i class="ti ti-bell" style="color:var(--warning);font-size:22px" aria-hidden="true"></i>
+              <span class="card-title" id="dash-avisos">Avisos Importantes</span>
+            </div>
+            <div class="alert alert-warning" style="font-size:12px">
+              <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+              <div><strong id="aviso1-t">Período de Revisión</strong><br><span id="aviso1-d">9 al 18 de febrero 2026. Solicitud de revisión disponible.</span></div>
+            </div>
+            <div class="alert alert-info" style="font-size:12px">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <div><strong id="aviso2-t">Documentos adjuntos</strong><br><span id="aviso2-d">Verifique el estado de subida de sus documentos de beca.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== BECA PASO 1 ========== -->
+      <div class="screen" id="screen-beca-paso1">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-p1">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-beca-p1">Beca Socioeconómica</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="beca-title">Solicitud Beca Socioeconómica</h1>
+        </div>
+        <div class="wizard-steps" aria-label="Pasos del proceso">
+          <div class="wstep active">
+            <div class="wstep-num" aria-current="step">1</div>
+            <span class="wstep-label" id="ws1">Condiciones</span>
+          </div>
+          <div class="wstep-line" id="wline1"></div>
+          <div class="wstep" id="wstep2">
+            <div class="wstep-num">2</div>
+            <span class="wstep-label" id="ws2">Datos Personales</span>
+          </div>
+          <div class="wstep-line" id="wline2"></div>
+          <div class="wstep" id="wstep3">
+            <div class="wstep-num">3</div>
+            <span class="wstep-label" id="ws3">Formulario</span>
+          </div>
+          <div class="wstep-line" id="wline3"></div>
+          <div class="wstep" id="wstep4">
+            <div class="wstep-num">4</div>
+            <span class="wstep-label" id="ws4">Documentos</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="event-chip event-none"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span id="chip-evento">SIN EVENTO ACTIVO · Solicitud Beca Socioeconómica</span></div>
+          <div class="alert alert-info" style="font-size:12px">
+            <i class="ti ti-info-circle" aria-hidden="true"></i>
+            <span id="beca-periodo">Período de admisión: 16 de enero — 19 de enero 2026, de 1:00 p.m. a 7:00 p.m.</span>
+          </div>
+          <h2 style="font-size:14px;font-weight:700;color:var(--secondary);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px" id="cond-title">Condiciones Categoría Beca Socioeconómica</h2>
+          <div class="conditions-box">
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">1</div><p id="cond1">Este proceso es exclusivo para población estudiantil de nuevo ingreso — admisión 2026.</p></div>
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">2</div><p id="cond2">Descargue la guía, la solicitud y el archivo para ubicar la documentación de respaldo.</p></div>
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">3</div><p id="cond3">Proporcionará datos ciertos y actualizados de su condición socioeconómica y la de las personas que integran su hogar.</p></div>
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">4</div><p id="cond4">Llené y cuente con el archivo PDF de la solicitud y los documentos de respaldo en formato PDF.</p></div>
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">5</div><p id="cond5">En caso de no cumplir en la forma y el tiempo establecido, la presente gestión quedará sin efecto de forma automática.</p></div>
+            <div class="conditions-warning">
+              <i class="ti ti-alert-triangle" style="font-size:22px;flex-shrink:0" aria-hidden="true"></i>
+              <div><strong id="cond-adv-t">Advertencia:</strong> <span id="cond-adv">La comunicación oficial de resultados será enviada a su correo estudiantil el 6 de febrero 2026. Contacto: <strong>amora@una.cr</strong></span></div>
+            </div>
+          </div>
+          <div class="accept-row" onclick="toggleAccept(this, event)">
+            <input type="checkbox" id="chk-beca" aria-label="Aceptar condiciones de beca socioeconómica">
+            <label class="accept-label" for="chk-beca" id="lbl-acepto">✓ ACEPTO TODAS LAS CONDICIONES</label>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-primary" onclick="continueBeca()">
+              <span id="btn-continuar">Continuar</span> <i class="ti ti-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== BECA PASO 2 ========== -->
+      <div class="screen" id="screen-beca-paso2">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-p2">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-beca-p2">Beca Socioeconómica</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-datos-p2">Datos Personales</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="paso2-title">Solicitud Beca Socioeconómica</h1>
+        </div>
+        <div class="wizard-steps" aria-label="Pasos del proceso">
+          <div class="wstep done"><div class="wstep-num"><i class="ti ti-check" style="font-size:12px" aria-hidden="true"></i></div><span class="wstep-label" id="ws1b">Condiciones</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep active"><div class="wstep-num" aria-current="step">2</div><span class="wstep-label" id="ws2b">Datos Personales</span></div>
+          <div class="wstep-line" id="wline2b"></div>
+          <div class="wstep"><div class="wstep-num">3</div><span class="wstep-label" id="ws3b">Formulario</span></div>
+          <div class="wstep-line"></div>
+          <div class="wstep"><div class="wstep-num">4</div><span class="wstep-label" id="ws4b">Documentos</span></div>
+        </div>
+        <div class="card">
+          <div class="alert alert-success" style="font-size:12px">
+            <i class="ti ti-circle-check" aria-hidden="true"></i>
+            <span id="p2-warn">Estudiante elegible · verificado en el evento activo.</span>
+          </div>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label class="form-label" for="p2-cedula" id="lbl-p2-cedula">Cédula <span class="required">*</span></label>
+              <div style="display:flex;gap:8px">
+                <input class="form-control" type="text" id="p2-cedula" value="604040087" aria-required="true">
+                <button class="btn btn-ghost btn-sm" id="btn-desplegar"><i class="ti ti-search" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="dashboard-grid" style="background:var(--bg);border-radius:var(--radius-lg);padding:16px;font-size:13px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px">
+            <div><span style="color:#6B7280" id="lbl-nombre">Nombre:</span> <strong>ANIBAL JOSE</strong></div>
+            <div><span style="color:#6B7280" id="lbl-apellidos">Apellidos:</span> <strong>CHAVES BADILLA</strong></div>
+            <div><span style="color:#6B7280" id="lbl-sexo">Sexo:</span> Masculino</div>
+            <div><span style="color:#6B7280" id="lbl-estado">Estado Civil:</span> Soltero(a)</div>
+            <div><span style="color:#6B7280" id="lbl-nac">Nacionalidad:</span> Costa Rica</div>
+            <div><span style="color:#6B7280" id="lbl-ingreso">Año Ingreso:</span> 2017</div>
+            <div><span style="color:#6B7280" id="lbl-carrera">Carrera:</span> Bach. Ing. Sistemas de Información</div>
+            <div><span style="color:#6B7280" id="lbl-campus">Campus:</span> Campus Benjamín Núñez</div>
+            <div><span style="color:#6B7280" id="lbl-prov">Provincia:</span> Guanacaste</div>
+            <div><span style="color:#6B7280" id="lbl-canton">Cantón:</span> Abangares</div>
+            <div><span style="color:#6B7280" id="lbl-tel">Celular:</span> 60193037</div>
+            <div><span style="color:#6B7280" id="lbl-correo">Correo UNA:</span> anibal.chaves.badilla@est.una.ac.cr</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:20px">
+            <button class="btn btn-ghost" onclick="showScreen('beca-paso1')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span id="btn-atras">Atrás</span></button>
+            <button class="btn btn-primary" onclick="showScreen('beca-paso3')"><span id="btn-sig">Siguiente</span> <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== BECA PASO 3 (FORMULARIO) ========== -->
+      <div class="screen" id="screen-beca-paso3">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-p3">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-beca-p3">Beca Socioeconómica</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-form-p3">Formulario</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="paso3-title">Solicitud Beca Socioeconómica</h1>
+        </div>
+        <div class="wizard-steps" aria-label="Pasos del proceso">
+          <div class="wstep done"><div class="wstep-num"><i class="ti ti-check" aria-hidden="true"></i></div><span class="wstep-label" id="ws1c">Condiciones</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep done"><div class="wstep-num"><i class="ti ti-check" aria-hidden="true"></i></div><span class="wstep-label" id="ws2c">Datos Personales</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep active"><div class="wstep-num" aria-current="step">3</div><span class="wstep-label" id="ws3c">Formulario</span></div>
+          <div class="wstep-line"></div>
+          <div class="wstep"><div class="wstep-num">4</div><span class="wstep-label" id="ws4c">Documentos</span></div>
+        </div>
+        <div class="card">
+          <div class="alert alert-info" style="font-size:12px">
+            <i class="ti ti-info-circle" aria-hidden="true"></i>
+            <span id="p3-info">Complete los datos socioeconómicos del núcleo familiar. Todos los campos con * son obligatorios.</span>
+          </div>
+          <h2 style="font-size:14px;font-weight:700;color:var(--secondary);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px" id="p3-sec1">Núcleo Familiar</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="p3-ingreso" id="lbl-p3-ingreso">Ingreso mensual del hogar (CRC) <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="number" id="p3-ingreso" min="0" step="1000" placeholder="Ej: 850000" aria-required="true" aria-describedby="err-p3-ingreso">
+              <div class="field-error" id="err-p3-ingreso" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p3-personas" id="lbl-p3-personas">Personas en el hogar <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="number" id="p3-personas" min="1" max="20" placeholder="Ej: 4" aria-required="true" aria-describedby="err-p3-personas">
+              <div class="field-error" id="err-p3-personas" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="p3-aportan" id="lbl-p3-aportan">Personas que aportan ingreso <span class="required" aria-label="obligatorio">*</span></label>
+              <input class="form-control" type="number" id="p3-aportan" min="0" max="20" placeholder="Ej: 2" aria-required="true" aria-describedby="err-p3-aportan">
+              <div class="field-error" id="err-p3-aportan" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p3-vivienda" id="lbl-p3-vivienda">Tipo de vivienda <span class="required" aria-label="obligatorio">*</span></label>
+              <select class="form-control" id="p3-vivienda" aria-required="true" aria-describedby="err-p3-vivienda">
+                <option value="" id="p3-viv-default">— Seleccione —</option>
+                <option value="propia" id="p3-viv-propia">Propia</option>
+                <option value="alquilada" id="p3-viv-alq">Alquilada</option>
+                <option value="prestada" id="p3-viv-prest">Prestada</option>
+                <option value="hipotecada" id="p3-viv-hipo">Hipotecada</option>
+              </select>
+              <div class="field-error" id="err-p3-vivienda" role="alert"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span></span></div>
+            </div>
+          </div>
+
+          <h2 style="font-size:14px;font-weight:700;color:var(--secondary);margin:20px 0 12px;text-transform:uppercase;letter-spacing:.5px" id="p3-sec2">Condiciones Especiales</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" id="lbl-p3-discap">¿Hay personas con discapacidad en el hogar? <span class="required">*</span></label>
+              <div style="display:flex;gap:16px;padding-top:6px">
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="p3-discap" value="si" style="accent-color:var(--brand)"> <span id="p3-discap-si">Sí</span></label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="p3-discap" value="no" style="accent-color:var(--brand)" checked> <span id="p3-discap-no">No</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p3-transporte" id="lbl-p3-transp">Transporte habitual al campus</label>
+              <select class="form-control" id="p3-transporte">
+                <option value="bus" id="p3-tr-bus">Bus público</option>
+                <option value="auto" id="p3-tr-auto">Vehículo propio</option>
+                <option value="moto" id="p3-tr-moto">Motocicleta</option>
+                <option value="comparte" id="p3-tr-shr">Vehículo compartido</option>
+                <option value="caminando" id="p3-tr-walk">Caminando / bicicleta</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="p3-comentarios" id="lbl-p3-com">Comentarios adicionales</label>
+            <textarea class="form-control" id="p3-comentarios" rows="3" maxlength="500" placeholder="Describa cualquier situación particular relevante (opcional, máx. 500 caracteres)"></textarea>
+          </div>
+
+          <div id="p3-error" class="alert" style="display:none;background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;font-size:12px;margin-top:12px">
+            <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+            <span id="p3-error-msg"></span>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;margin-top:24px">
+            <button class="btn btn-ghost" onclick="showScreen('beca-paso2')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span id="btn-atras-p3">Atrás</span></button>
+            <button class="btn btn-primary" onclick="submitBecaPaso3()"><span id="btn-sig-p3">Siguiente</span> <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== BECA DOCS ========== -->
+      <div class="screen" id="screen-beca-docs">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-docs">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-beca-docs">Beca Socioeconómica</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-docs-docs">Documentos Adjuntos</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="docs-title">Consulta y Subida de Documentos</h1>
+          <p class="page-subtitle" id="docs-sub">Beca Socioeconómica · Documentos Adjuntos</p>
+        </div>
+        <div class="wizard-steps" aria-label="Pasos del proceso">
+          <div class="wstep done clickable" onclick="showScreen('beca-paso1')" tabindex="0" role="button" aria-label="Volver a Condiciones"><div class="wstep-num"><i class="ti ti-check" aria-hidden="true"></i></div><span class="wstep-label" id="ws1d">Condiciones</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep done clickable" onclick="showScreen('beca-paso2')" tabindex="0" role="button" aria-label="Volver a Datos Personales"><div class="wstep-num"><i class="ti ti-check" aria-hidden="true"></i></div><span class="wstep-label" id="ws2d">Datos Personales</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep done clickable" onclick="showScreen('beca-paso3')" tabindex="0" role="button" aria-label="Volver a Formulario"><div class="wstep-num"><i class="ti ti-check" aria-hidden="true"></i></div><span class="wstep-label" id="ws3d">Formulario</span></div>
+          <div class="wstep-line done"></div>
+          <div class="wstep active"><div class="wstep-num" aria-current="step">4</div><span class="wstep-label" id="ws4d">Documentos</span></div>
+        </div>
+        <div class="tabs" role="tablist">
+          <div class="tab active" role="tab" aria-selected="true" onclick="switchDocTab('personal')" id="tab-personal">Datos Personales</div>
+          <div class="tab" role="tab" aria-selected="false" onclick="switchDocTab('adjuntos')" id="tab-adjuntos">Documentos Adjuntos</div>
+        </div>
+
+        <div id="doc-panel-personal">
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">
+              <i class="ti ti-table" style="color:var(--brand);font-size:22px" aria-hidden="true"></i>
+              <span class="card-title" id="docs-datos-title">Datos Solicitud de Beca</span>
+            </div>
+            <div class="alert alert-info" style="font-size:12px;margin-bottom:16px">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <div>
+                <strong id="docs-pasos-t">Pasos:</strong>
+                <ol style="margin-top:4px;padding-left:16px;line-height:2" id="docs-pasos-list">
+                  <li>Verificar en la tabla el identificador y si el formulario está para subir archivos</li>
+                  <li>Dar clic al número de ID Socioeconómica del formulario habilitado</li>
+                  <li>Ir a la cejilla de documentos adjuntos</li>
+                </ol>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table aria-label="Solicitudes de beca">
+                <thead>
+                  <tr>
+                    <th id="th-id">ID Socioeconómica</th>
+                    <th id="th-reg">Fecha Registro</th>
+                    <th id="th-lim">Fecha Límite Adjuntos</th>
+                    <th id="th-hab">Habilitado</th>
+                    <th id="th-sede">Sede</th>
+                    <th id="th-carrera">Carrera</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="#" onclick="switchDocTab('adjuntos');return false;" style="color:var(--info);font-weight:600">41273</a></td>
+                    <td>01/10/2020 01:28</td>
+                    <td>01/10/2020 01:28</td>
+                    <td><span class="badge badge-error">NO</span></td>
+                    <td>Campus Benjamín Núñez</td>
+                    <td>Bach. Sistemas de Información</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#" onclick="switchDocTab('adjuntos');return false;" style="color:var(--info);font-weight:600">16081</a></td>
+                    <td>27/08/2019 10:26</td>
+                    <td>27/08/2019 10:26</td>
+                    <td><span class="badge badge-error">NO</span></td>
+                    <td>Subsede Liberia</td>
+                    <td>Bach. Sistemas de Información</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="doc-panel-adjuntos" style="display:none">
+          <div class="card">
+            <div class="alert alert-warning" style="font-size:12px;margin-bottom:20px">
+              <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+              <div><strong id="docs-adv-t">Advertencia:</strong> <span id="docs-adv">El nombre del archivo no debe tener caracteres especiales (ñ, tildes, #, etc). Tamaño máximo: 5 MB. Use ILOVEPDF para comprimir.</span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-id-solicitud" for="sel-id-solicitud">ID Solicitud de Beca</label>
+              <select class="form-control" id="sel-id-solicitud" style="max-width:240px" aria-label="Seleccionar ID de solicitud">
+                <option>41273</option>
+                <option>16081</option>
+              </select>
+            </div>
+            <input type="file" id="file-input" accept=".pdf,application/pdf" hidden onchange="handleFileSelect(this.files)">
+            <div class="file-zone" id="file-zone" role="button" tabindex="0" aria-label="Seleccionar archivo PDF para subir" style="margin-bottom:12px" onclick="triggerFilePicker()">
+              <i class="ti ti-cloud-upload" aria-hidden="true"></i>
+              <p id="file-text">Arrastra tu archivo PDF aquí o <strong>haz clic para seleccionar</strong></p>
+              <p style="font-size:11px;color:#6B7280;margin-top:4px" id="file-hint">Solo PDF · Máx. 5 MB</p>
+            </div>
+            <div id="file-error" class="file-error" style="display:none">
+              <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+              <span id="file-error-msg"></span>
+            </div>
+            <div id="file-stage-wrap" style="display:none;margin-bottom:12px"></div>
+            <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap">
+              <button class="btn btn-primary btn-sm" id="btn-save-file" onclick="commitStagedFile()" disabled aria-disabled="true"><i class="ti ti-upload" aria-hidden="true"></i> <span id="btn-guardar-doc">Guardar en sistema</span></button>
+              <button class="btn btn-ghost btn-sm" onclick="cancelStagedFile()"><i class="ti ti-x" aria-hidden="true"></i> <span id="btn-cancelar-doc">Cancelar subida</span></button>
+            </div>
+            <div class="docs-table-section">
+              <div class="docs-table-header">
+                <i class="ti ti-paperclip" aria-hidden="true"></i>
+                <span id="lbl-docs-table">Documentos adjuntos</span>
+                <span id="docs-count" style="margin-left:auto;font-size:11px;font-weight:600;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px">0</span>
+              </div>
+              <div id="file-list" class="file-list" style="display:none"></div>
+              <p style="font-size:13px;color:#6B7280;text-align:center;padding:24px 16px;margin:0" id="no-docs-msg">No hay documentos adjuntos aún.</p>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;margin-top:24px;border-top:1px solid var(--accent);padding-top:20px;flex-wrap:wrap">
+              <button class="btn btn-ghost" onclick="showScreen('beca-paso3')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span id="btn-atras-p4">Atrás</span></button>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;flex:1">
+                <button class="btn btn-outline" onclick="submitBecaFinal(true)"><i class="ti ti-clock" aria-hidden="true"></i> <span id="btn-later">Subir archivos después</span></button>
+                <button class="btn btn-primary btn-glow" onclick="submitBecaFinal(false)"><i class="ti ti-send" aria-hidden="true"></i> <span id="btn-finalizar">Finalizar y enviar solicitud</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== HORAS ========== -->
+      <div class="screen" id="screen-horas">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-h">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-horas">Digitación de Horas</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="horas-title">Digitación de Horas Beca Asistente</h1>
+        </div>
+        <div class="tabs" role="tablist">
+          <div class="tab active" role="tab" aria-selected="true" onclick="switchHorasTab('cond')" id="tab-cond-h">Condiciones</div>
+          <div class="tab" role="tab" aria-selected="false" onclick="switchHorasTab('reg')" id="tab-reg-h">Registro de Horas</div>
+        </div>
+
+        <div id="horas-panel-cond">
+          <div class="card">
+            <h2 style="font-size:13px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px" id="horas-cond-title">Condiciones para el Registro de Horas</h2>
+            <div class="conditions-box">
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">1</div><p id="hc1">Registre el cumplimiento de horas cada vez que se presente a la dependencia asignada.</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">2</div><p id="hc2">El registro será revisado por la persona funcionaria responsable, quien debe dar el visto bueno.</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">3</div><p id="hc3">Si tiene varias designaciones, seleccione cuidadosamente el número al que deben ser acreditadas.</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">4</div><p id="hc4">Seleccione la fecha, hora de inicio y finalización. Las horas están en formato militar (1–24 h).</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">5</div><p id="hc5">Fraccione el horario y el registro en caso de no permanecer en la unidad en el tiempo de almuerzo.</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">6</div><p id="hc6">Dar clic en Enviar para guardar el registro.</p></div>
+              <div class="conditions-step"><div class="step-num" aria-hidden="true">7</div><p id="hc7">Para ingresar varios registros de horas, dar clic en <em>Ingresar nuevas horas</em> y repetir pasos 4-6.</p></div>
+              <div class="conditions-warning">
+                <i class="ti ti-alert-triangle" style="font-size:22px;flex-shrink:0" aria-hidden="true"></i>
+                <div><strong id="horas-adv-t">Advertencia:</strong> <span id="horas-adv">El cumplimiento de horas es requisito obligatorio para la asignación y mantenimiento de beneficios de la beca. Es responsabilidad de cada estudiante el registro completo y correcto.</span></div>
+              </div>
+            </div>
+            <div class="accept-row" onclick="toggleAccept(this, event)">
+              <input type="checkbox" id="chk-horas" aria-label="Aceptar condiciones de registro de horas">
+              <label class="accept-label" for="chk-horas" id="lbl-acepto-h">✓ ACEPTO TODAS LAS CONDICIONES DE USO</label>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+              <button class="btn btn-primary" onclick="switchHorasTab('reg')"><span id="btn-ir-reg">Ir al Registro</span> <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div id="horas-panel-reg" style="display:none">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px;background:var(--bg);border-radius:var(--radius)">
+              <div class="avatar" aria-hidden="true">AJ</div>
+              <div>
+                <div style="font-weight:600;font-size:13px">ANIBAL JOSE CHAVES BADILLA</div>
+                <div style="font-size:12px;color:#6B7280">604040087 · Campus Liberia</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="beca-asistente" id="lbl-beca-asist">Beca Asistente <span class="required">*</span></label>
+                <select class="form-control" id="beca-asistente" aria-required="true">
+                  <option value="">Seleccione...</option>
+                  <option>Beca Asistente — Ing. Sistemas</option>
+                  <option>Beca Asistente — Matemáticas</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="fecha-horas" id="lbl-fecha-h">Fecha de realización <span class="required">*</span></label>
+                <input class="form-control" type="date" id="fecha-horas" aria-required="true">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-horario">Horario <span class="required">*</span></label>
+              <div class="time-grid">
+                <div>
+                  <div style="font-size:11px;color:#6B7280;margin-bottom:4px" id="lbl-inicio">Inicio</div>
+                  <div style="display:flex;gap:4px">
+                    <select class="form-control" aria-label="Hora inicio" style="flex:1"><option>Seleccione...</option>
+                      <option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                      <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option>
+                    </select>
+                    <input class="form-control" type="number" min="0" max="59" placeholder="00" aria-label="Minutos inicio" style="width:70px">
+                  </div>
+                </div>
+                <div class="time-sep">→</div>
+                <div>
+                  <div style="font-size:11px;color:#6B7280;margin-bottom:4px" id="lbl-fin">Fin</div>
+                  <div style="display:flex;gap:4px">
+                    <select class="form-control" aria-label="Hora fin" style="flex:1"><option>Seleccione...</option>
+                      <option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                      <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option>
+                    </select>
+                    <input class="form-control" type="number" min="0" max="59" placeholder="00" aria-label="Minutos fin" style="width:70px">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="obs-horas" id="lbl-obs">Observación</label>
+              <input class="form-control" type="text" id="obs-horas" placeholder="Descripción opcional de la actividad realizada">
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-primary"><i class="ti ti-device-floppy" aria-hidden="true"></i> <span id="btn-guardar-h">Guardar</span></button>
+              <button class="btn btn-success btn-sm"><i class="ti ti-plus" aria-hidden="true"></i> <span id="btn-nuevas-h">Ingresar nuevas horas</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== CUENTA BANCARIA ========== -->
+      <div class="screen" id="screen-cuenta">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-c">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-cuenta">Cuentas Bancarias</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="cuenta-title">Registro de Cuenta Bancaria</h1>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <i class="ti ti-info-circle" style="color:var(--info);font-size:22px" aria-hidden="true"></i>
+            <span class="card-title" id="cuenta-ind-title">Indicaciones / Condiciones</span>
+          </div>
+          <div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+            <div class="alert alert-info" style="font-size:12px"><i class="ti ti-building-bank" aria-hidden="true"></i> <span id="cu1">La cuenta debe ser del Banco Nacional de Costa Rica.</span></div>
+            <div class="alert alert-info" style="font-size:12px"><i class="ti ti-user" aria-hidden="true"></i> <span id="cu2">La cuenta debe estar a nombre del/la estudiante.</span></div>
+            <div class="alert alert-info" style="font-size:12px"><i class="ti ti-credit-card" aria-hidden="true"></i> <span id="cu3">Solo se permite registrar una cuenta de ahorros o cuenta corriente.</span></div>
+            <div class="alert alert-info" style="font-size:12px"><i class="ti ti-hash" aria-hidden="true"></i> <span id="cu4">Se registra el número de cuenta, no la cuenta cliente.</span></div>
+          </div>
+          <div class="conditions-box" style="margin-bottom:20px">
+            <strong id="cu-formato-t">Formato de cuenta (15 dígitos):</strong>
+            <div style="font-family:monospace;font-size:18px;text-align:center;padding:12px;margin:12px 0;background:white;border-radius:var(--radius);border:1px solid var(--accent);letter-spacing:2px;color:var(--secondary)">100-01-123-223344-1</div>
+            <div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px" id="cuenta-desc">
+              <div><span class="badge badge-info">100</span> Cuenta corriente (200 = ahorro)</div>
+              <div><span class="badge badge-info">01</span> Moneda colones</div>
+              <div><span class="badge badge-info">123</span> Número de oficina</div>
+              <div><span class="badge badge-info">223344</span> Número de cuenta (6 dígitos)</div>
+              <div><span class="badge badge-info">1</span> Dígito verificador</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="num-cuenta" id="lbl-num-cuenta">Número de Cuenta <span class="required">*</span></label>
+            <input class="form-control" type="text" id="num-cuenta" placeholder="100-01-123-223344-1" style="max-width:300px;font-family:monospace;letter-spacing:1px" aria-required="true" aria-describedby="cuenta-hint">
+            <div id="cuenta-hint" style="font-size:11px;color:#6B7280;margin-top:4px" id="lbl-cuenta-hint">Ingrese los 15 dígitos exactos, sin guiones.</div>
+          </div>
+          <div class="accept-row" onclick="toggleAccept(this, event)">
+            <input type="checkbox" id="chk-cuenta" aria-label="Aceptar responsabilidad sobre cuenta bancaria">
+            <label class="accept-label" for="chk-cuenta" id="lbl-acepto-c">Acepto que leí y comprendí las instrucciones y asumo responsabilidad sobre los datos ingresados.</label>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-primary"><i class="ti ti-device-floppy" aria-hidden="true"></i> <span id="btn-guardar-c">Guardar Cuenta</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== APELACION ========== -->
+      <div class="screen" id="screen-apelacion">
+        <div class="breadcrumb"><span onclick="showScreen('dashboard')" style="cursor:pointer" id="bc-inicio-ap">Inicio</span> <i class="ti ti-chevron-right" aria-hidden="true"></i> <span id="bc-apelacion">Apelación Beca Socioeconómica</span></div>
+        <div class="page-header">
+          <h1 class="page-title" id="apel-title">Solicitud de Apelación</h1>
+          <p class="page-subtitle" id="apel-sub">Formulario Beca Socioeconómica</p>
+        </div>
+        <div class="card">
+          <div class="event-chip event-none"><i class="ti ti-alert-circle" aria-hidden="true"></i> <span id="apel-evento">SIN EVENTO DISPONIBLE · Solicitud de Apelación Beca Socioeconómica</span></div>
+          <div class="alert alert-warning" style="font-size:12px;margin-top:12px">
+            <i class="ti ti-calendar" aria-hidden="true"></i>
+            <div><strong id="apel-periodo-t">Período de apelación:</strong> <span id="apel-periodo">3 de marzo — 12 de marzo 2026, de 8:00 a.m. a 5:00 p.m.</span></div>
+          </div>
+          <div class="conditions-box">
+            <strong style="display:block;margin-bottom:12px;text-transform:uppercase;font-size:12px;letter-spacing:.5px" id="apel-cond-t">Condiciones Apelación Beca Socioeconómica</strong>
+            <div class="conditions-step"><div class="step-num" aria-hidden="true">1</div>
+              <div id="apel-c1">En esta opción: leer y aceptar condiciones → Ir a "DATOS PERSONALES" → Escribir la justificación por la que considera que se debe revisar el resultado de la categoría → Dar "Enviar solicitud de apelación".</div>
+            </div>
+          </div>
+          <div class="alert alert-info" style="font-size:12px">
+            <i class="ti ti-mail" aria-hidden="true"></i>
+            <span id="apel-nota">Nota: En caso de dificultad para completar el proceso escriba a: <strong>amora@una.cr</strong></span>
+          </div>
+          <div class="accept-row disabled" onclick="toggleAccept(this, event)">
+            <input type="checkbox" id="chk-apel" disabled aria-label="Aceptar condiciones de apelación">
+            <label class="accept-label" for="chk-apel" id="lbl-acepto-ap">✓ ACEPTO TODAS LAS CONDICIONES</label>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-primary" disabled aria-disabled="true"><span id="btn-enviar-apel">Enviar Solicitud de Apelación</span> <i class="ti ti-send" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <!-- ========== BECA SUCCESS MODAL ========== -->
+  <div class="modal-overlay" id="beca-success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="modal-card">
+      <div class="modal-icon"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+      <h2 class="modal-title" id="success-title">¡Solicitud enviada!</h2>
+      <p class="modal-text" id="success-text">Su solicitud ha sido registrada correctamente. Recibirá la confirmación en su correo institucional.</p>
+      <div class="modal-id" id="success-id"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="closeBecaSuccess()"><span id="success-btn">Volver al inicio</span></button>
+    </div>
+  </div>
+
+  <!-- ========== ACCESSIBILITY AGENT ========== -->
+  <button class="fab-agent" id="fab-agent" aria-label="Abrir asistente de accesibilidad" onclick="openAgent()">
+    <i class="ti ti-accessible" aria-hidden="true"></i>
+  </button>
+  <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Asistente SIBEUNA" aria-modal="false">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-header-avatar"><i class="ti ti-accessible" aria-hidden="true"></i></div>
+        <div>
+          <div class="chat-title" id="agent-title">Asistente SIBEUNA</div>
+          <div class="chat-subtitle" id="agent-subtitle">Te ayudo a navegar sin complicaciones</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="closeAgent()" aria-label="Cerrar asistente"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+    <div class="chat-input-wrap">
+      <input type="text" class="chat-input" id="chat-input" placeholder="Escribí tu consulta..." aria-label="Mensaje al asistente" onkeydown="if(event.key==='Enter')sendUserInput()">
+      <button class="chat-send" onclick="sendUserInput()" aria-label="Enviar">
+        <i class="ti ti-send" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <footer style="background:var(--secondary);color:rgba(255,255,255,.85);text-align:center;padding:12px;font-size:11px" role="contentinfo">
+    <span>© 2026 CONARE · Universidad Nacional · </span><span id="footer-dev">Desarrollado por CGI</span>
+    <span style="margin-left:16px">| <a href="#" style="color:#FFFFFF;text-decoration:underline" id="footer-ayuda">Ayuda</a> | <a href="#" onclick="showScreen('login')" style="color:#FFFFFF;text-decoration:underline" id="footer-salir">Salir</a></span>
+  </footer>
+</div>
+
+<script>
+const translations = {
+  es: {
+    'brand-sub-txt': 'Sistema de Becas Estudiantiles · UNA',
+    'user-name': 'Aníbal Chaves',
+    'nav-forms-title': 'Formularios',
+    'nav-beca-social': 'Beca Socioeconómica',
+    'nav-solic-beca': 'Solic. Beca Socioeconómica',
+    'nav-docs': 'Consulta y Subida Docs',
+    'nav-apelacion': 'Solicitud de Apelación',
+    'nav-inicio': 'Inicio',
+    'nav-beca-relev': 'Solic. Beca Participación Relevante',
+    'nav-beca-honor': 'Solic. Beca Honor',
+    'nav-beca-func': 'Solic. Beca Funcionario',
+    'nav-beca-omar': 'Beca Omar Dengo (Residencia estudiantil)',
+    'nav-omar-solic': 'Solicitud de Residencia',
+    'nav-omar-docs': 'Documentos Residencia',
+    'nav-beca-luis': 'Solic. Beca Luis Felipe',
+    'nav-beca-posg': 'Solic. Beca Posgrado',
+    'nav-aporte': 'Solic. Aporte Económico',
+    'nav-beca-iii': 'Solic. Beca III Ciclo (verano)',
+    'nav-consulta-solic': 'Consulta de solicitudes registradas y beneficios',
+    'nav-control-title': 'Control',
+    'nav-horas': 'Registro de Horas',
+    'nav-dig-horas': 'Digitación de Horas',
+    'nav-del-horas': 'Borrar Horas',
+    'nav-rep-horas': 'Reportes',
+    'nav-agenda': 'Agenda de Citas',
+    'nav-sol-cita': 'Solicitud de Cita',
+    'nav-con-cita': 'Consulta Citas',
+    'nav-banco': 'Cuentas Bancarias',
+    'nav-reg-cuenta': 'Registro de Cuenta',
+    'nav-movilidad': 'Movilidad Estudiantil',
+    'nav-sol-movilidad': 'Solicitar Ayuda',
+    'nav-acep-movilidad': 'Aceptación Monto',
+    'nav-grupales': 'Actividades Grupales',
+    'nav-ins-grup': 'Inscripción',
+    'nav-con-grup': 'Consulta',
+    'dash-bc': 'Inicio',
+    'dash-title': 'Bienvenido/a, Aníbal',
+    'dash-sub': 'Campus Liberia · Bach. Ing. Sistemas de Información · Ciclo 2026',
+    'stat-beca-lbl': 'Beca Activa', 'stat-beca-val': 'Socioeconómica', 'stat-beca-sub': 'Categoría B · 2026',
+    'stat-horas-lbl': 'Horas Registradas', 'stat-horas-sub': 'de 40 requeridas',
+    'stat-cita-lbl': 'Próxima Cita', 'stat-cita-val': 'Sin citas', 'stat-cita-sub': 'Agenda disponible',
+    'stat-docs-lbl': 'Documentos', 'stat-docs-sub': 'adjuntos subidos',
+    'dash-acciones': 'Acciones Rápidas',
+    'dash-act1': 'Solicitar Beca Socioeconómica', 'dash-act2': 'Registrar Horas Asistente',
+    'dash-act3': 'Subir Documentos Beca', 'dash-act4': 'Registrar Cuenta Bancaria',
+    'dash-avisos': 'Avisos Importantes',
+    'aviso1-t': 'Período de Revisión', 'aviso1-d': '9 al 18 de febrero 2026. Solicitud de revisión disponible.',
+    'aviso2-t': 'Documentos adjuntos', 'aviso2-d': 'Verifique el estado de subida de sus documentos de beca.',
+    'login-subtitle': 'Sistema de Información de Becas y Beneficios Estudiantiles · Universidad Nacional',
+    'lbl-cedula': 'Número de Cédula', 'lbl-clave': 'Contraseña', 'lbl-ingresar': 'Ingresar al Sistema',
+    'lbl-cambio-pw': '¿Cambio de contraseña?',
+    'login-hint': 'Use su número de cédula y contraseña universitaria para ingresar.',
+    'pw-subtitle': 'Cambio de Contraseña',
+    'pw-hint': 'Ingrese su cédula, contraseña actual y la nueva contraseña. Mínimo 8 caracteres.',
+    'lbl-pw-cedula': 'Número de Cédula',
+    'lbl-pw-actual': 'Contraseña Actual',
+    'lbl-pw-nueva': 'Nueva Contraseña',
+    'lbl-pw-confirm': 'Confirmar Nueva Contraseña',
+    'lbl-pw-guardar': 'Actualizar Contraseña',
+    'lbl-volver-login': 'Volver al inicio de sesión',
+    'pw-success-msg': 'Contraseña actualizada con éxito. Redirigiendo al inicio de sesión…',
+    'beca-title': 'Solicitud Beca Socioeconómica',
+    'ws1': 'Condiciones', 'ws2': 'Datos Personales', 'ws3': 'Formulario', 'ws4': 'Documentos',
+    'ws1b': 'Condiciones', 'ws2b': 'Datos Personales', 'ws3b': 'Formulario', 'ws4b': 'Documentos',
+    'ws1c': 'Condiciones', 'ws2c': 'Datos Personales', 'ws3c': 'Formulario', 'ws4c': 'Documentos',
+    'ws1d': 'Condiciones', 'ws2d': 'Datos Personales', 'ws3d': 'Formulario', 'ws4d': 'Documentos',
+    'cond-title': 'Condiciones Categoría Beca Socioeconómica',
+    'beca-periodo': 'Período de admisión: 16 de enero — 19 de enero 2026, de 1:00 p.m. a 7:00 p.m.',
+    'lbl-acepto': '✓ ACEPTO TODAS LAS CONDICIONES', 'btn-continuar': 'Continuar',
+    'paso2-title': 'Solicitud Beca Socioeconómica',
+    'paso3-title': 'Solicitud Beca Socioeconómica',
+    'bc-form-p3': 'Formulario',
+    'p2-warn': 'Estudiante elegible · verificado en el evento activo.',
+    'p3-info': 'Complete los datos socioeconómicos del núcleo familiar. Todos los campos con * son obligatorios.',
+    'p3-sec1': 'Núcleo Familiar',
+    'p3-sec2': 'Condiciones Especiales',
+    'lbl-p3-ingreso': 'Ingreso mensual del hogar (CRC)',
+    'lbl-p3-personas': 'Personas en el hogar',
+    'lbl-p3-aportan': 'Personas que aportan ingreso',
+    'lbl-p3-vivienda': 'Tipo de vivienda',
+    'p3-viv-default': '— Seleccione —',
+    'p3-viv-propia': 'Propia',
+    'p3-viv-alq': 'Alquilada',
+    'p3-viv-prest': 'Prestada',
+    'p3-viv-hipo': 'Hipotecada',
+    'lbl-p3-discap': '¿Hay personas con discapacidad en el hogar?',
+    'p3-discap-si': 'Sí',
+    'p3-discap-no': 'No',
+    'lbl-p3-transp': 'Transporte habitual al campus',
+    'p3-tr-bus': 'Bus público',
+    'p3-tr-auto': 'Vehículo propio',
+    'p3-tr-moto': 'Motocicleta',
+    'p3-tr-shr': 'Vehículo compartido',
+    'p3-tr-walk': 'Caminando / bicicleta',
+    'lbl-p3-com': 'Comentarios adicionales',
+    'btn-atras-p3': 'Atrás', 'btn-sig-p3': 'Siguiente',
+    'btn-atras-p4': 'Atrás',
+    'btn-later': 'Subir archivos después',
+    'btn-finalizar': 'Finalizar y enviar solicitud',
+    'btn-atras': 'Atrás', 'btn-sig': 'Siguiente',
+    'lbl-nombre': 'Nombre:', 'lbl-apellidos': 'Apellidos:', 'lbl-sexo': 'Sexo:', 'lbl-estado': 'Estado Civil:',
+    'lbl-nac': 'Nacionalidad:', 'lbl-ingreso': 'Año Ingreso:', 'lbl-carrera': 'Carrera:',
+    'lbl-campus': 'Campus:', 'lbl-prov': 'Provincia:', 'lbl-canton': 'Cantón:',
+    'lbl-tel': 'Celular:', 'lbl-correo': 'Correo UNA:',
+    'docs-title': 'Consulta y Subida de Documentos', 'docs-sub': 'Beca Socioeconómica · Documentos Adjuntos',
+    'tab-personal': 'Datos Personales', 'tab-adjuntos': 'Documentos Adjuntos',
+    'docs-datos-title': 'Datos Solicitud de Beca',
+    'th-id': 'ID Socioeconómica', 'th-reg': 'Fecha Registro', 'th-lim': 'Fecha Límite Adjuntos',
+    'th-hab': 'Habilitado', 'th-sede': 'Sede', 'th-carrera': 'Carrera',
+    'btn-guardar-doc': '2. Guardar en sistema', 'btn-cancelar-doc': 'Cancelar subida',
+    'no-docs-msg': 'No hay documentos adjuntos aún.',
+    'horas-title': 'Digitación de Horas Beca Asistente',
+    'tab-cond-h': 'Condiciones', 'tab-reg-h': 'Registro de Horas',
+    'lbl-acepto-h': '✓ ACEPTO TODAS LAS CONDICIONES DE USO',
+    'btn-ir-reg': 'Ir al Registro', 'lbl-beca-asist': 'Beca Asistente', 'lbl-fecha-h': 'Fecha de realización',
+    'lbl-horario': 'Horario', 'lbl-inicio': 'Inicio', 'lbl-fin': 'Fin',
+    'lbl-obs': 'Observación', 'btn-guardar-h': 'Guardar', 'btn-nuevas-h': 'Ingresar nuevas horas',
+    'cuenta-title': 'Registro de Cuenta Bancaria',
+    'cuenta-ind-title': 'Indicaciones / Condiciones',
+    'cu1': 'La cuenta debe ser del Banco Nacional de Costa Rica.',
+    'cu2': 'La cuenta debe estar a nombre del/la estudiante.',
+    'cu3': 'Solo se permite registrar una cuenta de ahorros o cuenta corriente.',
+    'cu4': 'Se registra el número de cuenta, no la cuenta cliente.',
+    'lbl-num-cuenta': 'Número de Cuenta',
+    'lbl-acepto-c': 'Acepto que leí y comprendí las instrucciones y asumo responsabilidad sobre los datos ingresados.',
+    'btn-guardar-c': 'Guardar Cuenta',
+    'apel-title': 'Solicitud de Apelación', 'apel-sub': 'Formulario Beca Socioeconómica',
+    'apel-periodo-t': 'Período de apelación:',
+    'apel-periodo': '3 de marzo — 12 de marzo 2026, de 8:00 a.m. a 5:00 p.m.',
+    'lbl-acepto-ap': '✓ ACEPTO TODAS LAS CONDICIONES',
+    'btn-enviar-apel': 'Enviar Solicitud de Apelación',
+    'footer-dev': 'Desarrollado por CGI', 'footer-ayuda': 'Ayuda', 'footer-salir': 'Salir',
+    'btn-login': '',
+    'btn-desplegar': '',
+  },
+  en: {
+    'brand-sub-txt': 'Student Scholarship System · UNA',
+    'user-name': 'Aníbal Chaves',
+    'nav-forms-title': 'Forms',
+    'nav-beca-social': 'Socioeconomic Scholarship',
+    'nav-solic-beca': 'Apply for Scholarship',
+    'nav-docs': 'Documents Upload',
+    'nav-apelacion': 'Appeal Request',
+    'nav-inicio': 'Home',
+    'nav-beca-relev': 'Relevant Participation Scholarship',
+    'nav-beca-honor': 'Honor Scholarship',
+    'nav-beca-func': 'Staff Scholarship',
+    'nav-beca-omar': 'Omar Dengo Scholarship (Student Residence)',
+    'nav-omar-solic': 'Residence Application',
+    'nav-omar-docs': 'Residence Documents',
+    'nav-beca-luis': 'Luis Felipe Scholarship',
+    'nav-beca-posg': 'Postgraduate Scholarship',
+    'nav-aporte': 'Economic Contribution Request',
+    'nav-beca-iii': 'Term III Scholarship (Summer)',
+    'nav-consulta-solic': 'Registered Applications & Benefits',
+    'nav-control-title': 'Management',
+    'nav-horas': 'Hours Log',
+    'nav-dig-horas': 'Enter Hours',
+    'nav-del-horas': 'Delete Hours',
+    'nav-rep-horas': 'Reports',
+    'nav-agenda': 'Appointment Scheduler',
+    'nav-sol-cita': 'Book Appointment',
+    'nav-con-cita': 'View Appointments',
+    'nav-banco': 'Bank Accounts',
+    'nav-reg-cuenta': 'Register Account',
+    'nav-movilidad': 'Student Mobility',
+    'nav-sol-movilidad': 'Request Aid',
+    'nav-acep-movilidad': 'Accept Amount',
+    'nav-grupales': 'Group Activities',
+    'nav-ins-grup': 'Enrollment',
+    'nav-con-grup': 'View',
+    'dash-bc': 'Home',
+    'dash-title': 'Welcome, Aníbal',
+    'dash-sub': 'Campus Liberia · B.S. Information Systems · 2026',
+    'stat-beca-lbl': 'Active Scholarship', 'stat-beca-val': 'Socioeconomic', 'stat-beca-sub': 'Category B · 2026',
+    'stat-horas-lbl': 'Hours Logged', 'stat-horas-sub': 'of 40 required',
+    'stat-cita-lbl': 'Next Appointment', 'stat-cita-val': 'No appointments', 'stat-cita-sub': 'Schedule available',
+    'stat-docs-lbl': 'Documents', 'stat-docs-sub': 'files uploaded',
+    'dash-acciones': 'Quick Actions',
+    'dash-act1': 'Apply for Socioeconomic Scholarship', 'dash-act2': 'Log Assistant Hours',
+    'dash-act3': 'Upload Scholarship Documents', 'dash-act4': 'Register Bank Account',
+    'dash-avisos': 'Important Notices',
+    'aviso1-t': 'Review Period', 'aviso1-d': 'Feb 9–18, 2026. Review request now available.',
+    'aviso2-t': 'Attached Documents', 'aviso2-d': 'Please verify the upload status of your scholarship documents.',
+    'login-subtitle': 'Student Scholarship & Benefits Information System · Universidad Nacional',
+    'lbl-cedula': 'ID Number', 'lbl-clave': 'Password', 'lbl-ingresar': 'Sign In',
+    'lbl-cambio-pw': 'Change password?',
+    'login-hint': 'Use your student ID and university password to sign in.',
+    'pw-subtitle': 'Change Password',
+    'pw-hint': 'Enter your ID, current password and new password. Minimum 8 characters.',
+    'lbl-pw-cedula': 'ID Number',
+    'lbl-pw-actual': 'Current Password',
+    'lbl-pw-nueva': 'New Password',
+    'lbl-pw-confirm': 'Confirm New Password',
+    'lbl-pw-guardar': 'Update Password',
+    'lbl-volver-login': 'Back to sign in',
+    'pw-success-msg': 'Password updated successfully. Redirecting to sign in…',
+    'beca-title': 'Socioeconomic Scholarship Application',
+    'ws1': 'Terms', 'ws2': 'Personal Data', 'ws3': 'Form', 'ws4': 'Documents',
+    'ws1b': 'Terms', 'ws2b': 'Personal Data', 'ws3b': 'Form', 'ws4b': 'Documents',
+    'ws1c': 'Terms', 'ws2c': 'Personal Data', 'ws3c': 'Form', 'ws4c': 'Documents',
+    'ws1d': 'Terms', 'ws2d': 'Personal Data', 'ws3d': 'Form', 'ws4d': 'Documents',
+    'cond-title': 'Socioeconomic Scholarship Terms',
+    'beca-periodo': 'Application period: January 16 – 19, 2026, from 1:00 p.m. to 7:00 p.m.',
+    'lbl-acepto': '✓ I ACCEPT ALL TERMS', 'btn-continuar': 'Continue',
+    'paso2-title': 'Socioeconomic Scholarship Application',
+    'paso3-title': 'Socioeconomic Scholarship Application',
+    'bc-form-p3': 'Form',
+    'p2-warn': 'Eligible student · verified in active event.',
+    'p3-info': 'Complete the household socioeconomic data. All fields marked * are required.',
+    'p3-sec1': 'Household',
+    'p3-sec2': 'Special Conditions',
+    'lbl-p3-ingreso': 'Monthly household income (CRC)',
+    'lbl-p3-personas': 'People in household',
+    'lbl-p3-aportan': 'People contributing income',
+    'lbl-p3-vivienda': 'Housing type',
+    'p3-viv-default': '— Select —',
+    'p3-viv-propia': 'Owned',
+    'p3-viv-alq': 'Rented',
+    'p3-viv-prest': 'Borrowed',
+    'p3-viv-hipo': 'Mortgaged',
+    'lbl-p3-discap': 'Anyone with a disability in the household?',
+    'p3-discap-si': 'Yes',
+    'p3-discap-no': 'No',
+    'lbl-p3-transp': 'Usual transport to campus',
+    'p3-tr-bus': 'Public bus',
+    'p3-tr-auto': 'Own vehicle',
+    'p3-tr-moto': 'Motorcycle',
+    'p3-tr-shr': 'Carpool',
+    'p3-tr-walk': 'Walking / bike',
+    'lbl-p3-com': 'Additional comments',
+    'btn-atras-p3': 'Back', 'btn-sig-p3': 'Next',
+    'btn-atras-p4': 'Back',
+    'btn-later': 'Upload files later',
+    'btn-finalizar': 'Submit application',
+    'btn-atras': 'Back', 'btn-sig': 'Next',
+    'lbl-nombre': 'First Name:', 'lbl-apellidos': 'Last Name:', 'lbl-sexo': 'Gender:', 'lbl-estado': 'Marital Status:',
+    'lbl-nac': 'Nationality:', 'lbl-ingreso': 'Enrollment Year:', 'lbl-carrera': 'Degree:',
+    'lbl-campus': 'Campus:', 'lbl-prov': 'Province:', 'lbl-canton': 'Canton:',
+    'lbl-tel': 'Mobile:', 'lbl-correo': 'UNA Email:',
+    'docs-title': 'Documents — View & Upload', 'docs-sub': 'Socioeconomic Scholarship · Attachments',
+    'tab-personal': 'Personal Data', 'tab-adjuntos': 'Attached Documents',
+    'docs-datos-title': 'Scholarship Application Data',
+    'th-id': 'Socioeconomic ID', 'th-reg': 'Registration Date', 'th-lim': 'Attachment Deadline',
+    'th-hab': 'Enabled', 'th-sede': 'Campus', 'th-carrera': 'Degree',
+    'btn-guardar-doc': '2. Save to system', 'btn-cancelar-doc': 'Cancel upload',
+    'no-docs-msg': 'No documents uploaded yet.',
+    'horas-title': 'Assistant Scholarship — Hours Entry',
+    'tab-cond-h': 'Terms', 'tab-reg-h': 'Log Hours',
+    'lbl-acepto-h': '✓ I ACCEPT ALL TERMS OF USE',
+    'btn-ir-reg': 'Go to Log', 'lbl-beca-asist': 'Scholarship Assignment', 'lbl-fecha-h': 'Date worked',
+    'lbl-horario': 'Schedule', 'lbl-inicio': 'Start', 'lbl-fin': 'End',
+    'lbl-obs': 'Notes', 'btn-guardar-h': 'Save', 'btn-nuevas-h': 'Add more hours',
+    'cuenta-title': 'Bank Account Registration',
+    'cuenta-ind-title': 'Instructions / Conditions',
+    'cu1': 'Account must be with Banco Nacional de Costa Rica.',
+    'cu2': 'Account must be registered under the student\'s name.',
+    'cu3': 'Only one savings or checking account may be registered.',
+    'cu4': 'Enter the account number, not the client number.',
+    'lbl-num-cuenta': 'Account Number',
+    'lbl-acepto-c': 'I confirm I have read and understood the instructions and accept responsibility for the data entered.',
+    'btn-guardar-c': 'Save Account',
+    'apel-title': 'Appeal Request', 'apel-sub': 'Socioeconomic Scholarship Form',
+    'apel-periodo-t': 'Appeal period:',
+    'apel-periodo': 'March 3 – 12, 2026, from 8:00 a.m. to 5:00 p.m.',
+    'lbl-acepto-ap': '✓ I ACCEPT ALL TERMS',
+    'btn-enviar-apel': 'Submit Appeal Request',
+    'footer-dev': 'Developed by CGI', 'footer-ayuda': 'Help', 'footer-salir': 'Sign Out',
+  }
+};
+
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  const lblEl = document.getElementById('lang-toggle-label');
+  if (lblEl) lblEl.textContent = lang === 'es' ? 'EN' : 'ES';
+  const searchEl = document.getElementById('topbar-search-input');
+  if (searchEl) searchEl.placeholder = lang === 'es' ? 'Buscar...' : 'Search...';
+  const t = translations[lang];
+  for (const [id, text] of Object.entries(t)) {
+    const el = document.getElementById(id);
+    if (el && text) el.textContent = text;
+  }
+  if (document.getElementById('pw-strength-bar')) checkPwStrength();
+}
+
+function setActiveNav(name) {
+  document.querySelectorAll('.nav-item.active, .nav-sub.active, .nav-group-header.active')
+    .forEach(el => el.classList.remove('active'));
+  const target = document.querySelector('[data-screen="' + name + '"]');
+  if (!target) return;
+  target.classList.add('active');
+  const group = target.closest('.nav-group');
+  if (group) {
+    const header = group.querySelector('.nav-group-header');
+    const content = group.querySelector('.nav-group-content');
+    if (header && content) {
+      header.classList.add('open', 'active');
+      content.classList.add('open');
+      header.setAttribute('aria-expanded', 'true');
+    }
+  }
+}
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const s = document.getElementById('screen-' + name);
+  if (s) {
+    s.classList.add('active');
+    document.getElementById('main-content').scrollTop = 0;
+  }
+  setActiveNav(name);
+  const loginSidebar = document.querySelector('.sidebar');
+  const mainLay = document.querySelector('.main-layout');
+  const isPublic = (name === 'login' || name === 'password');
+  loginSidebar.style.display = isPublic ? 'none' : '';
+  document.querySelectorAll('.topbar-private').forEach(el => {
+    el.style.display = isPublic ? 'none' : '';
+  });
+  const fab = document.getElementById('fab-agent');
+  const panel = document.getElementById('chat-panel');
+  if (fab) fab.style.display = isPublic ? 'none' : '';
+  if (panel && isPublic) panel.classList.remove('open');
+  if (name === 'beca-paso1' || name === 'beca-paso2' || name === 'beca-paso3' || name === 'beca-docs') {
+    if (typeof applyBecaLabels === 'function') applyBecaLabels();
+  }
+  closeMobile();
+}
+
+function doLogin() {
+  showScreen('dashboard');
+}
+
+function toggleLang() {
+  setLang(currentLang === 'es' ? 'en' : 'es');
+}
+
+/* ===== BECA TYPES (paso1 reutilizable) ===== */
+const becaTypes = {
+  socio:  { es:'Socioeconómica',          en:'Socioeconomic',           active:true,  showAdv:true,  showPeriod:true,
+            period:{ es:'1 de junio — 30 de junio 2026, de 8:00 a.m. a 5:00 p.m.',
+                     en:'June 1 — June 30, 2026, from 8:00 a.m. to 5:00 p.m.' } },
+  relev:  { es:'Participación Relevante', en:'Relevant Participation',  active:true,  showAdv:true,  showPeriod:true,
+            period:{ es:'2 de febrero — 15 de febrero 2026, de 8:00 a.m. a 4:00 p.m.',
+                     en:'February 2 — February 15, 2026, from 8:00 a.m. to 4:00 p.m.' } },
+  honor:  { es:'Honor',                    en:'Honor',                   active:true,  showAdv:false, showPeriod:false,
+            period:{ es:'1 de marzo — 31 de marzo 2026, todo el día',
+                     en:'March 1 — March 31, 2026, all day' } },
+  func:   { es:'Funcionario',              en:'Staff',                   active:false, showAdv:true,  showPeriod:true,
+            period:{ es:'1 de abril — 30 de abril 2026, de 9:00 a.m. a 3:00 p.m.',
+                     en:'April 1 — April 30, 2026, from 9:00 a.m. to 3:00 p.m.' } },
+  omar:   { es:'Omar Dengo',               en:'Omar Dengo',              active:true,  showAdv:false, showPeriod:true,
+            period:{ es:'6 de enero — 29 de enero 2026, de 8:00 a.m. a 5:00 p.m.',
+                     en:'January 6 — January 29, 2026, from 8:00 a.m. to 5:00 p.m.' } },
+  luis:   { es:'Luis Felipe',              en:'Luis Felipe',             active:false, showAdv:true,  showPeriod:false,
+            period:{ es:'5 de mayo — 20 de mayo 2026, de 10:00 a.m. a 2:00 p.m.',
+                     en:'May 5 — May 20, 2026, from 10:00 a.m. to 2:00 p.m.' } },
+  posg:   { es:'Posgrado',                 en:'Postgraduate',            active:true,  showAdv:true,  showPeriod:true,
+            period:{ es:'10 de febrero — 25 de febrero 2026, de 1:00 p.m. a 6:00 p.m.',
+                     en:'February 10 — February 25, 2026, from 1:00 p.m. to 6:00 p.m.' } },
+  aporte: { es:'Aporte Económico',         en:'Economic Contribution',   active:false, showAdv:false, showPeriod:false,
+            period:{ es:'Sin fechas definidas para este ciclo',
+                     en:'No dates defined for this cycle' } },
+  iii:    { es:'III Ciclo (verano)',       en:'Term III (Summer)',       active:true,  showAdv:true,  showPeriod:true,
+            period:{ es:'1 de junio — 15 de junio 2026, de 8:00 a.m. a 12:00 p.m.',
+                     en:'June 1 — June 15, 2026, from 8:00 a.m. to 12:00 p.m.' } }
+};
+let currentBecaType = 'socio';
+
+function becaPhrases(name, lang, active) {
+  if (lang === 'en') return {
+    title: name + ' Scholarship Application',
+    cond:  name + ' Scholarship Terms',
+    chip:  (active ? 'ACTIVE EVENT · ' : 'NO ACTIVE EVENT · ') + name + ' Scholarship Application',
+    bc:    name + ' Scholarship',
+    periodLbl: 'Admission period: '
+  };
+  return {
+    title: 'Solicitud Beca ' + name,
+    cond:  'Condiciones Categoría Beca ' + name,
+    chip:  (active ? 'EVENTO ACTIVO · ' : 'SIN EVENTO ACTIVO · ') + 'Solicitud Beca ' + name,
+    bc:    'Beca ' + name,
+    periodLbl: 'Período de admisión: '
+  };
+}
+
+function applyBecaLabels() {
+  const meta = becaTypes[currentBecaType] || becaTypes.socio;
+  const name = meta[currentLang];
+  const ph = becaPhrases(name, currentLang, meta.active);
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('beca-title', ph.title);
+  set('cond-title', ph.cond);
+  set('chip-evento', ph.chip);
+  set('bc-beca-p1', ph.bc);
+  set('paso2-title', ph.title);
+  set('bc-beca-p2', ph.bc);
+  set('paso3-title', ph.title);
+  set('bc-beca-p3', ph.bc);
+  set('bc-beca-docs', ph.bc);
+  set('beca-periodo', ph.periodLbl + meta.period[currentLang]);
+
+  const periodAlert = document.getElementById('beca-periodo');
+  const periodBox = periodAlert ? periodAlert.closest('.alert') : null;
+  if (periodBox) periodBox.style.display = meta.showPeriod ? '' : 'none';
+
+  const chip = document.querySelector('#screen-beca-paso1 .event-chip');
+  if (chip) {
+    chip.classList.toggle('event-none', !meta.active);
+    chip.classList.toggle('event-active', meta.active);
+    const ic = chip.querySelector('i.ti');
+    if (ic) {
+      ic.classList.remove('ti-alert-circle','ti-circle-check');
+      ic.classList.add(meta.active ? 'ti-circle-check' : 'ti-alert-circle');
+    }
+  }
+
+  const warn = document.querySelector('#screen-beca-paso1 .conditions-warning');
+  if (warn) warn.style.display = meta.showAdv ? '' : 'none';
+
+  const row = document.querySelector('#screen-beca-paso1 .accept-row');
+  const chk = document.getElementById('chk-beca');
+  const btn = document.querySelector('#screen-beca-paso1 .btn-primary');
+  if (row) row.classList.toggle('disabled', !meta.active);
+  if (chk) {
+    chk.disabled = !meta.active;
+    if (!meta.active) chk.checked = false;
+  }
+  if (btn) {
+    if (meta.active) { btn.removeAttribute('disabled'); btn.removeAttribute('aria-disabled'); }
+    else { btn.setAttribute('disabled',''); btn.setAttribute('aria-disabled','true'); }
+  }
+}
+
+function showBecaPaso1(type) {
+  currentBecaType = type || 'socio';
+  showScreen('beca-paso1');
+  applyBecaLabels();
+}
+
+function continueBeca() {
+  const chk = document.getElementById('chk-beca');
+  if (chk && chk.disabled) return;
+  if (chk && !chk.checked) {
+    alert(currentLang === 'es' ? 'Debe aceptar las condiciones para continuar.' : 'You must accept the terms to continue.');
+    return;
+  }
+  showScreen('beca-paso2');
+}
+
+function setFieldError(fieldId, errId, msg) {
+  const field = document.getElementById(fieldId);
+  const err = document.getElementById(errId);
+  if (field) { field.classList.add('invalid'); field.setAttribute('aria-invalid','true'); }
+  if (err) { err.querySelector('span').textContent = msg; err.classList.add('show'); }
+}
+function clearFieldError(fieldId, errId) {
+  const field = document.getElementById(fieldId);
+  const err = document.getElementById(errId);
+  if (field) { field.classList.remove('invalid'); field.removeAttribute('aria-invalid'); }
+  if (err) { err.classList.remove('show'); err.querySelector('span').textContent = ''; }
+}
+
+function submitBecaPaso3() {
+  const fields = [
+    ['p3-ingreso','err-p3-ingreso'],
+    ['p3-personas','err-p3-personas'],
+    ['p3-aportan','err-p3-aportan'],
+    ['p3-vivienda','err-p3-vivienda']
+  ];
+  fields.forEach(([f,e]) => clearFieldError(f,e));
+  const ingreso  = document.getElementById('p3-ingreso').value.trim();
+  const personas = document.getElementById('p3-personas').value.trim();
+  const aportan  = document.getElementById('p3-aportan').value.trim();
+  const vivienda = document.getElementById('p3-vivienda').value;
+  const errBox = document.getElementById('p3-error');
+  const errMsg = document.getElementById('p3-error-msg');
+  const msgs = currentLang === 'es' ? {
+    summary: 'Revise los campos marcados con error.',
+    required: 'Error: este campo es obligatorio.',
+    invalidIng: 'Error: debe ser mayor o igual a 0.',
+    invalidPers: 'Error: mínimo 1 persona.',
+    invalidAp: 'Error: no puede superar el total del hogar.'
+  } : {
+    summary: 'Please review the highlighted errors.',
+    required: 'Error: this field is required.',
+    invalidIng: 'Error: must be ≥ 0.',
+    invalidPers: 'Error: minimum 1 person.',
+    invalidAp: 'Error: cannot exceed household total.'
+  };
+  let firstInvalid = null;
+  const flag = (fid, eid, m) => { setFieldError(fid, eid, m); if (!firstInvalid) firstInvalid = fid; };
+  if (!ingreso) flag('p3-ingreso','err-p3-ingreso', msgs.required);
+  if (!personas) flag('p3-personas','err-p3-personas', msgs.required);
+  if (!aportan) flag('p3-aportan','err-p3-aportan', msgs.required);
+  if (!vivienda) flag('p3-vivienda','err-p3-vivienda', msgs.required);
+  if (!firstInvalid) {
+    if (Number(ingreso) < 0) flag('p3-ingreso','err-p3-ingreso', msgs.invalidIng);
+    else if (Number(personas) < 1) flag('p3-personas','err-p3-personas', msgs.invalidPers);
+    else if (Number(aportan) > Number(personas)) flag('p3-aportan','err-p3-aportan', msgs.invalidAp);
+  }
+  if (firstInvalid) {
+    errMsg.textContent = msgs.summary;
+    errBox.style.display = '';
+    document.getElementById(firstInvalid).focus();
+    return;
+  }
+  errBox.style.display = 'none';
+  const newId = Math.floor(40000 + Math.random() * 20000);
+  saveSolicitudToDocs(newId);
+  showScreen('beca-docs');
+  switchDocTab('adjuntos');
+}
+
+/* ===== FILE ATTACHMENT FLOW ===== */
+const attachedFiles = []; // {id, name, size}
+let stagedFile = null;
+const MAX_SIZE = 5 * 1024 * 1024;
+const fileMsgs = {
+  es: { notPdf:'Solo se permiten archivos PDF.', tooBig:'El archivo excede 5 MB.', empty:'El archivo está vacío.',
+        deleteConfirm:'¿Eliminar este documento?', saved:'Adjunto guardado.', size:'Tamaño', uploaded:'Cargado', adjunto:'ADJUNTO' },
+  en: { notPdf:'Only PDF files are allowed.', tooBig:'File exceeds 5 MB.', empty:'File is empty.',
+        deleteConfirm:'Delete this document?', saved:'Attachment saved.', size:'Size', uploaded:'Uploaded', adjunto:'ATTACHED' }
+};
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/(1024*1024)).toFixed(2) + ' MB';
+}
+
+function showFileError(msg) {
+  document.getElementById('file-error-msg').textContent = msg;
+  document.getElementById('file-error').style.display = '';
+}
+function hideFileError() { document.getElementById('file-error').style.display = 'none'; }
+
+function triggerFilePicker() {
+  hideFileError();
+  document.getElementById('file-input').click();
+}
+
+function handleFileSelect(files) {
+  if (!files || !files.length) return;
+  const f = files[0];
+  const m = fileMsgs[currentLang];
+  if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) return showFileError(m.notPdf);
+  if (f.size > MAX_SIZE) return showFileError(m.tooBig);
+  if (f.size === 0) return showFileError(m.empty);
+  hideFileError();
+  stagedFile = { name: f.name, size: f.size };
+  renderStaged();
+  document.getElementById('file-input').value = '';
+}
+
+function renderStaged() {
+  const wrap = document.getElementById('file-stage-wrap');
+  const zone = document.getElementById('file-zone');
+  const saveBtn = document.getElementById('btn-save-file');
+  if (!stagedFile) {
+    wrap.style.display = 'none';
+    wrap.innerHTML = '';
+    zone.classList.remove('has-staged');
+    saveBtn.disabled = true;
+    saveBtn.setAttribute('aria-disabled','true');
+    return;
+  }
+  const m = fileMsgs[currentLang];
+  wrap.style.display = '';
+  wrap.innerHTML = '<div class="file-stage"><i class="ti ti-file" aria-hidden="true"></i>'
+    + '<div class="file-stage-info"><div class="file-stage-name">' + escapeHtml(stagedFile.name) + '</div>'
+    + '<div class="file-stage-meta">' + m.size + ': ' + formatBytes(stagedFile.size) + '</div></div></div>';
+  zone.classList.add('has-staged');
+  saveBtn.disabled = false;
+  saveBtn.removeAttribute('aria-disabled');
+}
+
+function commitStagedFile() {
+  if (!stagedFile) return;
+  const id = 'f-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+  attachedFiles.push({ id, name: stagedFile.name, size: stagedFile.size, when: new Date() });
+  stagedFile = null;
+  renderStaged();
+  renderAttachedList();
+}
+
+function cancelStagedFile() {
+  stagedFile = null;
+  hideFileError();
+  renderStaged();
+}
+
+function renderAttachedList() {
+  const list = document.getElementById('file-list');
+  const empty = document.getElementById('no-docs-msg');
+  const count = document.getElementById('docs-count');
+  count.textContent = attachedFiles.length;
+  if (!attachedFiles.length) {
+    list.style.display = 'none';
+    empty.style.display = '';
+    list.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  list.style.display = '';
+  const m = fileMsgs[currentLang];
+  list.innerHTML = attachedFiles.map(f => {
+    const when = pad2(f.when.getDate()) + '/' + pad2(f.when.getMonth()+1) + '/' + f.when.getFullYear() + ' ' + pad2(f.when.getHours()) + ':' + pad2(f.when.getMinutes());
+    return '<div class="file-row" data-fid="' + f.id + '">'
+      + '<i class="ti ti-file" aria-hidden="true"></i>'
+      + '<div class="file-row-info">'
+      +   '<div class="file-row-name">' + escapeHtml(f.name) + '</div>'
+      +   '<div class="file-row-meta">' + formatBytes(f.size) + ' · ' + m.uploaded + ': ' + when + '</div>'
+      + '</div>'
+      + '<span class="file-row-badge">' + m.adjunto + '</span>'
+      + '<button class="file-row-delete" onclick="deleteAttached(\'' + f.id + '\')" aria-label="Eliminar documento" title="Eliminar"><i class="ti ti-trash" aria-hidden="true"></i></button>'
+      + '</div>';
+  }).join('');
+}
+
+function deleteAttached(fid) {
+  const m = fileMsgs[currentLang];
+  if (!confirm(m.deleteConfirm)) return;
+  const idx = attachedFiles.findIndex(f => f.id === fid);
+  if (idx >= 0) attachedFiles.splice(idx, 1);
+  renderAttachedList();
+}
+
+(function initFileZoneDnd(){
+  const zone = document.getElementById('file-zone');
+  if (!zone) return;
+  zone.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); triggerFilePicker(); }
+  });
+  ['dragenter','dragover'].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-active');
+  }));
+  ['dragleave','drop'].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation(); zone.classList.remove('drag-active');
+  }));
+  zone.addEventListener('drop', e => {
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) handleFileSelect(e.dataTransfer.files);
+  });
+})();
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtNowDate() {
+  const d = new Date();
+  return pad2(d.getDate()) + '/' + pad2(d.getMonth()+1) + '/' + d.getFullYear() + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+}
+function saveSolicitudToDocs(id) {
+  const meta = becaTypes[currentBecaType] || becaTypes.socio;
+  const becaName = meta[currentLang];
+  const tbody = document.querySelector('#doc-panel-personal table tbody');
+  if (tbody && !tbody.querySelector('tr[data-id="' + id + '"]')) {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', id);
+    tr.innerHTML =
+      '<td><a href="#" onclick="document.getElementById(\'sel-id-solicitud\').value=\'' + id + '\';switchDocTab(\'adjuntos\');return false;" style="color:var(--info);font-weight:600">' + id + '</a></td>' +
+      '<td>' + fmtNowDate() + '</td>' +
+      '<td>30/06/2026 23:59</td>' +
+      '<td><span class="badge badge-success">' + (currentLang==='es'?'SÍ':'YES') + '</span></td>' +
+      '<td>Campus Benjamín Núñez</td>' +
+      '<td>Bach. Sistemas de Información</td>';
+    tbody.insertBefore(tr, tbody.firstChild);
+  }
+  const sel = document.getElementById('sel-id-solicitud');
+  if (sel && !Array.from(sel.options).some(o => o.value === String(id) || o.textContent === String(id))) {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = id + ' · Beca ' + becaName;
+    sel.insertBefore(opt, sel.firstChild);
+    sel.value = id;
+  } else if (sel) {
+    sel.value = id;
+  }
+}
+
+document.querySelectorAll('.wstep.clickable').forEach(w => {
+  w.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); w.click(); }
+  });
+});
+
+const fieldErrorMap = {
+  'p3-ingreso':'err-p3-ingreso','p3-personas':'err-p3-personas','p3-aportan':'err-p3-aportan','p3-vivienda':'err-p3-vivienda',
+  'pw-id':'err-pw-id','pw-current':'err-pw-current','pw-new':'err-pw-new','pw-confirm':'err-pw-confirm'
+};
+Object.keys(fieldErrorMap).forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const clear = () => clearFieldError(id, fieldErrorMap[id]);
+  el.addEventListener('input', clear);
+  el.addEventListener('change', clear);
+});
+
+function submitBecaFinal(later) {
+  const meta = becaTypes[currentBecaType] || becaTypes.socio;
+  const name = meta[currentLang];
+  const sel = document.getElementById('sel-id-solicitud');
+  const idFromSel = sel && sel.value ? (sel.value.split(' ')[0] || sel.value) : null;
+  const id = idFromSel || Math.floor(40000 + Math.random() * 20000);
+  const titles = currentLang === 'es'
+    ? (later ? {
+        title: 'Solicitud guardada',
+        text: 'Su solicitud de Beca ' + name + ' fue registrada sin documentos adjuntos. Puede subir los archivos más adelante desde "Consulta y Subida Docs" antes de la fecha límite (30/06/2026).',
+        idLbl: 'ID Solicitud: ', btn: 'Volver al inicio' }
+      : { title: '¡Solicitud enviada!',
+          text: 'Su solicitud de Beca ' + name + ' ha sido registrada correctamente. Recibirá la confirmación en su correo institucional en las próximas 24 horas.',
+          idLbl: 'ID Solicitud: ', btn: 'Volver al inicio' })
+    : (later ? {
+        title: 'Application saved',
+        text: 'Your ' + name + ' Scholarship application was saved without attachments. You can upload the files later from "Documents View & Upload" before the deadline (06/30/2026).',
+        idLbl: 'Application ID: ', btn: 'Back to home' }
+      : { title: 'Application submitted!',
+          text: 'Your ' + name + ' Scholarship application has been registered. You will receive a confirmation email within 24 hours.',
+          idLbl: 'Application ID: ', btn: 'Back to home' });
+  document.getElementById('success-title').textContent = titles.title;
+  document.getElementById('success-text').textContent = titles.text;
+  document.getElementById('success-id').textContent = titles.idLbl + id;
+  document.getElementById('success-btn').textContent = titles.btn;
+  const icon = document.querySelector('#beca-success-modal .modal-icon');
+  if (icon) {
+    icon.style.background = later ? '#DBEAFE' : '#DCFCE7';
+    icon.style.color = later ? '#1D4ED8' : '#16A34A';
+    const ic = icon.querySelector('i.ti');
+    if (ic) { ic.className = 'ti ' + (later ? 'ti-clock-pause' : 'ti-circle-check'); }
+  }
+  document.getElementById('beca-success-modal').classList.add('open');
+}
+
+function closeBecaSuccess() {
+  document.getElementById('beca-success-modal').classList.remove('open');
+  ['p3-ingreso','p3-personas','p3-aportan','p3-comentarios'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('p3-vivienda').value = '';
+  showScreen('dashboard');
+}
+
+/* ===== TOPBAR SEARCH ===== */
+const searchIndex = [
+  { es:'Inicio', en:'Home', icon:'ti-home', screen:'dashboard', section:{es:'Formularios',en:'Forms'} },
+  { es:'Solicitar Beca Socioeconómica', en:'Apply Socioeconomic Scholarship', icon:'ti-file-plus', screen:'beca-paso1', section:{es:'Formularios',en:'Forms'} },
+  { es:'Consulta y Subida de Documentos', en:'Documents View & Upload', icon:'ti-upload', screen:'beca-docs', section:{es:'Formularios',en:'Forms'} },
+  { es:'Solicitud de Apelación', en:'Appeal Request', icon:'ti-message-report', screen:'apelacion', section:{es:'Formularios',en:'Forms'} },
+  { es:'Digitación de Horas', en:'Hours Entry', icon:'ti-pencil', screen:'horas', section:{es:'Control',en:'Management'} },
+  { es:'Registro de Cuenta Bancaria', en:'Bank Account Registration', icon:'ti-credit-card', screen:'cuenta', section:{es:'Control',en:'Management'} },
+  { es:'Cambio de Contraseña', en:'Change Password', icon:'ti-lock', screen:'password', section:{es:'Cuenta',en:'Account'} }
+];
+let searchFocusIdx = -1;
+
+function normalizeText(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+}
+
+function runSearch() {
+  const input = document.getElementById('topbar-search-input');
+  const box = document.getElementById('search-results');
+  const q = normalizeText(input.value.trim());
+  searchFocusIdx = -1;
+  if (!q) {
+    const hint = currentLang === 'es' ? 'ATAJOS · Empieza a escribir' : 'SHORTCUTS · Start typing';
+    const items = searchIndex.slice(0, 5).map((it, i) => renderSearchItem(it, i)).join('');
+    box.innerHTML = '<div class="search-result-hint">'+hint+'</div>'+items;
+    box.classList.add('open');
+    return;
+  }
+  const matches = searchIndex.filter(it => {
+    const label = normalizeText(it[currentLang]);
+    const section = normalizeText(it.section[currentLang]);
+    return label.includes(q) || section.includes(q);
+  });
+  if (matches.length === 0) {
+    box.innerHTML = '<div class="search-result-empty">'+(currentLang==='es'?'Sin resultados':'No results')+'</div>';
+  } else {
+    box.innerHTML = matches.map((it, i) => renderSearchItem(it, i)).join('');
+  }
+  box.classList.add('open');
+}
+
+function renderSearchItem(it, idx) {
+  return '<div class="search-result-item" role="option" data-screen="'+it.screen+'" data-idx="'+idx+'" onclick="goSearchResult(\''+it.screen+'\')">'
+    + '<i class="ti '+it.icon+'" aria-hidden="true"></i>'
+    + '<div class="search-result-text">'
+    + '<span class="search-result-label">'+escapeHtml(it[currentLang])+'</span>'
+    + '<span class="search-result-section">'+escapeHtml(it.section[currentLang])+'</span>'
+    + '</div></div>';
+}
+
+function goSearchResult(screen) {
+  const input = document.getElementById('topbar-search-input');
+  input.value = '';
+  closeSearchResults();
+  if (screen === 'beca-paso1') showBecaPaso1('socio');
+  else showScreen(screen);
+}
+
+function closeSearchResults() {
+  document.getElementById('search-results').classList.remove('open');
+  searchFocusIdx = -1;
+}
+
+function searchKeyNav(e) {
+  const box = document.getElementById('search-results');
+  const items = box.querySelectorAll('.search-result-item');
+  if (e.key === 'Escape') { closeSearchResults(); e.target.blur(); return; }
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    searchFocusIdx = (searchFocusIdx + 1) % items.length;
+    updateSearchFocus(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    searchFocusIdx = (searchFocusIdx - 1 + items.length) % items.length;
+    updateSearchFocus(items);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    const target = searchFocusIdx >= 0 ? items[searchFocusIdx] : items[0];
+    if (target) goSearchResult(target.dataset.screen);
+  }
+}
+
+function updateSearchFocus(items) {
+  items.forEach((el, i) => el.classList.toggle('focused', i === searchFocusIdx));
+  if (searchFocusIdx >= 0) items[searchFocusIdx].scrollIntoView({block:'nearest'});
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.topbar-search')) closeSearchResults();
+});
+
+const pwMessages = {
+  es: {
+    required: 'Complete todos los campos.',
+    short: 'La nueva contraseña debe tener al menos 8 caracteres.',
+    mismatch: 'La nueva contraseña y su confirmación no coinciden.',
+    same: 'La nueva contraseña debe ser diferente a la actual.',
+    weak: 'Use mayúsculas, minúsculas y números para mayor seguridad.',
+    strength: ['—','Muy débil','Débil','Aceptable','Fuerte','Excelente']
+  },
+  en: {
+    required: 'Please fill in all fields.',
+    short: 'New password must be at least 8 characters long.',
+    mismatch: 'New password and confirmation do not match.',
+    same: 'New password must be different from current one.',
+    weak: 'Use uppercase, lowercase and numbers for stronger security.',
+    strength: ['—','Very weak','Weak','Fair','Strong','Excellent']
+  }
+};
+
+function pwScore(p) {
+  let s = 0;
+  if (!p) return 0;
+  if (p.length >= 8) s++;
+  if (p.length >= 12) s++;
+  if (/[a-z]/.test(p) && /[A-Z]/.test(p)) s++;
+  if (/\d/.test(p)) s++;
+  if (/[^A-Za-z0-9]/.test(p)) s++;
+  return Math.min(s, 5);
+}
+
+function checkPwStrength() {
+  const p = document.getElementById('pw-new').value;
+  const sc = pwScore(p);
+  const colors = ['#E5E7EB','#EF4444','#F97316','#F59E0B','#10B981','#059669'];
+  const bar = document.getElementById('pw-strength-bar');
+  bar.style.width = (sc * 20) + '%';
+  bar.style.background = colors[sc];
+  const lbl = pwMessages[currentLang].strength[sc];
+  const prefix = currentLang === 'es' ? 'Seguridad' : 'Strength';
+  document.getElementById('pw-strength-lbl').textContent = prefix + ': ' + lbl;
+}
+
+function showPwError(msg) {
+  const box = document.getElementById('pw-error');
+  document.getElementById('pw-error-msg').textContent = msg;
+  box.style.display = '';
+  document.getElementById('pw-success').style.display = 'none';
+}
+
+function doChangePassword() {
+  const m = pwMessages[currentLang];
+  const pairs = [['pw-id','err-pw-id'],['pw-current','err-pw-current'],['pw-new','err-pw-new'],['pw-confirm','err-pw-confirm']];
+  pairs.forEach(([f,e]) => clearFieldError(f,e));
+  const id = document.getElementById('pw-id').value.trim();
+  const cur = document.getElementById('pw-current').value;
+  const nw = document.getElementById('pw-new').value;
+  const cf = document.getElementById('pw-confirm').value;
+  const reqMsg = currentLang === 'es' ? 'Error: este campo es obligatorio.' : 'Error: this field is required.';
+
+  const missing = [];
+  if (!id) missing.push(['pw-id','err-pw-id']);
+  if (!cur) missing.push(['pw-current','err-pw-current']);
+  if (!nw) missing.push(['pw-new','err-pw-new']);
+  if (!cf) missing.push(['pw-confirm','err-pw-confirm']);
+  if (missing.length) {
+    missing.forEach(([f,e]) => setFieldError(f,e,reqMsg));
+    document.getElementById(missing[0][0]).focus();
+    return showPwError(m.required);
+  }
+  if (nw.length < 8) { setFieldError('pw-new','err-pw-new', m.short); return showPwError(m.short); }
+  if (nw === cur) { setFieldError('pw-new','err-pw-new', m.same); setFieldError('pw-current','err-pw-current', m.same); return showPwError(m.same); }
+  if (nw !== cf) { setFieldError('pw-confirm','err-pw-confirm', m.mismatch); return showPwError(m.mismatch); }
+  if (pwScore(nw) < 3) { setFieldError('pw-new','err-pw-new', m.weak); return showPwError(m.weak); }
+
+  document.getElementById('pw-error').style.display = 'none';
+  document.getElementById('pw-success').style.display = '';
+  document.getElementById('btn-pw-save').disabled = true;
+  setTimeout(() => {
+    document.getElementById('pw-id').value = '';
+    document.getElementById('pw-current').value = '';
+    document.getElementById('pw-new').value = '';
+    document.getElementById('pw-confirm').value = '';
+    document.getElementById('pw-success').style.display = 'none';
+    document.getElementById('btn-pw-save').disabled = false;
+    checkPwStrength();
+    showScreen('login');
+  }, 1800);
+}
+
+function toggleGroup(header) {
+  header.classList.toggle('open');
+  const content = header.nextElementSibling;
+  content.classList.toggle('open');
+  header.setAttribute('aria-expanded', header.classList.contains('open'));
+}
+
+function toggleMobile() {
+  const sb = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const hamBtn = document.getElementById('ham-btn');
+  const isOpen = sb.classList.toggle('mobile-open');
+  overlay.classList.toggle('open', isOpen);
+  hamBtn.setAttribute('aria-expanded', isOpen);
+}
+
+function closeMobile() {
+  const sb = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sb.classList.remove('mobile-open');
+  overlay.classList.remove('open');
+  document.getElementById('ham-btn').setAttribute('aria-expanded', 'false');
+}
+
+function toggleAccept(row, e) {
+  if (row.classList.contains('disabled')) return;
+  if (e && (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL')) return;
+  const chk = row.querySelector('input[type=checkbox]');
+  if (chk.disabled) return;
+  chk.checked = !chk.checked;
+}
+
+function switchDocTab(tab) {
+  document.getElementById('doc-panel-personal').style.display = tab === 'personal' ? '' : 'none';
+  document.getElementById('doc-panel-adjuntos').style.display = tab === 'adjuntos' ? '' : 'none';
+  document.getElementById('tab-personal').classList.toggle('active', tab === 'personal');
+  document.getElementById('tab-adjuntos').classList.toggle('active', tab === 'adjuntos');
+  document.getElementById('tab-personal').setAttribute('aria-selected', tab === 'personal');
+  document.getElementById('tab-adjuntos').setAttribute('aria-selected', tab === 'adjuntos');
+}
+
+function switchHorasTab(tab) {
+  document.getElementById('horas-panel-cond').style.display = tab === 'cond' ? '' : 'none';
+  document.getElementById('horas-panel-reg').style.display = tab === 'reg' ? '' : 'none';
+  document.getElementById('tab-cond-h').classList.toggle('active', tab === 'cond');
+  document.getElementById('tab-reg-h').classList.toggle('active', tab === 'reg');
+  document.getElementById('tab-cond-h').setAttribute('aria-selected', tab === 'cond');
+  document.getElementById('tab-reg-h').setAttribute('aria-selected', tab === 'reg');
+}
+
+document.querySelectorAll('.nav-group-header').forEach(h => {
+  h.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleGroup(h); }});
+});
+
+/* ========== ACCESSIBILITY AGENT ========== */
+const agentI18n = {
+  es: {
+    title: 'Asistente SIBEUNA',
+    subtitle: 'Te ayudo a navegar sin complicaciones',
+    placeholder: 'Escribí tu consulta...',
+    welcome: '¡Hola! 👋 Soy el asistente de SIBEUNA. Puedo ayudarte a:',
+    back: '← Volver al menú',
+    opts: [
+      { key: 'beca', icon: 'ti-award', label: 'Solicitar Beca Socioeconómica' },
+      { key: 'horas', icon: 'ti-clock', label: 'Registrar horas asistente' },
+      { key: 'password', icon: 'ti-lock', label: 'Cambiar mi contraseña' },
+      { key: 'estado', icon: 'ti-list-check', label: 'Ver estado de mis trámites' }
+    ],
+    fallback: 'Entendido. Por ahora puedo guiarte en estas opciones del menú principal:',
+    flows: {
+      beca: [
+        { from: 'bot', text: '📋 La Beca Socioeconómica tiene 4 pasos:\n1️⃣ Aceptar condiciones\n2️⃣ Datos personales\n3️⃣ Formulario\n4️⃣ Documentos\n\n¿Querés que te lleve al formulario?', actions: ['Sí, ir al formulario', 'Ver requisitos'], navAfter: { 'Sí, ir al formulario': 'beca-paso1' } },
+        { from: 'bot', text: 'Requisitos principales:\n• Ser estudiante activo UNA\n• Cédula vigente\n• Documentos socioeconómicos\n• Período: 16–19 enero 2026\n\n¿Vamos al formulario ahora?', actions: ['Sí, ir al formulario', 'No, gracias'], navAfter: { 'Sí, ir al formulario': 'beca-paso1' } }
+      ],
+      horas: [
+        { from: 'bot', text: '🕐 Para registrar horas asistente necesitás:\n• Aceptar las condiciones\n• Fecha de realización\n• Horario inicio–fin\n• Observación\n\n¿Te llevo al registro?', actions: ['Sí, registrar horas', 'Ver condiciones'], navAfter: { 'Sí, registrar horas': 'horas' } },
+        { from: 'bot', text: 'Condiciones clave:\n• Mínimo 40 horas/ciclo\n• Solo días hábiles\n• Reporte semanal recomendado\n\n¿Vamos al registro?', actions: ['Sí, registrar horas', 'No por ahora'], navAfter: { 'Sí, registrar horas': 'horas' } }
+      ],
+      password: [
+        { from: 'bot', text: '🔒 Puedo llevarte al formulario de cambio de contraseña.\n\nNecesitarás:\n• Tu cédula\n• Contraseña actual\n• Nueva contraseña (mínimo 8 caracteres)\n\n¿Continuamos?', actions: ['Sí, cambiar contraseña', 'Cancelar'], navAfter: { 'Sí, cambiar contraseña': 'password' } }
+      ],
+      estado: [
+        { from: 'bot', text: '📊 Estado de tus trámites:\n\n🏆 **Beca Socioeconómica** — Categoría B · Activa\n🕐 **Horas asistente** — 24/40 registradas\n📄 **Documentos** — 2 adjuntos subidos\n📅 **Próxima cita** — sin agendar\n\n¿Querés ver algo en detalle?', actions: ['Ir al inicio', 'Subir documentos', 'Registrar horas'], navAfter: { 'Ir al inicio': 'dashboard', 'Subir documentos': 'beca-docs', 'Registrar horas': 'horas' } }
+      ]
+    }
+  },
+  en: {
+    title: 'SIBEUNA Assistant',
+    subtitle: 'I help you navigate without hassle',
+    placeholder: 'Type your question...',
+    welcome: 'Hi! 👋 I am the SIBEUNA assistant. I can help you:',
+    back: '← Back to menu',
+    opts: [
+      { key: 'beca', icon: 'ti-award', label: 'Apply for Socioeconomic Scholarship' },
+      { key: 'horas', icon: 'ti-clock', label: 'Log assistant hours' },
+      { key: 'password', icon: 'ti-lock', label: 'Change my password' },
+      { key: 'estado', icon: 'ti-list-check', label: 'Check my application status' }
+    ],
+    fallback: 'Got it. For now I can guide you through these main options:',
+    flows: {
+      beca: [
+        { from: 'bot', text: '📋 The Socioeconomic Scholarship has 4 steps:\n1️⃣ Accept terms\n2️⃣ Personal data\n3️⃣ Form\n4️⃣ Documents\n\nShall I take you to the form?', actions: ['Yes, go to the form', 'See requirements'], navAfter: { 'Yes, go to the form': 'beca-paso1' } },
+        { from: 'bot', text: 'Main requirements:\n• Active UNA student\n• Valid ID\n• Socioeconomic documents\n• Period: Jan 16–19, 2026\n\nGo to the form now?', actions: ['Yes, go to the form', 'No, thanks'], navAfter: { 'Yes, go to the form': 'beca-paso1' } }
+      ],
+      horas: [
+        { from: 'bot', text: '🕐 To log assistant hours you need:\n• Accept terms\n• Date worked\n• Start–end schedule\n• Notes\n\nGo to the log?', actions: ['Yes, log hours', 'See terms'], navAfter: { 'Yes, log hours': 'horas' } },
+        { from: 'bot', text: 'Key terms:\n• Minimum 40 hours/cycle\n• Weekdays only\n• Weekly report recommended\n\nGo to the log?', actions: ['Yes, log hours', 'Not now'], navAfter: { 'Yes, log hours': 'horas' } }
+      ],
+      password: [
+        { from: 'bot', text: '🔒 I can take you to the password change form.\n\nYou will need:\n• Your ID\n• Current password\n• New password (minimum 8 characters)\n\nContinue?', actions: ['Yes, change password', 'Cancel'], navAfter: { 'Yes, change password': 'password' } }
+      ],
+      estado: [
+        { from: 'bot', text: '📊 Your application status:\n\n🏆 **Socioeconomic Scholarship** — Category B · Active\n🕐 **Assistant hours** — 24/40 logged\n📄 **Documents** — 2 uploaded\n📅 **Next appointment** — none scheduled\n\nWant to view details?', actions: ['Go home', 'Upload documents', 'Log hours'], navAfter: { 'Go home': 'dashboard', 'Upload documents': 'beca-docs', 'Log hours': 'horas' } }
+      ]
+    }
+  }
+};
+
+let agentFlow = null;
+let agentStep = 0;
+
+function openAgent(){
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('fab-agent').style.display='none';
+  renderAgentWelcome();
+  setTimeout(()=>document.getElementById('chat-input').focus(),100);
+}
+function closeAgent(){
+  document.getElementById('chat-panel').classList.remove('open');
+  document.getElementById('fab-agent').style.display='';
+  resetAgent();
+}
+function resetAgent(){
+  agentFlow=null; agentStep=0;
+  renderAgentWelcome();
+}
+function applyAgentI18n(){
+  const a = agentI18n[currentLang];
+  document.getElementById('agent-title').textContent = a.title;
+  document.getElementById('agent-subtitle').textContent = a.subtitle;
+  document.getElementById('chat-input').placeholder = a.placeholder;
+}
+function renderAgentWelcome(){
+  applyAgentI18n();
+  const a = agentI18n[currentLang];
+  const box = document.getElementById('chat-messages');
+  let html = '<div class="chat-welcome">'+escapeHtml(a.welcome)+'</div><div class="chat-opts">';
+  a.opts.forEach(o => {
+    html += '<button class="chat-opt" onclick="startAgentFlow(\''+o.key+'\')"><i class="ti '+o.icon+'" aria-hidden="true"></i> '+escapeHtml(o.label)+'</button>';
+  });
+  html += '</div>';
+  box.innerHTML = html;
+  box.scrollTop = box.scrollHeight;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function formatBubble(text){
+  return escapeHtml(text)
+    .replace(/\*\*(.*?)\*\*/g,'<b>$1</b>')
+    .replace(/\n/g,'<br>');
+}
+function appendMessage(from, text, actions){
+  const box = document.getElementById('chat-messages');
+  const ops = box.querySelector('.chat-opts');
+  const wel = box.querySelector('.chat-welcome');
+  if(ops) ops.remove();
+  if(wel) wel.remove();
+  const row = document.createElement('div');
+  row.className='chat-row';
+  let html = '<div class="chat-bubble-wrap '+from+'"><div class="chat-bubble '+from+'">'+formatBubble(text)+'</div></div>';
+  if(from==='bot' && actions && actions.length){
+    html += '<div class="chat-actions">';
+    actions.forEach(a => { html += '<button class="chat-action-btn" onclick="handleAgentAction(this.textContent)">'+escapeHtml(a)+'</button>'; });
+    html += '</div>';
+  }
+  row.innerHTML = html;
+  box.appendChild(row);
+  ensureBackBtn();
+  box.scrollTop = box.scrollHeight;
+}
+function ensureBackBtn(){
+  const box = document.getElementById('chat-messages');
+  if(box.querySelector('.chat-back')) return;
+  const btn = document.createElement('button');
+  btn.className='chat-back';
+  btn.textContent = agentI18n[currentLang].back;
+  btn.onclick = resetAgent;
+  box.appendChild(btn);
+}
+function showAgentTyping(){
+  const box = document.getElementById('chat-messages');
+  const t = document.createElement('div');
+  t.className='chat-typing';
+  t.id='chat-typing-el';
+  t.innerHTML='<span></span><span></span><span></span>';
+  box.appendChild(t);
+  box.scrollTop = box.scrollHeight;
+}
+function hideAgentTyping(){
+  const el = document.getElementById('chat-typing-el');
+  if(el) el.remove();
+}
+function startAgentFlow(key){
+  const a = agentI18n[currentLang];
+  const opt = a.opts.find(o=>o.key===key);
+  appendMessage('user', opt.label);
+  agentFlow = key; agentStep = 0;
+  showAgentTyping();
+  setTimeout(()=>{
+    hideAgentTyping();
+    const step = a.flows[key][0];
+    appendMessage('bot', step.text, step.actions);
+  },700);
+}
+function handleAgentAction(actionText){
+  const a = agentI18n[currentLang];
+  appendMessage('user', actionText);
+  if(!agentFlow){
+    showAgentTyping();
+    setTimeout(()=>{ hideAgentTyping(); appendMessage('bot', a.fallback); },600);
+    return;
+  }
+  const flow = a.flows[agentFlow];
+  const current = flow[agentStep];
+  if(current.navAfter && current.navAfter[actionText]){
+    const target = current.navAfter[actionText];
+    showAgentTyping();
+    setTimeout(()=>{
+      hideAgentTyping();
+      appendMessage('bot', currentLang==='es' ? '✅ Listo, te llevo a la pantalla.' : '✅ Done, opening the screen.');
+      setTimeout(()=>{ closeAgent(); showScreen(target); }, 700);
+    }, 600);
+    return;
+  }
+  agentStep++;
+  if(agentStep < flow.length){
+    showAgentTyping();
+    setTimeout(()=>{
+      hideAgentTyping();
+      const next = flow[agentStep];
+      appendMessage('bot', next.text, next.actions);
+      if(next.nav){
+        setTimeout(()=>{ closeAgent(); showScreen(next.nav); }, 1200);
+      }
+    }, 700);
+  } else {
+    showAgentTyping();
+    setTimeout(()=>{ hideAgentTyping(); appendMessage('bot', a.fallback); }, 600);
+  }
+}
+function sendUserInput(){
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  appendMessage('user', text);
+  input.value='';
+  const a = agentI18n[currentLang];
+  showAgentTyping();
+  setTimeout(()=>{ hideAgentTyping(); appendMessage('bot', a.fallback); },700);
+}
+
+const _origSetLang = setLang;
+setLang = function(lang){
+  _origSetLang(lang);
+  if(document.getElementById('chat-panel').classList.contains('open')){
+    if(agentFlow === null) renderAgentWelcome();
+    else applyAgentI18n();
+  }
+  applyBecaLabels();
+};
+
+showScreen('login');
+</script>
+</body>
+</html>
