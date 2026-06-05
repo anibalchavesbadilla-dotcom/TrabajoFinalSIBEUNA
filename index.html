@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIBEUNA — Rediseño de plataforma de becas</title>
+  <style>
+    :root {
+      --primary: #0d4f3c;
+      --primary-light: #1a7a5e;
+      --bg: #f4f7f6;
+      --text: #1f2933;
+      --muted: #52606d;
+      --card: #ffffff;
+      --border: #d9e2ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .wrap { max-width: 720px; width: 100%; }
+    header { text-align: center; margin-bottom: 40px; }
+    h1 { font-size: 2rem; color: var(--primary); margin-bottom: 8px; }
+    p.sub { color: var(--muted); font-size: 1rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+    a.card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    a.card:hover, a.card:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(13,79,60,.12);
+      outline: none;
+      border-color: var(--primary-light);
+    }
+    .card h2 { font-size: 1.15rem; color: var(--primary); margin-bottom: 8px; }
+    .card span { color: var(--muted); font-size: .9rem; }
+    footer { text-align: center; margin-top: 32px; color: var(--muted); font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>SIBEUNA</h1>
+      <p class="sub">Rediseño de la plataforma de gestión de becas — Universidad Nacional</p>
+    </header>
+    <nav class="grid">
+      <a class="card" href="sibeuna_redesign_prototype.html">
+        <h2>Prototipo de rediseño</h2>
+        <span>Pantallas interactivas: login, dashboard, becas y más.</span>
+      </a>
+      <a class="card" href="sibeuna_style_guide.html">
+        <h2>Guía de estilos</h2>
+        <span>Sistema de diseño: color, tipografía y espaciado.</span>
+      </a>
+    </nav>
+    <footer>Proyecto académico · Diseño de Interfaces de Usuario</footer>
+  </div>
+</body>
+</html>
