@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Guía de Estilos SIBEUNA</title>
+<title>Proyecto Final Rediseño del Sistema SIBEUNA</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
@@ -21,6 +21,7 @@
   --brand:#C8102E;--brand-dark:#A00C24;--secondary:#2E3440;
   --accent:#E6E9EE;--bg:#F7F8FA;--text:#1F2937;
   --success:#22C55E;--error:#EF4444;--warning:#F59E0B;--info:#005DAA;
+  --muted:#4B5563;
 }
 
 body{background:#888;color:var(--text)}
@@ -50,7 +51,13 @@ body{background:#888;color:var(--text)}
   content:'';display:inline-block;width:18px;height:18px;background:var(--brand);
   border-radius:3px;margin-left:6px
 }
-.section-sub{font-size:14px;color:#4B5563;max-width:780px;line-height:1.5;margin-bottom:28px}
+.section-sub{font-size:14px;color:var(--muted);max-width:780px;line-height:1.5;margin-bottom:28px}
+
+/* ---- Presentation typographic helpers (per design system scale) ---- */
+.pres-lead{font-size:16px;color:var(--muted);line-height:1.7;max-width:640px;margin-bottom:24px}
+.pres-h3{font-size:20px;font-weight:700;color:var(--secondary);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pres-h3::before{content:'';width:6px;height:22px;background:var(--brand);border-radius:3px;flex-shrink:0}
+.pres-h3.c-info::before{background:var(--info)}
 
 /* ============ PAGE 1: COVER ============ */
 .cover{background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:56px 72px;position:relative}
@@ -69,7 +76,7 @@ body{background:#888;color:var(--text)}
 .cover-course{font-size:22px;font-weight:700;color:var(--secondary);margin-bottom:30px;padding-left:14px;border-left:4px solid var(--brand)}
 .cover-meta{font-size:15px;line-height:1.7;color:var(--secondary)}
 .cover-meta b{font-weight:700;color:var(--brand)}
-.cover-right{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;height:100%}
+.cover-right{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;height:100%;margin-top: 35px}
 .cover-mockups{
   position:relative;width:520px;height:560px;
   background:radial-gradient(circle at center,rgba(200,16,46,.12),transparent 65%);
@@ -92,13 +99,15 @@ body{background:#888;color:var(--text)}
 .intro-img{
   flex:0 0 460px;height:460px;border-radius:32px;
   background:linear-gradient(135deg,#FEE2E2 0%,var(--brand) 100%);
-  border:8px solid white;box-shadow:0 16px 50px rgba(200,16,46,.25);
+  border:8px solid white;box-shadow: 0 16px 50px rgb(63 57 58 / 25%);
   display:flex;align-items:center;justify-content:center;color:white;
   position:relative;overflow:hidden
 }
 .intro-img::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.1);border-radius:50%}
 .intro-img::after{content:'';position:absolute;bottom:-30px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.08);border-radius:50%}
 .intro-img i{font-size:200px;opacity:.95;z-index:2;filter:drop-shadow(0 8px 20px rgba(0,0,0,.2))}
+.intro-img.logo{background:white;border-color:var(--accent)}
+.intro-img.logo img{position:relative;z-index:2;width:78%;height:78%;object-fit:contain}
 .intro-right{flex:1}
 .intro-title{font-size:54px;font-weight:700;color:var(--secondary);line-height:1.05;margin-bottom:36px;letter-spacing:-1px}
 .intro-title span{color:var(--brand)}
@@ -431,7 +440,7 @@ body{background:#888;color:var(--text)}
 .just-card.c-amber .just-card-icon{background:#FEF3C7;color:#92400E}
 .just-card.c-dark .just-card-icon{background:#E5E7EB;color:var(--secondary)}
 .just-card h4{font-size:16px;font-weight:700;color:var(--secondary);line-height:1.2}
-.just-card p{font-size:12px;color:#4B5563;line-height:1.55}
+.just-card p{font-size:14px;color:#4B5563;line-height:1.55}
 
 @media print{
   html,body{background:white;margin:0;padding:0;width:297mm;height:auto}
@@ -477,9 +486,9 @@ body{background:#888;color:var(--text)}
   <div class="cover-left">
     <div class="cover-uni">Universidad Nacional de Costa Rica</div>
     <div class="cover-campus">Sede Regional Chorotega, Campus Liberia</div>
-    <div class="cover-title">Guía de Estilos</div>
+    <div class="cover-title" style="font-size:52px;letter-spacing:-1px;line-height:1.08;margin-bottom:14px">Proyecto Final</div>
     <div class="cover-brand">SIBEUNA</div>
-    <div class="cover-course">Diseño de Interfaces de Usuario</div>
+    <div class="cover-course">Rediseño de Interfaces de Usuario</div>
     <div class="cover-meta">
       <b>Estudiantes:</b><br>
       Aníbal José Chaves Badilla<br>
@@ -503,7 +512,7 @@ body{background:#888;color:var(--text)}
         <div class="screen-mini">
           <div class="mini-logo"><i class="ti ti-award"></i></div>
           <div style="font-size:7px;font-weight:700">Becas</div>
-          <div style="background:#FEE2E2;color:var(--brand);padding:3px;border-radius:4px;font-size:6px;margin:4px 0">EVENTO ACTIVO</div>
+          <div style="background:#FEE2E2;color:var(--brand);padding:3px;border-radius:4px;font-size:6px;margin:4px 0">EVENTO NO ACTIVO</div>
           <div class="mini-input"></div>
           <div class="mini-btn">Continuar</div>
         </div>
@@ -524,19 +533,217 @@ body{background:#888;color:var(--text)}
   </div>
 </div>
 
+<!-- ============== PAGE 1B: INSTITUCIÓN ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Institución a la que se realizará el diseño</div>
+  <div class="intro">
+    <div class="intro-img logo"><img src="logos/una.png" alt="Logo Universidad Nacional de Costa Rica (UNA)" onerror="this.closest('.intro-img').classList.remove('logo');this.outerHTML='&lt;i class=&quot;ti ti-building-bank&quot;&gt;&lt;/i&gt;'"></div>
+    <div class="intro-right">
+      <div class="intro-title">Universidad Nacional<br>de <span>Costa Rica</span></div>
+      <ul class="intro-list">
+        <li><span class="intro-bullet"><i class="ti ti-school"></i></span> Universidad Nacional de Costa Rica (UNA)</li>
+        <li><span class="intro-bullet"><i class="ti ti-award"></i></span> Sistema de Becas de la Universidad Nacional (SIBEUNA)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- ============== PAGE 2: INTRO ============== -->
 <div class="page">
   <div class="intro">
-    <div class="intro-img"><i class="ti ti-school"></i></div>
+    <div class="intro-img logo"><img src="logos/sibeuna.png" alt="Logo SIBEUNA" onerror="this.closest('.intro-img').classList.remove('logo');this.outerHTML='&lt;i class=&quot;ti ti-school&quot;&gt;&lt;/i&gt;'"></div>
     <div class="intro-right">
-      <div class="intro-title">Introducción a<br><span>SIBEUNA</span></div>
+      <div class="intro-title"><span>SIBEUNA</span></div>
       <ul class="intro-list">
+        <li><span class="intro-bullet"><i class="ti ti-users"></i></span> Gestión de becas estudiantiles universitarias</li>
         <li><span class="intro-bullet"><i class="ti ti-award"></i></span> Solicitar becas estudiantiles UNA</li>
         <li><span class="intro-bullet"><i class="ti ti-clock"></i></span> Registrar horas de beca asistente</li>
         <li><span class="intro-bullet"><i class="ti ti-upload"></i></span> Subir y consultar documentos</li>
         <li><span class="intro-bullet"><i class="ti ti-building-bank"></i></span> Gestionar cuenta bancaria</li>
         <li><span class="intro-bullet"><i class="ti ti-calendar"></i></span> Agendar citas y consultar estado</li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2B: ALCANCE ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Alcance de la Propuesta</div>
+  <div class="intro">
+    <div class="intro-img"><i class="ti ti-target-arrow"></i></div>
+    <div class="intro-right">
+      <p class="pres-lead">
+        Consiste en un diseño y rediseño interactivo <b>UX/UI</b> de pantallas clave,
+        aplicando estándares modernos de usabilidad, accesibilidad e internacionalización.
+      </p>
+      <ul class="intro-list">
+        <li><span class="intro-bullet"><i class="ti ti-device-laptop"></i></span> Diseño y rediseño interactivo UX/UI de pantallas clave</li>
+        <li><span class="intro-bullet"><i class="ti ti-accessible"></i></span> Estándares de usabilidad, accesibilidad e internacionalización</li>
+        <li><span class="intro-bullet"><i class="ti ti-palette"></i></span> Propuesta de diseño y guías de estilo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2C: PROBLEMAS ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Problemas Detectados en SIBEUNA</div>
+  <p class="section-sub">Diagnóstico de las principales deficiencias de usabilidad, navegación y estética de la plataforma actual que motivan el rediseño.</p>
+  <div class="just-grid" style="flex:0 0 auto;align-content:start">
+    <div class="just-card c-red">
+      <div class="just-card-icon"><i class="ti ti-stack-2"></i></div>
+      <h4>Saturación de Información</h4>
+      <p>Gran densidad de información y datos agrupados en una sola interfaz, lo que dificulta la legibilidad.</p>
+    </div>
+    <div class="just-card c-blue">
+      <div class="just-card-icon"><i class="ti ti-menu-2"></i></div>
+      <h4>Menús Complejos</h4>
+      <p>Estructuras de navegación rígidas y menús confusos que entorpecen el flujo lógico de los estudiantes al buscar trámites.</p>
+    </div>
+    <div class="just-card c-amber">
+      <div class="just-card-icon"><i class="ti ti-forms"></i></div>
+      <h4>Formularios Extensos</h4>
+      <p>Formularios pesados que requieren leer extensos bloques de texto antes de completar una solicitud, aumentando el tiempo y la deserción.</p>
+    </div>
+    <div class="just-card c-dark">
+      <div class="just-card-icon"><i class="ti ti-mood-sad"></i></div>
+      <h4>Estética Desactualizada</h4>
+      <p>Identidad visual que carece de modernidad y necesita alinearse con estándares contemporáneos y de accesibilidad web institucional.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2E: OBJETIVOS ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Objetivos</div>
+  <div style="display:flex;gap:32px;flex:1;min-height:0">
+    <div style="flex:0 0 38%;display:flex;flex-direction:column">
+      <h3 class="pres-h3">Objetivo General</h3>
+      <div class="just-card c-red" style="flex:0 0 auto">
+        <div class="just-card-icon"><i class="ti ti-target-arrow"></i></div>
+        <p>Diseñar una propuesta de interfaz para SIBEUNA que mejore la experiencia de los estudiantes mediante una navegación más intuitiva, accesible y visualmente consistente.</p>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <h3 class="pres-h3 c-info">Objetivos Específicos</h3>
+      <ul class="intro-list" style="gap:12px">
+        <li><span class="intro-bullet"><i class="ti ti-search"></i></span> Analizar la interfaz actual para detectar oportunidades de mejora</li>
+        <li><span class="intro-bullet"><i class="ti ti-accessible"></i></span> Aplicar principios de usabilidad y accesibilidad</li>
+        <li><span class="intro-bullet"><i class="ti ti-layout-grid"></i></span> Diseñar pantallas más organizadas y fáciles de usar</li>
+        <li><span class="intro-bullet"><i class="ti ti-palette"></i></span> Crear una guía de estilos para garantizar consistencia visual</li>
+        <li><span class="intro-bullet"><i class="ti ti-info-circle"></i></span> Mejorar la presentación de la información</li>
+        <li><span class="intro-bullet"><i class="ti ti-school"></i></span> Modernizar la experiencia de usuario alineándola con la identidad de la Universidad Nacional</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2F: PÚBLICO META ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Público Meta</div>
+  <p class="section-sub">Usuarios a quienes está dirigida la propuesta de rediseño de la plataforma SIBEUNA.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1;align-content:center;max-height: 434px !important;">
+    <div class="just-card c-red" style="justify-content:flex-start;gap:14px">
+      <div class="just-card-icon"><i class="ti ti-user-star"></i></div>
+      <span class="bd bd-err" style="align-self:flex-start">PRINCIPAL</span>
+      <h4>Estudiantes</h4>
+      <p>Estudiantes de la Universidad Nacional que realizan trámites de becas y beneficios estudiantiles.</p>
+    </div>
+    <div class="just-card c-blue" style="justify-content:flex-start;gap:14px">
+      <div class="just-card-icon"><i class="ti ti-users-group"></i></div>
+      <span class="bd bd-info" style="align-self:flex-start">SECUNDARIO</span>
+      <h4>Personal Administrativo</h4>
+      <p>Personal administrativo encargado de gestionar, revisar y dar seguimiento a las solicitudes de beca.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2G: COMPARACIÓN TEC ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Comparación con Sistemas Similares (TEC)</div>
+  <div style="display:flex;gap:28px;margin-bottom:18px">
+    <p style="flex:1;font-size:14px;color:var(--muted);line-height:1.6">
+      Se utilizó el <b>Sistema de Becas del TEC</b> como referencia para analizar posibles mejoras en SIBEUNA.
+      El sistema del TEC destaca por su navegación clara mediante un menú organizado, procesos de solicitud guiados,
+      formularios divididos en etapas y herramientas para dar seguimiento al estado de las solicitudes.
+      Estas características facilitan la realización de trámites y mejoran la experiencia del usuario.
+    </p>
+    <p style="flex:1;font-size:14px;color:var(--muted);line-height:1.6">
+      Al compararlo con SIBEUNA, se identificó que ambos sistemas cumplen funciones similares, pero el TEC ofrece
+      una navegación más simple y una mejor organización de la información. Por ello, estas buenas prácticas fueron
+      tomadas como base para la propuesta de rediseño de SIBEUNA, buscando una experiencia más intuitiva y eficiente
+      para los estudiantes.
+    </p>
+  </div>
+  <div style="display:flex;gap:18px;flex:0 0 auto;align-items:flex-start">
+    <div class="cmp-img-wrap" style="flex:1 1 0">
+      <div class="cmp-img-head"><span class="cmp-tag" style="background:#DBEAFE;color:#1D4ED8">TEC</span><h5>Menú organizado</h5></div>
+      <div class="cmp-img-box" style="flex:0 0 auto;height:340px"><img src="tec/tec1.png" alt="TEC - Menú organizado" style="width:100%;height:100%;object-fit:contain;object-position:center" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+    </div>
+    <div class="cmp-img-wrap" style="flex:1 1 0">
+      <div class="cmp-img-head"><span class="cmp-tag" style="background:#DBEAFE;color:#1D4ED8">TEC</span><h5>Proceso de solicitud dividido en etapas</h5></div>
+      <div class="cmp-img-box" style="flex:0 0 auto;height:340px"><img src="tec/tec2.png" alt="TEC - Solicitud guiada" style="width:100%;height:100%;object-fit:contain;object-position:center" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+    </div>
+    <div class="cmp-img-wrap" style="flex:1 1 0">
+      <div class="cmp-img-head"><span class="cmp-tag" style="background:#DBEAFE;color:#1D4ED8">TEC</span><h5>Historial de solicitudes</h5></div>
+      <div class="cmp-img-box" style="flex:0 0 auto;height:340px"><img src="tec/tec3.png" alt="TEC - Seguimiento de estado" style="width:100%;height:100%;object-fit:contain;object-position:center" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2H: ANÁLISIS ACTIVIDADES ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Análisis de las actividades realizadas</div>
+  <div class="intro">
+    <div class="intro-img"><i class="ti ti-clipboard-check"></i></div>
+    <div class="intro-right">
+      <p class="pres-lead">
+        El proyecto se centró en analizar la interfaz actual de SIBEUNA e identificar oportunidades de mejora en
+        usabilidad y navegación. Estas actividades permitieron desarrollar una propuesta de interfaz más moderna,
+        organizada y enfocada en las necesidades de los estudiantes.
+      </p>
+      <ul class="intro-list" style="gap:12px">
+        <li><span class="intro-bullet"><i class="ti ti-search"></i></span> Investigación de sistemas similares</li>
+        <li><span class="intro-bullet"><i class="ti ti-list-check"></i></span> Definición de requerimientos visuales y funcionales</li>
+        <li><span class="intro-bullet"><i class="ti ti-palette"></i></span> Creación de una guía de estilos institucional</li>
+        <li><span class="intro-bullet"><i class="ti ti-device-laptop"></i></span> Diseño de prototipos con principios de accesibilidad y usabilidad</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2I: ESTUDIO DE VIABILIDAD ============== -->
+<div class="page">
+  <div class="page-corner tr"></div>
+  <div class="section-num">Estudio de viabilidad</div>
+  <p class="section-sub">El proyecto es viable desde el punto de vista técnico, operativo, económico y temporal. Las mejoras propuestas contribuyen a optimizar la navegación, la organización de la información y la experiencia de usuario en SIBEUNA.</p>
+  <div class="just-grid" style="flex:0 0 auto;align-content:start">
+    <div class="just-card c-red">
+      <div class="just-card-icon"><i class="ti ti-tools"></i></div>
+      <h4>Técnica</h4>
+      <p>Se contó con acceso al sistema actual y herramientas de diseño adecuadas para desarrollar la propuesta.</p>
+    </div>
+    <div class="just-card c-blue">
+      <div class="just-card-icon"><i class="ti ti-settings"></i></div>
+      <h4>Operativa</h4>
+      <p>El rediseño se integra al flujo de trámites existente, optimizando la navegación y la organización de la información.</p>
+    </div>
+    <div class="just-card c-green">
+      <div class="just-card-icon"><i class="ti ti-coin"></i></div>
+      <h4>Económica</h4>
+      <p>No requirió inversiones significativas al tratarse de una propuesta de rediseño y no de un desarrollo técnico.</p>
+    </div>
+    <div class="just-card c-amber">
+      <div class="just-card-icon"><i class="ti ti-clock"></i></div>
+      <h4>Temporal</h4>
+      <p>Pudo desarrollarse dentro del tiempo establecido para el proyecto del curso.</p>
     </div>
   </div>
 </div>
