@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Guía de Estilos SIBEUNA</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+@page { size: A4 landscape; margin: 0; }
+
+*,*::before,*::after{
+  -webkit-print-color-adjust:exact !important;
+  print-color-adjust:exact !important;
+  color-adjust:exact !important;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+
+:root{
+  --brand:#C8102E;--brand-dark:#A00C24;--secondary:#2E3440;
+  --accent:#E6E9EE;--bg:#F7F8FA;--text:#1F2937;
+  --success:#22C55E;--error:#EF4444;--warning:#F59E0B;--info:#005DAA;
+}
+
+body{background:#888;color:var(--text)}
+
+.page{
+  width:297mm;height:210mm;background:var(--bg);
+  position:relative;overflow:hidden;
+  page-break-after:always;break-after:page;
+  padding:36px 48px;display:flex;flex-direction:column;
+}
+.page:last-child{page-break-after:auto}
+
+.page::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:6px;
+  background:linear-gradient(90deg,var(--brand) 0%,var(--brand) 50%,#E6E9EE 50%,#E6E9EE 100%);
+}
+
+.page-corner{position:absolute;width:60px;height:60px;opacity:.5}
+.page-corner.tr{top:24px;right:24px}
+.page-corner.bl{bottom:24px;left:24px}
+
+.section-num{
+  font-size:42px;font-weight:700;color:var(--secondary);line-height:1;
+  display:flex;align-items:center;gap:14px;margin-bottom:8px
+}
+.section-num::after{
+  content:'';display:inline-block;width:18px;height:18px;background:var(--brand);
+  border-radius:3px;margin-left:6px
+}
+.section-sub{font-size:14px;color:#4B5563;max-width:780px;line-height:1.5;margin-bottom:28px}
+
+/* ============ PAGE 1: COVER ============ */
+.cover{background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:56px 72px;position:relative}
+.cover-deco{position:absolute;pointer-events:none}
+.cover-deco-1{top:0;right:0;width:0;height:0;border-style:solid;border-width:0 240px 240px 0;border-color:transparent var(--brand) transparent transparent;opacity:.92}
+.cover-deco-2{bottom:60px;left:30px;width:50px;height:50px;border:5px solid var(--brand);border-radius:8px;transform:rotate(15deg);opacity:.85}
+.cover-deco-3{top:50px;left:50%;width:14px;height:14px;background:var(--brand);border-radius:50%;opacity:.5}
+.cover-deco-4{bottom:90px;right:48%;width:10px;height:10px;background:var(--secondary);border-radius:50%;opacity:.4}
+.cover-deco-dots{position:absolute;bottom:48px;right:48px;display:grid;grid-template-columns:repeat(8,1fr);gap:6px;opacity:.35}
+.cover-deco-dots span{width:4px;height:4px;background:var(--secondary);border-radius:50%;display:block}
+.cover-left{flex:1.05;max-width:58%;position:relative;z-index:2}
+.cover-uni{font-size:20px;color:var(--secondary);font-weight:500;margin-bottom:4px}
+.cover-campus{font-size:20px;color:var(--secondary);font-weight:500;margin-bottom:30px}
+.cover-title{font-size:88px;font-weight:700;color:var(--secondary);line-height:.92;margin-bottom:6px;letter-spacing:-2px}
+.cover-brand{font-size:106px;font-weight:700;color:var(--brand);line-height:.9;margin-bottom:30px;letter-spacing:-3px}
+.cover-course{font-size:22px;font-weight:700;color:var(--secondary);margin-bottom:30px;padding-left:14px;border-left:4px solid var(--brand)}
+.cover-meta{font-size:15px;line-height:1.7;color:var(--secondary)}
+.cover-meta b{font-weight:700;color:var(--brand)}
+.cover-right{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;height:100%}
+.cover-mockups{
+  position:relative;width:520px;height:560px;
+  background:radial-gradient(circle at center,rgba(200,16,46,.12),transparent 65%);
+}
+.mock-phone{
+  position:absolute;width:155px;height:310px;background:#1F2937;border-radius:24px;
+  padding:8px;box-shadow:0 24px 70px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;gap:6px;border:3px solid #111
+}
+.mock-phone .screen-mini{flex:1;background:white;border-radius:16px;padding:10px;overflow:hidden;font-size:6px;color:#444}
+.mock-phone .mini-logo{width:28px;height:28px;background:var(--brand);border-radius:7px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px}
+.mock-phone .mini-btn{background:var(--brand);color:white;text-align:center;padding:5px;border-radius:8px;margin-top:6px;font-size:7px;font-weight:600}
+.mock-phone .mini-input{background:#F3F4F6;height:12px;border-radius:4px;margin-bottom:4px;border:1px solid #E5E7EB}
+.mock-1{top:10px;left:20px;transform:rotate(-10deg);z-index:2}
+.mock-2{top:90px;right:20px;transform:rotate(7deg);z-index:1;width:175px;height:340px}
+.mock-3{bottom:0px;left:160px;transform:rotate(-3deg);z-index:3;width:170px;height:330px}
+
+/* ============ PAGE 2: INTRO ============ */
+.intro{display:flex;gap:64px;align-items:center;flex:1;padding-top:20px;position:relative}
+.intro-img{
+  flex:0 0 460px;height:460px;border-radius:32px;
+  background:linear-gradient(135deg,#FEE2E2 0%,var(--brand) 100%);
+  border:8px solid white;box-shadow:0 16px 50px rgba(200,16,46,.25);
+  display:flex;align-items:center;justify-content:center;color:white;
+  position:relative;overflow:hidden
+}
+.intro-img::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.1);border-radius:50%}
+.intro-img::after{content:'';position:absolute;bottom:-30px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.08);border-radius:50%}
+.intro-img i{font-size:200px;opacity:.95;z-index:2;filter:drop-shadow(0 8px 20px rgba(0,0,0,.2))}
+.intro-right{flex:1}
+.intro-title{font-size:54px;font-weight:700;color:var(--secondary);line-height:1.05;margin-bottom:36px;letter-spacing:-1px}
+.intro-title span{color:var(--brand)}
+.intro-list{list-style:none;display:flex;flex-direction:column;gap:18px}
+.intro-list li{
+  display:flex;align-items:center;gap:16px;font-size:18px;color:var(--secondary);
+  font-weight:500;background:white;padding:14px 18px;border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);border-left:4px solid var(--brand)
+}
+.intro-bullet{
+  width:36px;height:36px;border-radius:50%;background:#FEE2E2;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  color:var(--brand);font-size:18px
+}
+
+/* ============ PAGE 3: COLORS ============ */
+.colors-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;flex:1;align-content:start}
+.color-group h3{font-size:26px;font-weight:700;color:var(--secondary);margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.color-group h3::before{content:'';width:6px;height:26px;background:var(--brand);border-radius:3px}
+.color-pill{
+  display:flex;align-items:center;justify-content:center;
+  padding:22px 32px;border-radius:50px;margin-bottom:16px;
+  font-weight:700;font-size:20px;color:white;letter-spacing:.3px;
+  box-shadow:0 4px 14px rgba(0,0,0,.1);
+  transition:transform .2s
+}
+.cp-primary{background:var(--brand)}
+.cp-secondary{background:var(--secondary)}
+.cp-accent{background:var(--accent);color:var(--secondary)}
+.cp-bg{background:#F7F8FA;color:var(--secondary);border:1px solid var(--accent)}
+.cp-text{background:#1F2937}
+.cp-success{background:var(--success)}
+.cp-error{background:var(--error)}
+.cp-warning{background:var(--warning)}
+.cp-info{background:var(--info)}
+
+/* ============ PAGE 4: TYPOGRAPHY ============ */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1}
+.type-card{
+  background:white;border-radius:20px;padding:36px 40px;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden
+}
+.type-card::before{content:'';position:absolute;top:0;left:0;width:6px;height:100%;background:var(--brand)}
+.type-name{font-size:26px;font-weight:700;color:var(--secondary);margin-bottom:8px}
+.type-sample{font-size:170px;color:var(--secondary);line-height:1;margin:auto 0;text-align:center}
+.type-meta{font-size:15px;color:#4B5563;font-weight:500;padding-top:12px;border-top:1px solid var(--accent)}
+.type-bold .type-sample{font-weight:700}
+.type-bold::before{background:var(--brand)}
+.type-semi .type-sample{font-weight:600}
+.type-semi::before{background:var(--info)}
+.type-reg .type-sample{font-weight:400}
+.type-reg::before{background:var(--success)}
+.type-light .type-sample{font-weight:300}
+.type-light::before{background:var(--warning)}
+
+/* ============ PAGE 5: ICONS ============ */
+.icons-section{margin-bottom:28px}
+.icons-section h3{font-size:18px;font-weight:600;color:var(--secondary);margin-bottom:16px}
+.icons-row{display:flex;gap:16px;flex-wrap:wrap}
+.icon-tile{
+  width:84px;display:flex;flex-direction:column;align-items:center;gap:6px
+}
+.icon-box{
+  width:64px;height:64px;background:white;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);color:var(--secondary)
+}
+.icon-box i{font-size:30px}
+.icon-label{font-size:11px;color:#4B5563;text-align:center}
+.icon-feedback .icon-box{border:2px solid currentColor}
+.icon-feedback.ok{color:var(--success)}
+.icon-feedback.err{color:var(--error)}
+.icon-feedback.warn{color:var(--warning)}
+.icon-feedback.info{color:var(--info)}
+.icons-footer{margin-top:auto;font-size:13px;color:#4B5563;font-weight:500}
+
+/* ============ PAGE 6: SPACING ============ */
+.spacing-top{display:flex;gap:48px}
+.spacing-system{flex:2}
+.spacing-system h3{font-size:14px;font-weight:700;color:var(--secondary);letter-spacing:1px;margin-bottom:18px}
+.spacing-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.sp-card{
+  background:white;border-radius:14px;padding:20px;text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06)
+}
+.sp-block{margin:0 auto 16px auto;background:var(--brand);border-radius:6px}
+.sp-8 .sp-block{width:24px;height:24px}
+.sp-16 .sp-block{width:40px;height:40px}
+.sp-24 .sp-block{width:60px;height:60px;background:linear-gradient(135deg,var(--brand),#E8334A)}
+.sp-32 .sp-block{width:80px;height:80px}
+.sp-label{font-size:20px;font-weight:700;color:var(--secondary)}
+
+.spacing-app{flex:1}
+.spacing-app h3{font-size:14px;font-weight:700;color:var(--secondary);letter-spacing:1px;margin-bottom:18px}
+.spacing-app-list{display:flex;flex-direction:column;gap:14px}
+.sp-app-item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--secondary)}
+.sp-app-ic{width:36px;height:36px;background:#FEE2E2;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--brand);flex-shrink:0}
+.sp-app-ic i{font-size:18px}
+
+.spacing-bottom{margin-top:24px;display:flex;gap:24px;font-size:13px;color:var(--secondary);line-height:1.5}
+.spacing-bottom > div{flex:1}
+
+/* ============ PAGE 7: COMPONENTS ============ */
+.components-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-auto-rows:1fr;gap:18px;flex:1;min-height:0}
+.comp-wrap{display:flex;flex-direction:column;min-height:0}
+.comp-col{
+  flex:1;background:white;border-radius:14px;padding:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  display:flex;flex-direction:column;min-height:0;overflow:hidden
+}
+.comp-label{text-align:center;font-size:13px;font-weight:600;color:var(--secondary);margin-top:10px}
+.span-2{grid-column:span 2}
+.span-3{grid-column:span 3}
+
+/* ============ PAGE 6: SECONDARY COMPONENTS ============ */
+.sec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-auto-rows:1fr;gap:18px;flex:1;min-height:0}
+.sec-card{background:white;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.sec-label{text-align:center;font-size:13px;font-weight:600;color:var(--secondary);margin-top:10px}
+.sec-wrap{display:flex;flex-direction:column;min-height:0}
+
+/* badges */
+.badges-list{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
+.badge-row{display:flex;align-items:center;gap:10px}
+.badge-row .blbl{font-size:10px;color:#6B7280;min-width:65px;font-weight:600}
+.bd{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.bd-ok{background:#DCFCE7;color:#166534}
+.bd-err{background:#FEE2E2;color:#991B1B}
+.bd-warn{background:#FEF3C7;color:#92400E}
+.bd-info{background:#DBEAFE;color:#1D4ED8}
+.bd-gray{background:var(--accent);color:var(--secondary)}
+
+/* stat cards */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;align-content:center}
+.sc-mini{background:white;border:1px solid var(--accent);border-radius:8px;padding:10px}
+.sc-ic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;font-size:14px}
+.sc-ic.red{background:#FEE2E2;color:var(--brand)}
+.sc-ic.blu{background:#DBEAFE;color:var(--info)}
+.sc-ic.grn{background:#DCFCE7;color:#16A34A}
+.sc-ic.amb{background:#FEF3C7;color:#D97706}
+.sc-lbl{font-size:7px;color:#4B5563;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.sc-val{font-size:14px;font-weight:700;color:var(--secondary);line-height:1}
+
+/* wizard */
+.wiz-stack{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
+.wiz-mini{display:flex;align-items:center;gap:6px;font-size:10px}
+.wiz-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:2px solid var(--accent);background:white;color:#9CA3AF}
+.wiz-mini.done .wiz-num{background:#15803D;color:white;border-color:#15803D}
+.wiz-mini.act .wiz-num{background:var(--brand);color:white;border-color:var(--brand)}
+.wiz-line{width:30px;height:2px;background:var(--accent);flex-shrink:0}
+.wiz-line.done{background:#15803D}
+.wiz-mini .wiz-txt{font-weight:600;color:var(--secondary)}
+.wiz-mini.act .wiz-txt{color:var(--brand)}
+.wiz-mini.done .wiz-txt{color:#15803D}
+
+/* tabs */
+.tabs-mini{border-bottom:2px solid var(--accent);display:flex;gap:0;margin-bottom:10px}
+.tabs-mini .tb{padding:8px 14px;font-size:11px;font-weight:600;color:#4B5563;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer}
+.tabs-mini .tb.act{color:var(--brand);border-bottom-color:var(--brand)}
+.tabs-content{background:var(--bg);border-radius:6px;padding:14px;font-size:10px;color:#4B5563;text-align:center;flex:1;display:flex;align-items:center;justify-content:center}
+
+/* event chip */
+.chip-stack{display:flex;flex-direction:column;gap:14px;flex:1;justify-content:center;align-items:center}
+.evchip{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700}
+.evchip.evon{background:#DCFCE7;color:#166534}
+.evchip.evoff{background:#FEE2E2;color:#991B1B}
+.evchip i{font-size:13px}
+
+/* modal mini */
+.modal-mini{background:white;border-radius:12px;padding:18px 16px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;border:1px solid var(--accent)}
+.modal-mini-ic{width:46px;height:46px;border-radius:50%;background:#DCFCE7;color:#16A34A;display:flex;align-items:center;justify-content:center;font-size:26px}
+.modal-mini h5{font-size:13px;font-weight:700;color:var(--secondary)}
+.modal-mini p{font-size:10px;color:#4B5563;line-height:1.4}
+.modal-mini-id{background:var(--bg);border:1px dashed var(--accent);padding:4px 8px;border-radius:4px;font-family:monospace;font-size:9px;color:var(--secondary)}
+.modal-mini-btn{background:var(--brand);color:white;padding:6px 16px;border-radius:20px;font-size:9px;font-weight:600;margin-top:2px}
+
+/* ============ SECTION 9: COMPARACIONES ============ */
+.cmp-intro-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;flex:1;align-content:center}
+.cmp-intro-card{background:white;border-radius:16px;padding:26px 22px;box-shadow:0 4px 16px rgba(0,0,0,.08);border-top:6px solid var(--brand);display:flex;flex-direction:column;gap:12px}
+.cmp-intro-card.c-blue{border-top-color:var(--info)}
+.cmp-intro-card.c-green{border-top-color:#15803D}
+.cmp-intro-card-ic{width:54px;height:54px;border-radius:14px;background:#FEE2E2;color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:30px}
+.cmp-intro-card.c-blue .cmp-intro-card-ic{background:#DBEAFE;color:var(--info)}
+.cmp-intro-card.c-green .cmp-intro-card-ic{background:#DCFCE7;color:#15803D}
+.cmp-intro-card h4{font-size:20px;font-weight:700;color:var(--secondary)}
+.cmp-intro-card p{font-size:13px;color:#4B5563;line-height:1.55}
+
+.cmp-row{display:flex;gap:24px;flex:1;min-height:0}
+.cmp-left{flex:1.4;display:flex;flex-direction:column;gap:12px;min-height:0}
+.cmp-right{flex:1;display:flex;flex-direction:column;gap:14px;min-height:0;overflow:hidden}
+.cmp-img-wrap{flex:1;display:flex;flex-direction:column;background:white;border-radius:12px;padding:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);min-height:0;overflow:hidden}
+.cmp-img-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-shrink:0}
+.cmp-tag{font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.5px;text-transform:uppercase}
+.cmp-tag.antes{background:#FEE2E2;color:#991B1B}
+.cmp-tag.despues{background:#DCFCE7;color:#166534}
+.cmp-img-head h5{font-size:12px;color:var(--secondary);font-weight:600}
+.cmp-img-box{flex:1;background:var(--bg);border:1px solid var(--accent);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:0}
+.cmp-img-box img{width:100%;height:100%;object-fit:contain;display:block}
+.cmp-img-box.empty::after{content:'(imagen)';color:#9CA3AF;font-size:11px}
+.cmp-img-box.no-equiv{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;background:#FEF2F2;border:2px dashed #FCA5A5;color:#991B1B}
+.cmp-img-box.no-equiv i{font-size:46px;opacity:.6}
+.cmp-img-box.no-equiv strong{font-size:14px;font-weight:700}
+.cmp-img-box.no-equiv span{font-size:11px;color:#7F1D1D;line-height:1.4;max-width:280px}
+
+.cmp-group{background:white;border-radius:12px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:5px solid var(--brand)}
+.cmp-group.g-usab{border-left-color:var(--info)}
+.cmp-group.g-acc{border-left-color:#15803D}
+.cmp-group.g-i18n{border-left-color:var(--warning)}
+.cmp-group-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cmp-group-head i{font-size:18px;color:var(--info)}
+.cmp-group.g-acc .cmp-group-head i{color:#15803D}
+.cmp-group.g-i18n .cmp-group-head i{color:var(--warning)}
+.cmp-group h6{font-size:12px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px}
+.cmp-group ul{list-style:none;padding:0;margin:0}
+.cmp-group li{font-size:10.5px;color:#374151;line-height:1.5;padding-left:12px;position:relative;margin-bottom:4px}
+.cmp-group li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--brand)}
+.cmp-group.g-usab li::before{background:var(--info)}
+.cmp-group.g-acc li::before{background:#15803D}
+.cmp-group.g-i18n li::before{background:var(--warning)}
+
+.cmp-pagehead{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.cmp-pagehead .cmp-num{font-size:30px;font-weight:700;color:var(--brand);line-height:1}
+.cmp-pagehead h2{font-size:26px;font-weight:700;color:var(--secondary);line-height:1.1}
+.cmp-pagehead .cmp-sub{font-size:13px;color:#4B5563;margin-left:auto}
+
+/* event card mini */
+.evcard-img{height:60px;background:var(--accent);border-radius:8px;margin-bottom:8px;position:relative}
+.evcard-img::before{content:'BECA';position:absolute;top:6px;left:6px;background:white;color:var(--brand);font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px}
+.evcard h4{font-size:13px;font-weight:700;color:var(--secondary);margin-bottom:6px}
+.evcard p{font-size:10px;color:#6B7280;margin-bottom:3px}
+.evcard .ev-btn{background:var(--brand);color:white;border:none;padding:6px;border-radius:6px;width:100%;font-size:11px;font-weight:600;margin-top:8px}
+
+/* form */
+.form-mini .brand{color:var(--brand);font-weight:700;text-align:center;font-size:18px;margin-bottom:2px}
+.form-mini .sub{font-size:10px;color:#6B7280;text-align:center;margin-bottom:14px}
+.form-mini label{font-size:10px;color:var(--secondary);font-weight:600;display:block;margin-bottom:4px;margin-top:6px}
+.form-mini .inp{height:24px;background:#F3F4F6;border-radius:6px;padding:0 6px;font-size:8px;color:#9CA3AF;display:flex;align-items:center;border:1px solid #E5E7EB}
+.form-mini .btn-r{background:var(--brand);color:white;padding:8px;border-radius:20px;text-align:center;font-size:11px;font-weight:600;margin-top:12px}
+.form-mini .reg{font-size:9px;color:#6B7280;text-align:center;margin-top:8px}
+.form-mini .reg b{color:var(--brand)}
+
+/* alerts */
+.alert-mini{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:10px;font-size:12px;font-weight:600}
+.alert-mini i{font-size:16px}
+.al-ok{background:#DCFCE7;color:#166534;border:1px solid #86EFAC}
+.al-err{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
+.al-warn{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
+.al-info{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+
+/* nav */
+.nav-mini{display:flex;justify-content:space-between;gap:8px;padding:18px 4px;position:relative;flex:1;align-items:center}
+.nav-mini .nav-i{display:flex;flex-direction:column;align-items:center;gap:4px;color:#6B7280;font-size:9px;font-weight:600;flex:1;min-width:0;text-align:center;line-height:1.2;white-space:nowrap}
+.nav-mini .nav-i i{font-size:20px}
+.nav-mini .nav-i.act{color:var(--brand)}
+.nav-mini .nav-i.act::after{content:'';display:block;width:20px;height:2px;background:var(--brand);margin-top:2px;border-radius:2px}
+
+/* buttons */
+.btn-stack{display:flex;flex-direction:column;gap:10px}
+.btn-stack > div{display:flex;flex-direction:column;gap:4px}
+.btn-stack .blbl{font-size:10px;color:#6B7280}
+.bm{padding:9px 16px;border-radius:50px;text-align:center;font-size:11px;font-weight:700;cursor:pointer}
+.bm-def{background:var(--brand);color:white}
+.bm-hover{background:var(--brand-dark);color:white}
+.bm-dis{background:#E5E7EB;color:#9CA3AF}
+.bm-out{background:white;color:var(--brand);border:1.5px solid var(--brand)}
+
+/* ============ PAGE 8: SCREENS ============ */
+.screens-row{display:flex;gap:32px;flex:1;align-items:center;justify-content:center}
+.screen-shot{display:flex;flex-direction:column;align-items:center;gap:14px}
+.screen-shot .ss-label{font-size:14px;color:var(--secondary);font-weight:500}
+
+.mob-frame{
+  width:180px;height:360px;background:var(--secondary);border-radius:24px;padding:8px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18)
+}
+.mob-frame .mob-inner{background:var(--bg);border-radius:18px;height:100%;overflow:hidden;display:flex;flex-direction:column;padding:14px}
+.mob-frame .mob-brand{font-size:14px;font-weight:700;color:var(--brand);text-align:center;margin-bottom:2px}
+.mob-frame .mob-sub{font-size:6px;color:#6B7280;text-align:center;margin-bottom:8px}
+.mob-frame .mi-lbl{font-size:8px;color:var(--secondary);font-weight:600;margin-bottom:3px;margin-top:5px}
+.mob-frame .mi-inp{height:18px;background:white;border:1px solid var(--accent);border-radius:6px}
+.mob-frame .mi-btn{background:var(--brand);color:white;padding:6px;border-radius:20px;text-align:center;font-size:9px;font-weight:600;margin-top:10px}
+.mob-frame .mi-link{font-size:7px;color:var(--info);text-align:center;margin-top:8px}
+
+.desk-frame{
+  width:540px;height:340px;background:white;border-radius:14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);overflow:hidden;display:flex;flex-direction:column
+}
+.desk-topbar{
+  background:white;border-bottom:1px solid var(--accent);padding:8px 14px;
+  display:flex;justify-content:space-between;align-items:center
+}
+.desk-topbar .dt-brand{font-size:12px;font-weight:700;color:var(--brand)}
+.desk-topbar .dt-right{display:flex;gap:8px;align-items:center;font-size:9px;color:#6B7280}
+.desk-topbar .dt-avatar{width:18px;height:18px;border-radius:50%;background:var(--brand);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.desk-body{flex:1;display:flex}
+.desk-side{width:120px;background:white;border-right:1px solid var(--accent);padding:10px 8px}
+.desk-side .ds-item{font-size:8px;color:var(--secondary);padding:5px 6px;border-radius:4px;margin-bottom:2px;display:flex;align-items:center;gap:4px}
+.desk-side .ds-item.act{background:#FEF2F4;color:var(--brand);font-weight:700;border-left:2px solid var(--brand)}
+.desk-side .ds-item i{font-size:10px}
+.desk-main{flex:1;padding:12px;background:var(--bg)}
+.desk-main h2{font-size:11px;color:var(--secondary);font-weight:700;margin-bottom:8px}
+.desk-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.dstat{background:white;border:1px solid var(--accent);border-radius:6px;padding:5px}
+.dstat .ds-num{font-size:11px;font-weight:700;color:var(--secondary)}
+.dstat .ds-lbl{font-size:6px;color:#6B7280;text-transform:uppercase}
+.desk-alert{background:#DCFCE7;color:#166534;padding:5px 8px;border-radius:5px;font-size:8px;font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.desk-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dgi{background:white;border:1px solid var(--accent);border-radius:5px;padding:6px;font-size:7px;color:var(--secondary)}
+
+/* ============ PAGE 9: JUSTIFICATION ============ */
+.just-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1;align-content:stretch;margin-top:8px}
+.just-card{
+  background:white;border-radius:14px;padding:22px 20px;
+  box-shadow:0 4px 14px rgba(0,0,0,.07);
+  border-top:5px solid var(--brand);
+  display:flex;flex-direction:column;gap:10px
+}
+.just-card.c-blue{border-top-color:var(--info)}
+.just-card.c-green{border-top-color:var(--success)}
+.just-card.c-amber{border-top-color:var(--warning)}
+.just-card.c-red{border-top-color:var(--brand)}
+.just-card.c-dark{border-top-color:var(--secondary)}
+.just-card-icon{
+  width:40px;height:40px;border-radius:10px;background:#FEE2E2;color:var(--brand);
+  display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:4px
+}
+.just-card.c-blue .just-card-icon{background:#DBEAFE;color:var(--info)}
+.just-card.c-green .just-card-icon{background:#DCFCE7;color:#15803D}
+.just-card.c-amber .just-card-icon{background:#FEF3C7;color:#92400E}
+.just-card.c-dark .just-card-icon{background:#E5E7EB;color:var(--secondary)}
+.just-card h4{font-size:16px;font-weight:700;color:var(--secondary);line-height:1.2}
+.just-card p{font-size:12px;color:#4B5563;line-height:1.55}
+
+@media print{
+  html,body{background:white;margin:0;padding:0;width:297mm;height:auto}
+  body{display:block !important;gap:0 !important;padding:0 !important}
+  .page{
+    box-shadow:none !important;border-radius:0 !important;
+    width:297mm !important;height:210mm !important;
+    overflow:hidden !important;
+    page-break-after:always;break-after:page;
+    page-break-inside:avoid;break-inside:avoid;
+    margin:0 !important
+  }
+  .page:last-child{page-break-after:auto;break-after:auto}
+}
+@media screen{
+  body{padding:20px;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .page{box-shadow:0 8px 30px rgba(0,0,0,.3);border-radius:4px}
+  .print-btn{
+    position:fixed;top:20px;right:20px;background:var(--brand);color:white;
+    border:none;padding:12px 20px;border-radius:50px;font-weight:600;cursor:pointer;
+    font-family:'Poppins',sans-serif;font-size:14px;box-shadow:0 4px 12px rgba(200,16,46,.4);z-index:9999
+  }
+  @media print{.print-btn{display:none}}
+}
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()"><i class="ti ti-printer"></i></button>
+
+<!-- ============== PAGE 1: COVER ============== -->
+<div class="page cover">
+  <div class="cover-deco cover-deco-1"></div>
+  <div class="cover-deco cover-deco-2"></div>
+  <div class="cover-deco cover-deco-3"></div>
+  <div class="cover-deco cover-deco-4"></div>
+  <div class="cover-deco cover-deco-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="cover-left">
+    <div class="cover-uni">Universidad Nacional de Costa Rica</div>
+    <div class="cover-campus">Sede Regional Chorotega, Campus Liberia</div>
+    <div class="cover-title">Guía de Estilos</div>
+    <div class="cover-brand">SIBEUNA</div>
+    <div class="cover-course">Diseño de Interfaces de Usuario</div>
+    <div class="cover-meta">
+      <b>Estudiantes:</b><br>
+      Aníbal José Chaves Badilla<br>
+      Luciana Chacón Castillo<br><br>
+      <b>Evaluado por:</b><br>
+      M.A.E. Raquel Ivonne Espinoza E.
+    </div>
+  </div>
+  <div class="cover-right">
+    <div class="cover-mockups">
+      <div class="mock-phone mock-1">
+        <div class="screen-mini">
+          <div class="mini-logo"><i class="ti ti-school"></i></div>
+          <div style="font-size:7px;font-weight:700;color:var(--brand)">SIBEUNA</div>
+          <div class="mini-input"></div>
+          <div class="mini-input"></div>
+          <div class="mini-btn">Ingresar</div>
+        </div>
+      </div>
+      <div class="mock-phone mock-2">
+        <div class="screen-mini">
+          <div class="mini-logo"><i class="ti ti-award"></i></div>
+          <div style="font-size:7px;font-weight:700">Becas</div>
+          <div style="background:#FEE2E2;color:var(--brand);padding:3px;border-radius:4px;font-size:6px;margin:4px 0">EVENTO ACTIVO</div>
+          <div class="mini-input"></div>
+          <div class="mini-btn">Continuar</div>
+        </div>
+      </div>
+      <div class="mock-phone mock-3">
+        <div class="screen-mini">
+          <div class="mini-logo"><i class="ti ti-home"></i></div>
+          <div style="font-size:7px;font-weight:700">Dashboard</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px">
+            <div style="background:#FEE2E2;padding:3px;border-radius:3px;font-size:5px">Beca</div>
+            <div style="background:#DBEAFE;padding:3px;border-radius:3px;font-size:5px">Horas</div>
+            <div style="background:#DCFCE7;padding:3px;border-radius:3px;font-size:5px">Citas</div>
+            <div style="background:#FEF3C7;padding:3px;border-radius:3px;font-size:5px">Docs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 2: INTRO ============== -->
+<div class="page">
+  <div class="intro">
+    <div class="intro-img"><i class="ti ti-school"></i></div>
+    <div class="intro-right">
+      <div class="intro-title">Introducción a<br><span>SIBEUNA</span></div>
+      <ul class="intro-list">
+        <li><span class="intro-bullet"><i class="ti ti-award"></i></span> Solicitar becas estudiantiles UNA</li>
+        <li><span class="intro-bullet"><i class="ti ti-clock"></i></span> Registrar horas de beca asistente</li>
+        <li><span class="intro-bullet"><i class="ti ti-upload"></i></span> Subir y consultar documentos</li>
+        <li><span class="intro-bullet"><i class="ti ti-building-bank"></i></span> Gestionar cuenta bancaria</li>
+        <li><span class="intro-bullet"><i class="ti ti-calendar"></i></span> Agendar citas y consultar estado</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 3: COLORS ============== -->
+<div class="page">
+  <div class="section-num">1. Paleta de Colores</div>
+  <p class="section-sub">Colores definidos para mantener consistencia visual en SIBEUNA. Incluye colores de marca institucional UNA y estados funcionales con códigos HEX específicos.</p>
+  <div class="colors-grid">
+    <div class="color-group">
+      <h3>Colores de Marca</h3>
+      <div class="color-pill cp-primary">Primario #C8102E</div>
+      <div class="color-pill cp-secondary">Secundario #2E3440</div>
+      <div class="color-pill cp-accent">Acento #E6E9EE</div>
+      <div class="color-pill cp-bg">Fondo #F7F8FA</div>
+      <div class="color-pill cp-text">Texto #1F2937</div>
+    </div>
+    <div class="color-group">
+      <h3>Colores de Estado</h3>
+      <div class="color-pill cp-success">Éxito #22C55E</div>
+      <div class="color-pill cp-error">Error #EF4444</div>
+      <div class="color-pill cp-warning">Advertencia #F59E0B</div>
+      <div class="color-pill cp-info">Información #005DAA</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 4: TYPOGRAPHY ============== -->
+<div class="page">
+  <div class="section-num">2. Tipografía</div>
+  <div class="type-grid">
+    <div class="type-card type-bold">
+      <div class="type-name">Poppins Bold</div>
+      <div class="type-sample">Aa</div>
+      <div class="type-meta">700 / 24-32px / Títulos principales</div>
+    </div>
+    <div class="type-card type-semi">
+      <div class="type-name">Poppins SemiBold</div>
+      <div class="type-sample">Aa</div>
+      <div class="type-meta">600 / 18-20px / Subtítulos</div>
+    </div>
+    <div class="type-card type-reg">
+      <div class="type-name">Poppins Regular</div>
+      <div class="type-sample">Aa</div>
+      <div class="type-meta">400 / 14-16px / Texto de cuerpo</div>
+    </div>
+    <div class="type-card type-light">
+      <div class="type-name">Poppins Light</div>
+      <div class="type-sample">Aa</div>
+      <div class="type-meta">300 / 12-14px / Texto auxiliar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 5: ICONS ============== -->
+<div class="page">
+  <div class="section-num">3. Íconos</div>
+  <div class="icons-section">
+    <h3>Íconos de navegación</h3>
+    <div class="icons-row">
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-home"></i></div><div class="icon-label">Inicio</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-award"></i></div><div class="icon-label">Becas</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-clock"></i></div><div class="icon-label">Horas</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-calendar"></i></div><div class="icon-label">Citas</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-building-bank"></i></div><div class="icon-label">Banco</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-bell"></i></div><div class="icon-label">Avisos</div></div>
+      <div class="icon-tile"><div class="icon-box"><i class="ti ti-search"></i></div><div class="icon-label">Buscar</div></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:48px">
+    <div class="icons-section" style="flex:1">
+      <h3>Íconos en formularios</h3>
+      <div class="icons-row">
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-id-badge"></i></div><div class="icon-label">Cédula</div></div>
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-lock"></i></div><div class="icon-label">Contraseña</div></div>
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-eye"></i></div><div class="icon-label">Ver/ocultar</div></div>
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-file-plus"></i></div><div class="icon-label">Solicitud</div></div>
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-upload"></i></div><div class="icon-label">Subir</div></div>
+        <div class="icon-tile"><div class="icon-box"><i class="ti ti-cloud-upload"></i></div><div class="icon-label">Adjuntar</div></div>
+      </div>
+    </div>
+    <div class="icons-section" style="flex:1">
+      <h3>Estados y feedback</h3>
+      <div class="icons-row">
+        <div class="icon-tile icon-feedback ok"><div class="icon-box"><i class="ti ti-circle-check"></i></div><div class="icon-label">Éxito</div></div>
+        <div class="icon-tile icon-feedback err"><div class="icon-box"><i class="ti ti-alert-circle"></i></div><div class="icon-label">Error</div></div>
+        <div class="icon-tile icon-feedback warn"><div class="icon-box"><i class="ti ti-alert-triangle"></i></div><div class="icon-label">Advertencia</div></div>
+        <div class="icon-tile icon-feedback info"><div class="icon-box"><i class="ti ti-info-circle"></i></div><div class="icon-label">Información</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="icons-footer">Tabler Icons / Outline / 24×24 px · escalable según contexto</div>
+</div>
+
+<!-- ============== PAGE 6: SPACING ============== -->
+<div class="page">
+  <div class="section-num">4. Espaciado</div>
+  <div class="spacing-top">
+    <div class="spacing-system">
+      <h3>SISTEMA DE 8PX</h3>
+      <div class="spacing-cards">
+        <div class="sp-card sp-8"><div class="sp-block"></div><div class="sp-label">8 px</div></div>
+        <div class="sp-card sp-16"><div class="sp-block"></div><div class="sp-label">16 px</div></div>
+        <div class="sp-card sp-24"><div class="sp-block"></div><div class="sp-label">24 px</div></div>
+        <div class="sp-card sp-32"><div class="sp-block"></div><div class="sp-label">32 px</div></div>
+      </div>
+    </div>
+    <div class="spacing-app">
+      <h3>APLICACIÓN</h3>
+      <div class="spacing-app-list">
+        <div class="sp-app-item"><div class="sp-app-ic"><i class="ti ti-text-size"></i></div> Separación entre íconos y texto</div>
+        <div class="sp-app-item"><div class="sp-app-ic"><i class="ti ti-box-padding"></i></div> Padding interno de componentes</div>
+        <div class="sp-app-item"><div class="sp-app-ic"><i class="ti ti-layout-grid"></i></div> Separación entre tarjetas</div>
+        <div class="sp-app-item"><div class="sp-app-ic"><i class="ti ti-box-margin"></i></div> Márgenes generales</div>
+      </div>
+    </div>
+  </div>
+  <div class="spacing-bottom">
+    <div>El espaciado consistente mejora la legibilidad, crea jerarquía visual clara y proporciona una experiencia de usuario ordenada y profesional en todos los componentes de la plataforma SIBEUNA.</div>
+    <div>Aplicación del sistema: separación entre íconos y texto, padding interno de componentes, separación entre tarjetas de beca, y márgenes generales de la interfaz.</div>
+  </div>
+</div>
+
+<!-- ============== PAGE 7: COMPONENTS ============== -->
+<div class="page">
+  <div class="section-num">5. Componentes Principales</div>
+  <div class="components-grid">
+    <!-- Row 1: Form -->
+    <div class="comp-wrap">
+      <div class="comp-col form-mini">
+        <div class="brand">SIBEUNA</div>
+        <div class="sub">Inicia sesión universitaria</div>
+        <label>Número de Cédula</label>
+        <div class="inp">604040087</div>
+        <label>Contraseña</label>
+        <div class="inp">••••••••</div>
+        <div class="btn-r">Ingresar al Sistema</div>
+        <div class="reg">¿<b>Cambio de contraseña?</b></div>
+      </div>
+      <div class="comp-label">Campo de Formulario</div>
+    </div>
+
+    <!-- Row 1: Alerts -->
+    <div class="comp-wrap">
+      <div class="comp-col">
+        <div class="alert-mini al-ok"><i class="ti ti-circle-check"></i> Éxito · Operación realizada</div>
+        <div class="alert-mini al-err"><i class="ti ti-alert-circle"></i> Error · Verifique los campos</div>
+        <div class="alert-mini al-warn"><i class="ti ti-alert-triangle"></i> Advertencia · Revise periodo</div>
+        <div class="alert-mini al-info"><i class="ti ti-info-circle"></i> Información · Consulte ayuda</div>
+      </div>
+      <div class="comp-label">Alertas</div>
+    </div>
+
+    <!-- Row 1: Buttons -->
+    <div class="comp-wrap">
+      <div class="comp-col">
+        <div class="btn-stack">
+          <div><span class="blbl">Default</span><div class="bm bm-def">Ingresar</div></div>
+          <div><span class="blbl">Hover</span><div class="bm bm-hover">Ingresar</div></div>
+          <div><span class="blbl">Deshabilitado</span><div class="bm bm-dis">Continuar</div></div>
+          <div><span class="blbl">Outline</span><div class="bm bm-out">Cancelar</div></div>
+        </div>
+      </div>
+      <div class="comp-label">Botones</div>
+    </div>
+
+    <!-- Row 2: Nav (spans 3) -->
+    <div class="comp-wrap span-3">
+      <div class="comp-col" style="justify-content:center">
+        <div class="nav-mini">
+          <div class="nav-i act"><i class="ti ti-home"></i>Inicio</div>
+          <div class="nav-i"><i class="ti ti-award"></i>Becas</div>
+          <div class="nav-i"><i class="ti ti-clock"></i>Horas</div>
+          <div class="nav-i"><i class="ti ti-calendar"></i>Citas</div>
+          <div class="nav-i"><i class="ti ti-building-bank"></i>Banco</div>
+          <div class="nav-i"><i class="ti ti-user"></i>Perfil</div>
+        </div>
+      </div>
+      <div class="comp-label">Navegación</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 7: SECONDARY COMPONENTS ============== -->
+<div class="page">
+  <div class="section-num">6. Componentes Secundarios</div>
+  <p class="section-sub">Componentes complementarios para retroalimentación, estado y navegación contextual dentro de SIBEUNA.</p>
+  <div class="sec-grid">
+    <!-- Badges -->
+    <div class="sec-wrap">
+      <div class="sec-card">
+        <div class="badges-list">
+          <div class="badge-row"><span class="blbl">Éxito</span><span class="bd bd-ok"><i class="ti ti-check" style="font-size:10px"></i> SÍ</span></div>
+          <div class="badge-row"><span class="blbl">Error</span><span class="bd bd-err"><i class="ti ti-x" style="font-size:10px"></i> NO</span></div>
+          <div class="badge-row"><span class="blbl">Pendiente</span><span class="bd bd-warn"><i class="ti ti-clock" style="font-size:10px"></i> Pendiente</span></div>
+          <div class="badge-row"><span class="blbl">Info</span><span class="bd bd-info">100</span></div>
+          <div class="badge-row"><span class="blbl">Neutral</span><span class="bd bd-gray">Borrador</span></div>
+        </div>
+      </div>
+      <div class="sec-label">Badges</div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="sec-wrap">
+      <div class="sec-card">
+        <div class="stat-grid">
+          <div class="sc-mini"><div class="sc-ic red"><i class="ti ti-award"></i></div><div class="sc-lbl">Beca Activa</div><div class="sc-val">Socio</div></div>
+          <div class="sc-mini"><div class="sc-ic blu"><i class="ti ti-clock"></i></div><div class="sc-lbl">Horas</div><div class="sc-val">24</div></div>
+          <div class="sc-mini"><div class="sc-ic grn"><i class="ti ti-calendar-check"></i></div><div class="sc-lbl">Próx. Cita</div><div class="sc-val">—</div></div>
+          <div class="sc-mini"><div class="sc-ic amb"><i class="ti ti-file-upload"></i></div><div class="sc-lbl">Documentos</div><div class="sc-val">2</div></div>
+        </div>
+      </div>
+      <div class="sec-label">Tarjetas de Estadísticas</div>
+    </div>
+
+    <!-- Wizard -->
+    <div class="sec-wrap">
+      <div class="sec-card">
+        <div class="wiz-stack">
+          <div class="wiz-mini done"><div class="wiz-num"><i class="ti ti-check" style="font-size:11px"></i></div><span class="wiz-txt">Condiciones</span></div>
+          <div class="wiz-mini done"><div class="wiz-num"><i class="ti ti-check" style="font-size:11px"></i></div><span class="wiz-txt">Datos Personales</span></div>
+          <div class="wiz-mini act"><div class="wiz-num">3</div><span class="wiz-txt">Formulario</span></div>
+          <div class="wiz-mini"><div class="wiz-num">4</div><span class="wiz-txt">Documentos</span></div>
+        </div>
+      </div>
+      <div class="sec-label">Pasos del Proceso (Wizard)</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="sec-wrap">
+      <div class="sec-card">
+        <div class="tabs-mini">
+          <div class="tb act">Datos Personales</div>
+          <div class="tb">Documentos Adjuntos</div>
+        </div>
+        <div class="tabs-content">Contenido panel activo · cambia al seleccionar pestaña</div>
+      </div>
+      <div class="sec-label">Pestañas (Tabs)</div>
+    </div>
+
+    <!-- Event Chip -->
+    <div class="sec-wrap">
+      <div class="sec-card">
+        <div class="chip-stack">
+          <span class="evchip evon"><i class="ti ti-circle-check"></i> EVENTO ACTIVO · Beca Socioeconómica</span>
+          <span class="evchip evoff"><i class="ti ti-alert-circle"></i> SIN EVENTO ACTIVO · Beca Funcionario</span>
+        </div>
+      </div>
+      <div class="sec-label">Chip de Estado de Evento</div>
+    </div>
+
+    <!-- Modal -->
+    <div class="sec-wrap">
+      <div class="sec-card" style="padding:14px">
+        <div class="modal-mini">
+          <div class="modal-mini-ic"><i class="ti ti-circle-check"></i></div>
+          <h5>¡Solicitud enviada!</h5>
+          <p>Recibirá confirmación en su correo en 24 horas.</p>
+          <div class="modal-mini-id">ID Solicitud: 47832</div>
+          <div class="modal-mini-btn">Volver al inicio</div>
+        </div>
+      </div>
+      <div class="sec-label">Modal de Confirmación</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 8: SCREENS ============== -->
+<div class="page">
+  <div class="section-num">7. Pantallas Diseñadas</div>
+  <div class="screens-row">
+    <div class="screen-shot">
+      <div class="mob-frame">
+        <div class="mob-inner">
+          <div class="mob-brand">SIBEUNA</div>
+          <div class="mob-sub">Sistema de Becas · UNA</div>
+          <div style="height:2px;background:linear-gradient(90deg,var(--brand),var(--secondary));margin-bottom:10px"></div>
+          <div class="mi-lbl"><i class="ti ti-id-badge" style="font-size:8px"></i> Cédula *</div>
+          <div class="mi-inp"></div>
+          <div class="mi-lbl"><i class="ti ti-lock" style="font-size:8px"></i> Contraseña *</div>
+          <div class="mi-inp"></div>
+          <div class="mi-btn"><i class="ti ti-login" style="font-size:9px"></i> Ingresar al Sistema</div>
+          <div class="mi-link">¿Cambio de contraseña?</div>
+          <div style="background:#EFF6FF;color:#1D4ED8;font-size:7px;padding:6px;border-radius:5px;margin-top:auto;display:flex;gap:4px;align-items:center">
+            <i class="ti ti-info-circle" style="font-size:9px"></i> Use cédula y contraseña universitaria.
+          </div>
+        </div>
+      </div>
+      <div class="ss-label">Login Móvil</div>
+    </div>
+
+    <div class="screen-shot">
+      <div class="desk-frame">
+        <div class="desk-topbar">
+          <div class="dt-brand">SIBEUNA</div>
+          <div class="dt-right">
+            <span style="border:1px solid var(--accent);padding:2px 6px;border-radius:4px"><i class="ti ti-search" style="font-size:9px"></i> Buscar</span>
+            <span style="border:1px solid var(--accent);padding:2px 6px;border-radius:4px"><i class="ti ti-world" style="font-size:9px"></i> EN</span>
+            <i class="ti ti-bell" style="font-size:12px"></i>
+            <div class="dt-avatar">A</div>
+          </div>
+        </div>
+        <div class="desk-body">
+          <div class="desk-side">
+            <div style="font-size:7px;color:#4B5563;font-weight:700;margin-bottom:4px;letter-spacing:.5px">FORMULARIOS</div>
+            <div class="ds-item act"><i class="ti ti-home"></i> Inicio</div>
+            <div class="ds-item"><i class="ti ti-award"></i> Beca Socio</div>
+            <div class="ds-item"><i class="ti ti-settings"></i> Beca Honor</div>
+            <div class="ds-item"><i class="ti ti-home-2"></i> Omar Dengo</div>
+            <div style="font-size:7px;color:#4B5563;font-weight:700;margin:6px 0 4px;letter-spacing:.5px">CONTROL</div>
+            <div class="ds-item"><i class="ti ti-clock"></i> Horas</div>
+            <div class="ds-item"><i class="ti ti-calendar"></i> Citas</div>
+            <div class="ds-item"><i class="ti ti-building-bank"></i> Banco</div>
+          </div>
+          <div class="desk-main">
+            <div style="font-size:6px;color:#6B7280">Inicio</div>
+            <h2>Bienvenido, Aníbal</h2>
+            <div class="desk-stats">
+              <div class="dstat"><div class="ds-lbl">Beca</div><div class="ds-num">Activa</div></div>
+              <div class="dstat"><div class="ds-lbl">Horas</div><div class="ds-num">24/40</div></div>
+              <div class="dstat"><div class="ds-lbl">Citas</div><div class="ds-num">0</div></div>
+              <div class="dstat"><div class="ds-lbl">Docs</div><div class="ds-num">2</div></div>
+            </div>
+            <div class="desk-alert"><i class="ti ti-circle-check"></i> 1 solicitud activa · Beca Socio</div>
+            <div class="desk-grid">
+              <div class="dgi"><b>Acciones Rápidas</b><br>Solicitar Beca<br>Registrar Horas</div>
+              <div class="dgi"><b>Avisos</b><br>Período revisión<br>Documentos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ss-label">Dashboard Desktop</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 9: JUSTIFICATION ============== -->
+<div class="page">
+  <div class="section-num">8. Justificación Visual</div>
+  <p class="section-sub">Cada decisión de diseño responde a principios de usabilidad, accesibilidad WCAG AA y coherencia visual para la experiencia universitaria de SIBEUNA.</p>
+  <div class="just-grid">
+    <div class="just-card c-red">
+      <div class="just-card-icon"><i class="ti ti-palette"></i></div>
+      <h4>Jerarquía de Color</h4>
+      <p>El rojo institucional UNA <b>#C8102E</b> dirige la atención a acciones primarias y estados críticos sin saturar la interfaz.</p>
+    </div>
+    <div class="just-card c-blue">
+      <div class="just-card-icon"><i class="ti ti-ruler-measure"></i></div>
+      <h4>Espaciado Consistente</h4>
+      <p>Sistema de múltiplos de <b>8 px</b> garantiza ritmo visual uniforme entre todos los componentes y pantallas.</p>
+    </div>
+    <div class="just-card c-green">
+      <div class="just-card-icon"><i class="ti ti-grid-dots"></i></div>
+      <h4>Alineación Precisa</h4>
+      <p>Elementos alineados a cuadrícula de 8 px para lectura fluida, orden visual claro y respuesta consistente en breakpoints.</p>
+    </div>
+    <div class="just-card c-dark">
+      <div class="just-card-icon"><i class="ti ti-icons"></i></div>
+      <h4>Íconos Tabler</h4>
+      <p>Iconografía outline <b>24×24 px</b> coherente y reconocible, escalable según contexto (sidebar, alertas, botones).</p>
+    </div>
+    <div class="just-card c-amber">
+      <div class="just-card-icon"><i class="ti ti-school"></i></div>
+      <h4>Metáfora Universitaria</h4>
+      <p>Lenguaje visual conectado a CONARE y UNA, con referencias a becas, horas asistente y trámites estudiantiles.</p>
+    </div>
+    <div class="just-card c-red">
+      <div class="just-card-icon"><i class="ti ti-stack-2"></i></div>
+      <h4>Componentes Reutilizables</h4>
+      <p>Botones, alertas, tarjetas, formularios y modales estandarizados que se reutilizan en cada flujo del sistema.</p>
+    </div>
+    <div class="just-card c-blue">
+      <div class="just-card-icon"><i class="ti ti-typography"></i></div>
+      <h4>Tipografía Poppins</h4>
+      <p>Familia moderna con 4 pesos (300/400/600/700) para jerarquía clara, legibilidad y escalado a 200% sin ruptura.</p>
+    </div>
+    <div class="just-card c-green">
+      <div class="just-card-icon"><i class="ti ti-accessible"></i></div>
+      <h4>Accesibilidad WCAG AA</h4>
+      <p>Contrastes ≥4.5:1, errores no dependen solo de color (icono + texto), foco visible, ARIA y soporte ES/EN.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 11: COMPARACIONES INTRO ============== -->
+<div class="page">
+  <div class="section-num">9. Comparaciones Antes / Después</div>
+  <p class="section-sub">Análisis visual del rediseño de SIBEUNA. Cada pantalla del sistema original se comparó con la propuesta nueva evaluando tres pilares clave del diseño de interfaces.</p>
+  <div class="cmp-intro-grid">
+    <div class="cmp-intro-card c-blue">
+      <div class="cmp-intro-card-ic"><i class="ti ti-hand-click"></i></div>
+      <h4>Usabilidad</h4>
+      <p>Reducción de carga cognitiva, navegación clara, feedback inmediato, jerarquía visual y reorganización en flujos paso a paso (wizards).</p>
+    </div>
+    <div class="cmp-intro-card c-green">
+      <div class="cmp-intro-card-ic"><i class="ti ti-accessible"></i></div>
+      <h4>Accesibilidad</h4>
+      <p>Cumplimiento WCAG AA: contraste ≥4.5:1, áreas de toque 48×48px mínimo, ARIA, foco visible, errores no solo por color, escalado al 200%.</p>
+    </div>
+    <div class="cmp-intro-card c-blue" style="border-top-color:var(--warning)">
+      <div class="cmp-intro-card-ic" style="background:#FEF3C7;color:#92400E"><i class="ti ti-world"></i></div>
+      <h4>Internacionalización</h4>
+      <p>Soporte completo ES/EN con sistema i18n, formatos de fecha/moneda locales, contenido bilingüe en todos los componentes y flujos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 12: COMPARACION LOGIN ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.1</span><h2>Pantalla de Login</h2><span class="cmp-sub">Acceso al Sistema</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Login original SIBEUNA</h5></div>
+        <div class="cmp-img-box"><img src="antes/login.png" alt="Login antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Login rediseñado</h5></div>
+        <div class="cmp-img-box"><img src="despues/login.png" alt="Login después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Tarjeta centrada con jerarquía clara: marca, campos, CTA principal con halo brand (btn-glow).</li>
+          <li>Alert info con instrucción "Use cédula y contraseña universitaria" como hint contextual.</li>
+          <li>Link "¿Cambio de contraseña?" funcional que abre flujo dedicado autoservicio.</li>
+          <li>Eliminación del selector "Tema/blitzer" innecesario para enfocar la acción de ingreso.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Labels asociados con <code>for</code>, <code>aria-required="true"</code> y <code>autocomplete</code> nativo en cédula y contraseña.</li>
+          <li>Contraste botón rojo brand 5.34:1 (AA), foco visible de 3px brand en todos los controles.</li>
+          <li>Áreas de toque ≥44×44px (<code>min-height:44px</code>) en botón "Ingresar al Sistema".</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Toggle ES/EN visible incluso antes de loguearse (antes ausente en SIBEUNA original).</li>
+          <li>Etiquetas, placeholders, hint y botones traducidos vía diccionario <code>translations</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 13: COMPARACION INICIO ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.2</span><h2>Pantalla de Inicio (Dashboard)</h2><span class="cmp-sub">Panel Principal</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Inicio vacío original</h5></div>
+        <div class="cmp-img-box"><img src="antes/inicio.png" alt="Inicio antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Dashboard rediseñado</h5></div>
+        <div class="cmp-img-box"><img src="despues/inicio.png" alt="Inicio después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Bienvenida personalizada + 4 stat cards de un vistazo (Beca, Horas, Próxima cita, Documentos).</li>
+          <li>Bloque "Acciones Rápidas" con botones azules info (no rojo brand, evita asociar acción con error).</li>
+          <li>Card "Avisos Importantes" con alertas info y warning agrupadas — antes la página estaba vacía.</li>
+          <li>Sidebar reorganizado: "Inicio" primero, secciones colapsables (Formularios, Control), iconos a la izquierda.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Nav activa con borde lateral brand + fondo rosa claro + peso 600 (3 señales, no solo color).</li>
+          <li>Breadcrumb con contraste 7.6:1 sobre fondo blanco, iconos decorativos con <code>aria-hidden</code>.</li>
+          <li>Buscador topbar con dropdown navegable por teclado (↑↓ Enter Esc) y foco visible.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Dashboard completo traducido: títulos, stat cards, acciones rápidas, avisos y sidebar.</li>
+          <li>Buscador filtra resultados en ambos idiomas y normaliza acentos (búsqueda de "beca" / "scholarship").</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 14: COMPARACION BECA PASO 1 ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.3</span><h2>Solicitud Beca Socioeconómica</h2><span class="cmp-sub">Paso 1 — Condiciones</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Pantalla original con texto plano</h5></div>
+        <div class="cmp-img-box"><img src="antes/beca1.png" alt="Beca paso 1 antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Wizard estructurado en 4 pasos</h5></div>
+        <div class="cmp-img-box"><img src="despues/beca1.png" alt="Beca paso 1 después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Wizard visible con 4 pasos (Condiciones → Datos → Formulario → Documentos).</li>
+          <li>Chip de estado del evento ("EVENTO ACTIVO" verde / "SIN EVENTO" rojo) reemplaza línea textual confusa.</li>
+          <li>Condiciones numeradas con badges circulares de paso, no muro de texto.</li>
+          <li>Accept-row interactivo, checkbox 20×20px, se deshabilita automáticamente si no hay evento.</li>
+          <li>Alert de advertencia destacada con icono e información clave (fecha de resultados).</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li><code>aria-current="step"</code> en paso activo del wizard.</li>
+          <li>Checkbox y accept-row con <code>disabled</code> + clase <code>.disabled</code> (gris + cursor not-allowed, no solo opacidad).</li>
+          <li>Botón Continuar con <code>aria-disabled="true"</code> + validación JS (alerta si no se acepta).</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Reuso dinámico: misma pantalla soporta 9 tipos de beca (Socio, Honor, Posgrado, Omar Dengo, etc.).</li>
+          <li>Período de admisión bilingüe ("16 de enero..." / "January 16...") y título adaptable.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 15: COMPARACION DOCS ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.4</span><h2>Consulta y Subida de Documentos</h2><span class="cmp-sub">Documentos Adjuntos</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Tab Datos Personales con tabla informativa</h5></div>
+        <div class="cmp-img-box"><img src="antes/docs.png" alt="Docs antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Tab Documentos Adjuntos con zona de subida</h5></div>
+        <div class="cmp-img-box"><img src="despues/docs.png" alt="Docs después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>File-zone drag&drop con preview "staged" antes de guardar.</li>
+          <li>Lista de adjuntos con icono PDF, nombre truncado, tamaño y fecha.</li>
+          <li>Botón papelera para eliminar con confirmación.</li>
+          <li>Opción "Subir archivos después" para guardar borrador.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Validación PDF + 5MB con mensaje rojo + icono (no solo color).</li>
+          <li>File-zone activable con Enter/Espacio; <code>aria-label</code> descriptivo.</li>
+          <li>Contador de adjuntos visible en header de la sección.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Errores de validación bilingües (PDF, tamaño, vacío).</li>
+          <li>Badge "ADJUNTO/ATTACHED" cambia con el idioma.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 16: COMPARACION HORAS ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.5</span><h2>Digitación de Horas Asistente</h2><span class="cmp-sub">Registro de Horas</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Tabs y formulario con jerarquía débil</h5></div>
+        <div class="cmp-img-box"><img src="antes/horas.png" alt="Horas antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Tabs rediseñados + form estructurado</h5></div>
+        <div class="cmp-img-box"><img src="despues/horas.png" alt="Horas después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Tabs Condiciones / Registro rediseñados con barra activa brand subrayada (mayor contraste).</li>
+          <li>Time-grid de 3 columnas (Inicio · separador · Fin) que colapsa a 1 columna en móvil.</li>
+          <li>Botón "Guardar" primario rojo brand junto a "Ingresar nuevas horas" como acción secundaria.</li>
+          <li>Datos personales pre-rellenos vía "Desplegar datos" — reduce digitación.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Tabs con <code>role="tab"</code> + <code>aria-selected</code> + estado activo visible (color + borde).</li>
+          <li>Labels asociados a cada input (<code>for</code>) — lectores de pantalla anuncian propósito.</li>
+          <li>Form-row colapsa a 1 columna en móvil sin scroll horizontal; campos respetan 200% zoom.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Etiquetas (Beca Asistente, Fecha, Horario, Observación) y botones traducidos ES/EN.</li>
+          <li>Selector de hora preserva semántica universal independiente del idioma.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 17: COMPARACION CUENTA ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.6</span><h2>Registro de Cuenta Bancaria</h2><span class="cmp-sub">Cuentas Bancarias</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Lista numerada de indicaciones</h5></div>
+        <div class="cmp-img-box"><img src="antes/cuenta.png" alt="Cuenta antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Alert cards visuales + ejemplo</h5></div>
+        <div class="cmp-img-box"><img src="despues/cuenta.png" alt="Cuenta después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Indicaciones en cards con iconos temáticos (banco, usuario, tarjeta, hash).</li>
+          <li>Ejemplo de cuenta visualmente destacado en monospace con badges explicativos.</li>
+          <li>Input con formato sugerido en placeholder (<code>100-01-123-223344-1</code>) y monospace para alinear dígitos.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li><code>aria-describedby</code> conecta input con hint "15 dígitos exactos".</li>
+          <li>Accept-row interactivo con checkbox 20×20px (área de toque cómoda).</li>
+          <li>Badges con contraste AA (texto sobre fondo color).</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Indicaciones traducidas; formato cuenta Banco Nacional CR mantiene contexto local.</li>
+          <li>Hint y placeholder bilingües.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 18: COMPARACION APELACION ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.7</span><h2>Solicitud de Apelación</h2><span class="cmp-sub">Beca Socioeconómica</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Texto extenso sin estructura</h5></div>
+        <div class="cmp-img-box"><img src="antes/apelacion.png" alt="Apelación antes" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Card con chip y periodo destacado</h5></div>
+        <div class="cmp-img-box"><img src="despues/apelacion.png" alt="Apelación después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Chip "SIN EVENTO DISPONIBLE" visualmente identificable (rojo claro + icono).</li>
+          <li>Alert warning con período de apelación visible (calendario).</li>
+          <li>Pasos numerados claros, botón disabled mientras no aplique.</li>
+          <li>Alert info con contacto <code>amora@una.cr</code> destacado.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Accept-row y botón "Enviar" deshabilitados coherentemente (estado consistente, no engaña al usuario).</li>
+          <li>Correo de contacto resaltado con <code>&lt;strong&gt;</code> dentro del alert info — fácil de identificar.</li>
+          <li>Estado del chip "SIN EVENTO" usa color rojo + icono <code>ti-alert-circle</code> + texto explícito (3 señales).</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Condiciones completas en ES/EN, mensaje contacto adaptable.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PAGE 19: COMPARACION CAMBIO CONTRASEÑA ============== -->
+<div class="page">
+  <div class="cmp-pagehead"><span class="cmp-num">9.8</span><h2>Cambio de Contraseña</h2><span class="cmp-sub">Pantalla nueva agregada en el rediseño</span></div>
+  <div class="cmp-row">
+    <div class="cmp-left">
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag antes">Antes</span><h5>Sin pantalla equivalente en versión original</h5></div>
+        <div class="cmp-img-box no-equiv">
+          <i class="ti ti-circle-x"></i>
+          <strong>No existía flujo de autoservicio</strong>
+          <span>El SIBEUNA original no permitía al estudiante cambiar su contraseña sin asistencia administrativa o redirección externa.</span>
+        </div>
+      </div>
+      <div class="cmp-img-wrap">
+        <div class="cmp-img-head"><span class="cmp-tag despues">Después</span><h5>Formulario nuevo con validación y medidor de fuerza</h5></div>
+        <div class="cmp-img-box"><img src="despues/password.png" alt="Cambio contraseña después" onerror="this.style.display='none';this.parentElement.classList.add('empty')"></div>
+      </div>
+    </div>
+    <div class="cmp-right">
+      <div class="cmp-group g-usab">
+        <div class="cmp-group-head"><i class="ti ti-hand-click"></i><h6>Usabilidad</h6></div>
+        <ul>
+          <li>Flujo de autoservicio accesible desde el login (link "¿Cambio de contraseña?").</li>
+          <li>Medidor de fuerza visual en tiempo real (5 niveles, colores rojo→verde).</li>
+          <li>Validaciones: cédula, contraseña actual, nueva ≥8 chars, confirmación coincide, ≠ actual.</li>
+          <li>Feedback de éxito + redirección automática al login tras 1.8s.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-acc">
+        <div class="cmp-group-head"><i class="ti ti-accessible"></i><h6>Accesibilidad</h6></div>
+        <ul>
+          <li>Errores no solo por color: borde rojo + icono SVG + texto "Error: …" inline.</li>
+          <li><code>aria-invalid</code>, <code>aria-describedby</code> y <code>role="alert"</code> en mensajes por campo.</li>
+          <li>Foco automático al primer campo inválido; <code>autocomplete</code> nativo.</li>
+        </ul>
+      </div>
+      <div class="cmp-group g-i18n">
+        <div class="cmp-group-head"><i class="ti ti-world"></i><h6>Internacionalización</h6></div>
+        <ul>
+          <li>Etiquetas, mensajes de error y label de fuerza traducidos ES/EN.</li>
+          <li>Niveles de fuerza adaptados ("Muy débil/Excelente" ↔ "Very weak/Excellent").</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

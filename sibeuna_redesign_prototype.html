@@ -2405,7 +2405,23 @@ setLang = function(lang){
   applyBecaLabels();
 };
 
-showScreen('login');
+(function initFromUrl(){
+  try{
+    const p = new URLSearchParams(window.location.search);
+    const s = p.get('screen');
+    const b = p.get('beca');
+    const tab = p.get('tab');
+    const lang = p.get('lang');
+    if (lang === 'en' || lang === 'es') setLang(lang);
+    if (s === 'beca-paso1' && b) { showBecaPaso1(b); }
+    else if (s) { showScreen(s); }
+    else { showScreen('login'); return; }
+    if (tab && s === 'beca-docs') switchDocTab(tab);
+    if (tab && s === 'horas') switchHorasTab(tab);
+    return;
+  } catch(e){}
+  showScreen('login');
+})();
 </script>
 </body>
 </html>
