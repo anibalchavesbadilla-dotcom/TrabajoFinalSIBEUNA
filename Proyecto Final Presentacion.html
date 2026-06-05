@@ -463,8 +463,15 @@ body{background:#888;color:var(--text)}
     border:none;padding:12px 20px;border-radius:50px;font-weight:600;cursor:pointer;
     font-family:'Poppins',sans-serif;font-size:14px;box-shadow:0 4px 12px rgba(200,16,46,.4);z-index:9999
   }
-  @media print{.print-btn{display:none}}
+  .slide-counter{
+    position:fixed;bottom:20px;right:20px;background:var(--secondary);color:white;
+    padding:8px 16px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:13px;
+    font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:9999;letter-spacing:.5px
+  }
+  @media print{.print-btn,.slide-counter{display:none}}
 }
+.slide-counter{display:none}
+@media screen{.slide-counter{display:block}}
 </style>
 </head>
 <body>
@@ -1497,6 +1504,55 @@ body{background:#888;color:var(--text)}
     </div>
   </div>
 </div>
+
+<!-- Indicador de diapositiva (solo pantalla) -->
+<div class="slide-counter" id="slideCounter">1 / 1</div>
+
+<script>
+(function(){
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var counter = document.getElementById('slideCounter');
+  var current = 0;
+
+  function update(){ if(counter) counter.textContent = (current+1) + ' / ' + pages.length; }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(pages.length-1, i));
+    pages[current].scrollIntoView({behavior:'smooth', block:'start'});
+    update();
+  }
+
+  // Mantener el índice sincronizado al hacer scroll manual
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = pages.indexOf(e.target);
+        if(idx > -1){ current = idx; update(); }
+      }
+    });
+  }, {threshold:0.5});
+  pages.forEach(function(p){ io.observe(p); });
+
+  document.addEventListener('keydown', function(ev){
+    if(ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    switch(ev.key){
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ':
+        ev.preventDefault(); goTo(current+1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        ev.preventDefault(); goTo(current-1); break;
+      case 'Home': ev.preventDefault(); goTo(0); break;
+      case 'End': ev.preventDefault(); goTo(pages.length-1); break;
+      case 'f': case 'F':
+        ev.preventDefault();
+        if(!document.fullscreenElement){ document.documentElement.requestFullscreen(); }
+        else { document.exitFullscreen(); }
+        break;
+    }
+  });
+
+  update();
+})();
+</script>
 
 </body>
 </html>
